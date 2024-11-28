@@ -54,7 +54,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('all.products') ? 'here show' : '' }}" href="{{ route('all.products') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -66,7 +66,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+						<a class="menu-link {{ request()->routeIs('add.new.product') ? 'here show' : '' }}" href="{{ route('add.new.product') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -103,7 +103,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('category.list') ? 'here show' : '' }}" href="{{ route('category.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -115,7 +115,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+						<a class="menu-link {{ request()->routeIs('add.new.category') ? 'here show' : '' }}" href="{{ route('add.new.category') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -140,7 +140,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('attribute.list') ? 'here show' : '' }}" href="{{ route('attribute.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -152,7 +152,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+						<a class="menu-link {{ request()->routeIs('add.attribute') ? 'here show' : '' }}" href="{{ route('add.attribute') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -177,7 +177,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('order.list') ? 'here show' : '' }}" href="{{ route('order.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -189,23 +189,11 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+						<a class="menu-link {{ request()->routeIs('order.detail') ? 'here show' : '' }}" href="{{ route('order.detail') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
 							<span class="menu-title">Order Detail</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.permissions.*') ? 'here show' : '' }}" href="{{ route('user-management.permissions.index') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Order Tracking</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
@@ -226,7 +214,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('user.list') ? 'here show' : '' }}" href="{{ route('user.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -238,7 +226,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'here show' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('add.user') ? 'here show' : '' }}" href="{{ route('add.user') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>

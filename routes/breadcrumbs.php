@@ -16,6 +16,15 @@ Breadcrumbs::for('dashboard', function (BreadcrumbTrail $trail) {
     $trail->push('Dashboard', route('dashboard'));
 });
 
+// Home > Products
+Breadcrumbs::for('products', function ($trail) {
+    $trail->push('Products', route('dashboard'));
+});
+// Home > Categories
+Breadcrumbs::for('categories', function ($trail) {
+    $trail->push('Categories', route('dashboard'));
+});
+
 // Home > Dashboard > User Management
 Breadcrumbs::for('user-management.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
@@ -50,4 +59,16 @@ Breadcrumbs::for('user-management.roles.show', function (BreadcrumbTrail $trail,
 Breadcrumbs::for('user-management.permissions.index', function (BreadcrumbTrail $trail) {
     $trail->parent('user-management.index');
     $trail->push('Permissions', route('user-management.permissions.index'));
+});
+
+// Home > Dashboard > Products > All Products
+Breadcrumbs::for('products.all-products', function (BreadcrumbTrail $trail) {
+    $trail->parent('products');
+    $trail->push('All Products', route('all.products'));
+});
+
+// Home > Dashboard > Categories > Category List
+Breadcrumbs::for('categories.category-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('categories');
+    $trail->push('Category List', route('category.list'));
 });

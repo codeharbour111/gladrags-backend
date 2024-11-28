@@ -1,11 +1,16 @@
 <?php
 
-use App\Http\Controllers\Apps\PermissionManagementController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
-use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Apps\PermissionManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +42,27 @@ Route::get('/error', function () {
 });
 
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
+
+// Products
+Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
+Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
+
+// Categories
+Route::get('/category-list', [CategoryController::class, 'index'])->name('category.list');
+Route::get('/category-list/add-new-category', [CategoryController::class, 'addCategory'])->name('add.new.category');
+
+// Orders
+Route::get('/order-list', [OrderController::class, 'index'])->name('order.list');
+Route::get('/order-list/order-detail', [OrderController::class, 'orderDetail'])->name('order.detail');
+
+// Attributes
+Route::get('/attribute-list', [AttributeController::class, 'index'])->name('attribute.list');
+Route::get('/attribute-list/add-attribute', [AttributeController::class, 'addAttribute'])->name('add.attribute');
+
+// Users
+Route::get('/user-list', [UserController::class, 'index'])->name('user.list');
+Route::get('/user-list/add-user', [UserController::class, 'addUser'])->name('add.user');
+
+
 
 require __DIR__ . '/auth.php';
