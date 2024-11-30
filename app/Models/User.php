@@ -8,62 +8,50 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'last_login_at',
-        'last_login_ip',
-        'profile_photo_path',
+        'name', 'email', 'password',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'last_login_at' => 'datetime',
     ];
 
-    public function getProfilePhotoUrlAttribute()
+    public function getJWTIdentifier()
     {
-        if ($this->profile_photo_path) {
-            return asset('storage/' . $this->profile_photo_path);
-        }
-
-        return $this->profile_photo_path;
+        return $this->getKey();
     }
-
-    public function addresses()
+    public function getJWTCustomClaims()
     {
-        return $this->hasMany(Address::class);
+        return [];
     }
-
-    public function getDefaultAddressAttribute()
-    {
-        return $this->addresses?->first();
-    }
+    
+    // public function products()
+    // {
+    //     return $this->hasMany(Product::class);
+    // }
 }
