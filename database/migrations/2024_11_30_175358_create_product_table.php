@@ -15,9 +15,15 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id')->unsigned();
             $table->string('name');
-        
-            //$table->
-            $table->timestamps();
+            $table->string('description');
+            $table->double('price',8,2);
+            $table->boolean('has_discount');
+            $table->double('discount_price',8,2);
+            $table->timestamp('discount_date');
+            $table->string('color');
+            $table->string('sku');
+
+            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
