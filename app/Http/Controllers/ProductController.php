@@ -20,6 +20,12 @@ class ProductController extends Controller
         return view('pages.products.add-new-product');
     }
 
+    public function load()
+    {
+       // dd(Product::with('category','images')->get());
+        return response()->json(Product::with('category','images')->paginate(10),200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

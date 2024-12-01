@@ -114,7 +114,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/categories/{id}', [CategoriesController::class, 'load']);
     Route::post('/categories/add', [CategoriesController::class, 'store']);
 
-    Route::get('/product', [ProductController::class,'index']);
+    Route::get('/product', [ProductController::class,'load']);
     Route::get('/product/{id}', [ProductController::class,'index']);
     Route::post('/product/add', [ProductController::class, 'store']);
 });

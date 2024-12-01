@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -12,16 +14,16 @@ class CategoriesController extends Controller
     {
         $categories = Categories::paginate(10);
 
-        
-
         return response()->json($categories,200);
     }
 
     public function load()
     {
-        $categories = Categories::paginate(10);
+        return new CategoryCollection(Categories::paginate(10));
+        //return CategoryResource::collection(Categories::all());
+        // $categories = Categories::paginate(10);
 
-        return response()->json($categories,200);
+        // return response()->json($categories,200);
     }
 
     public function show($id)
@@ -56,6 +58,8 @@ class CategoriesController extends Controller
             $category->name  = $request->name;
             $category->image = $request->image;
             $category->sizes = $request->sizes;
+
+            //dd($category);
 
             if($request->image)
             {   
