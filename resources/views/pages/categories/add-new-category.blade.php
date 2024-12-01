@@ -23,7 +23,8 @@
             <!--begin::Content-->
             <div id="kt_account_settings_profile_details" class="collapse show">
                 <!--begin::Form-->
-                <form id="kt_account_profile_details_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+                <form class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" method="POST" enctype="multipart/form-data" action="">
+                    @csrf
                     <!--begin::Card body-->
                     <div class="card-body border-top p-9">
 
@@ -50,14 +51,17 @@
                             <!--begin::Col-->
                             <div class="col-lg-8">
                                 <!--begin::Image input-->
-                                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('/metronic8/demo1/assets/media/svg/avatars/blank.svg')">
+                                <div class="image-input image-input-outline" data-kt-image-input="true">
                                     <!--begin::Preview existing avatar-->
-                                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/metronic8/demo1/assets/media/avatars/300-1.jpg)"></div>
+                                    <div class="image-input-wrapper w-250px h-250px"></div>
                                     <!--end::Preview existing avatar-->
 
                                     <!--begin::Label-->
                                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-bs-original-title="Change avatar" data-kt-initialized="1">
-                                        <i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
+                                        <i class="ki-duotone ki-pencil fs-7">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
                                         <!--begin::Inputs-->
                                         <input type="file" name="avatar" accept=".png, .jpg, .jpeg">
                                         <input type="hidden" name="avatar_remove">
@@ -67,12 +71,20 @@
 
                                     <!--begin::Cancel-->
                                     <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" aria-label="Cancel avatar" data-bs-original-title="Cancel avatar" data-kt-initialized="1">
-                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                            </span>
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
                                     <!--end::Cancel-->
 
                                     <!--begin::Remove-->
                                     <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" aria-label="Remove avatar" data-bs-original-title="Remove avatar" data-kt-initialized="1">
-                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                            </span>
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
                                     <!--end::Remove-->
                                 </div>
                                 <!--end::Image input-->
@@ -92,12 +104,12 @@
                             <!--end::Label-->
 
                             <!--begin::Col-->
-                            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                            <div class="col-lg-8">
                                 <!--begin::Options-->
                                 <div class="d-flex align-items-center mt-3">
                                     <!--begin::Option-->
                                     <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                        <input class="form-check-input" name="communication[]" type="checkbox" value="1">
+                                        <input class="form-check-input" name="size[]" type="checkbox" value="S">
                                         <span class="fw-semibold ps-2 fs-6">
                                             S
                                         </span>
@@ -105,7 +117,7 @@
                                     <!--end::Option-->
                                     <!--begin::Option-->
                                     <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                        <input class="form-check-input" name="communication[]" type="checkbox" value="1">
+                                        <input class="form-check-input" name="size[]" type="checkbox" value="M">
                                         <span class="fw-semibold ps-2 fs-6">
                                             M
                                         </span>
@@ -113,7 +125,7 @@
                                     <!--end::Option-->
                                     <!--begin::Option-->
                                     <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                        <input class="form-check-input" name="communication[]" type="checkbox" value="1">
+                                        <input class="form-check-input" name="size[]" type="checkbox" value="L">
                                         <span class="fw-semibold ps-2 fs-6">
                                             L
                                         </span>
@@ -121,7 +133,7 @@
                                     <!--end::Option-->
                                     <!--begin::Option-->
                                     <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                        <input class="form-check-input" name="communication[]" type="checkbox" value="1">
+                                        <input class="form-check-input" name="size[]" type="checkbox" value="XL">
                                         <span class="fw-semibold ps-2 fs-6">
                                             XL
                                         </span>
@@ -130,7 +142,7 @@
 
                                     <!--begin::Option-->
                                     <label class="form-check form-check-custom form-check-inline form-check-solid">
-                                        <input class="form-check-input" name="communication[]" type="checkbox" value="2">
+                                        <input class="form-check-input" name="communication[]" type="checkbox" value="XXL">
                                         <span class="fw-semibold ps-2 fs-6">
                                             XXL
                                         </span>
@@ -149,10 +161,11 @@
                     <!--begin::Actions-->
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                         <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
-                        <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                     <!--end::Actions-->
-                <input type="hidden"></form>
+                    <input type="hidden">
+                </form>
                 <!--end::Form-->
             </div>
             <!--end::Content-->

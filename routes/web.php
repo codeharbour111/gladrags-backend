@@ -46,10 +46,12 @@ Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']
 // Products
 Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
 Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
+Route::get('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('store.product');
 
 // Categories
 Route::get('/category-list', [CategoryController::class, 'index'])->name('category.list');
 Route::get('/category-list/add-new-category', [CategoryController::class, 'addCategory'])->name('add.new.category');
+Route::get('/category-list/add-new-category/store-category', [CategoryController::class, 'storeCategory'])->name('store.category');
 
 // Orders
 Route::get('/order-list', [OrderController::class, 'index'])->name('order.list');
@@ -58,6 +60,7 @@ Route::get('/order-list/order-detail', [OrderController::class, 'orderDetail'])-
 // Attributes
 Route::get('/attribute-list', [AttributeController::class, 'index'])->name('attribute.list');
 Route::get('/attribute-list/add-attribute', [AttributeController::class, 'addAttribute'])->name('add.attribute');
+Route::get('/attribute-list/add-attribute/store-attribute', [AttributeController::class, 'storeAttribute'])->name('store.attribute');
 
 // Users
 Route::get('/user-list', [UserController::class, 'index'])->name('user.list');

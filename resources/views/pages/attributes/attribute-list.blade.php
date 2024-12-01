@@ -1,7 +1,7 @@
 <x-default-layout>
 
     @section('title')
-        All Products
+        All Attribute
     @endsection
 
     @section('breadcrumbs')
@@ -36,10 +36,6 @@
                     <!--end::Add user-->
                 </div>
                 <!--end::Toolbar-->
-
-                {{-- <!--begin::Modal-->
-                <livewire:user.add-user-modal></livewire:user.add-user-modal>
-                <!--end::Modal--> --}}
             </div>
             <!--end::Card toolbar-->
         </div>
@@ -62,37 +58,41 @@
 
                     <!--begin::Table body-->
                     <tbody>
+                        {{-- @foreach($attributes as $attribute) --}}
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                        <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                        <span class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</span>
+                                        {{-- <span class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">{{ $attribute->category_name }}</span> --}}
                                     </div>
                                 </div>
                             </td>
 
                             <td>
                                 <span class="fs-7">Blue, green, white</span>
+                                {{-- <span class="fs-7">{{ $attribute->value }}</span> --}}
                             </td>
 
                             <td>
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
+                                    <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                </a>
 
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
+                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                </a>
 
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
+                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                </a>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                        <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                        <span class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</span>
                                     </div>
                                 </div>
                             </td>
@@ -116,8 +116,7 @@
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                        <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                        <span class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</span>
                                     </div>
                                 </div>
                             </td>
@@ -137,6 +136,7 @@
                                     <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
                             </td>
                         </tr>
+                        {{-- @endforeach --}}
                     </tbody>
                     <!--end::Table body-->
                 </table>
