@@ -16,7 +16,6 @@
             <div class="card-body">
                 <form method="POST" action="" enctype="multipart/form-data">
                     @csrf
-                    <fieldset>
                         <div class="mb-10">
                             <div class="upload-image">
                                 <div class="up-load d-flex align-items-center justify-content-center border rounded p-20">
@@ -27,7 +26,7 @@
                                         <div class="text-muted mt-2">Drop your images here or select
                                             <span class="text-primary">click to browse</span>
                                         </div>
-                                        <input type="file" id="imageUpload" name="images[]" class="d-none" multiple >
+                                        <input type="file" id="imageUpload" name="images[]" class="d-none" multiple accept="image/*" >
                                         <img src="" id="image-preview" alt="Image Preview" class="img-thumbnail mt-2 d-none">
                                     </label>
                                 </div>
@@ -48,8 +47,6 @@
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Upload Images</button>
                         </div>
-                    </fieldset>
-                </form>
             </div>
         </div>
     </div>
@@ -86,7 +83,6 @@
             </div>
 
             <div class="row">
-
                 <!-- Left Column -->
                 <div class="col-md-6 mb-10">
                     <!-- Wrapper Div to Handle Structure and Spacing -->
@@ -97,14 +93,14 @@
                                 <!-- Size -->
                                 <div class="mb-10">
                                     <label class="form-label">Size</label>
-                                        <div class="">
+                                        <div>
                                             <!--begin::Buttons-->
                                             <div class="d-flex flex-stack gap-5 mb-3">
-                                                <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">S</button>
-                                                <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">M</button>
-                                                <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">L</button>
-                                                <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XL</button>
-                                                <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XXL</button>
+                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">S</button>
+                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">M</button>
+                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">L</button>
+                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XL</button>
+                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XXL</button>
                                             </div>
                                             <!--begin::Buttons-->
                                         </div>
@@ -165,7 +161,7 @@
                 <!-- Variant: Color -->
                 <div class="col-md-4">
                     <label class="form-label">Color</label>
-                    <input type="text" class="form-control" placeholder="Choose brand" name="brand" required>
+                    <input type="text" class="form-control" placeholder="Choose color" name="color" required>
                 </div>
                 <!-- SKU -->
                 <div class="col-md-4">
@@ -187,7 +183,14 @@
                 <span class="form-text text-muted">Do not exceed 100 characters when entering the description.</span>
             </div>
         </div>
-    </div>
+        <!--begin::Actions-->
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+            <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+        </div>
+        <!--end::Actions-->
+    </form>
+ </div>
 
 
 </x-default-layout>
