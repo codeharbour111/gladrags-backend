@@ -17,13 +17,17 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->double('price',8,2);
-            $table->boolean('has_discount');
-            $table->double('discount_price',8,2);
-            $table->timestamp('discount_date');
-            $table->string('color');
-            $table->string('sku');
+            $table->boolean('has_discount')->nullable();
+            $table->double('discount_price',8,2)->nullable();
+            $table->timestamp('discount_date')->nullable();
+            $table->string('color')->nullable();
+            $table->string('sku')->nullable();
+            $table->timestamps();
 
-            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')
+                  ->references('id')
+                  ->on('categories')
+                  ->onDelete('cascade');
         });
     }
 

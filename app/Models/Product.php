@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    //
+    public $table = "product";
+
     protected $fillable = [
         'category_id',
         'name',
@@ -19,8 +20,23 @@ class Product extends Model
         'sku'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Categories::class,'category_id');
+    }
+
+    public function images()
+    {
+        $this->hasMany(ProductImage::class);
+    }
+
+    public function inventory()
+    {
+        $this->hasMany(Inventory::class);
     }
 }

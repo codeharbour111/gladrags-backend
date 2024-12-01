@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,10 +111,12 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/categories', [CategoriesController::class, 'load']);
-
     Route::get('/categories/{id}', [CategoriesController::class, 'load']);
-
     Route::post('/categories/add', [CategoriesController::class, 'store']);
+
+    Route::get('/product', [ProductController::class,'index']);
+    Route::get('/product/{id}', [ProductController::class,'index']);
+    Route::post('/product/add', [ProductController::class, 'store']);
 });
 
 Route::post('login', [ApiController::class, 'authenticate']);
