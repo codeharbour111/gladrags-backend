@@ -28,6 +28,7 @@ class ProductController extends Controller
         return response()->json(Product::with('category','images')->paginate(10),200);
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
@@ -65,7 +66,8 @@ class ProductController extends Controller
 
                 try
                 {
-                    $filename = $product_image->store("product");
+                    //$filename = $product_image->store("product");
+                    $filename = Storage::disk('public')->putFile('product', $product_image, 'public');
                 }
                 catch(FileException $e)
                 {

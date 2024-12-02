@@ -8,7 +8,8 @@ class Order extends Model
 {
     public $table = 'order';
 
-    protected $fillable = [
+    protected $fillable = 
+    [
         'status',
         'user_id',
         'customer_name',
@@ -19,7 +20,8 @@ class Order extends Model
         'total_price'
     ];
 
-    protected $hidden = [
+    protected $hidden = 
+    [
         'created_at',
         'updated_at'
     ];
@@ -31,8 +33,10 @@ class Order extends Model
 
     protected static function booted(): void
     {
-        static::created(function (Order $order) {
-            $order->order_number = 'NMB-BOO-' . str_pad($order->id, 7, "0", STR_PAD_LEFT);
+        dd('Inside boot');
+        static::created(function (Order $order)
+        {
+            $order->order_number = 'GR-' . str_pad($order->id, 7, "0", STR_PAD_LEFT);
             $order->save();
         });
     }

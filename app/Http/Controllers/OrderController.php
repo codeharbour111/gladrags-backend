@@ -45,10 +45,10 @@ class OrderController extends Controller
             $order->customer_address = $request->customer_address;
             $order->total_price = $request->total_price;
             $order->delivery_date = $request->delivery_date;
-
-            dd($order);
             
             $order->save();
+
+            dd($order);
 
             foreach($request->order_items as $order_items)
             {

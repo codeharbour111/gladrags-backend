@@ -6,6 +6,7 @@ use App\Models\Categories;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
@@ -69,12 +70,11 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    $filename = $request->file('image')->store("category");
+                    $filename = Storage::disk('public')->putFile('category', $request->file('image'), 'public');
                 }
                 catch(FileException $e)
                 {
                     return response()->json($e,500);
-                    //dd($e);
                 }
 
                 $category->image = $filename;
@@ -112,7 +112,7 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    $filename = $request->file('image')->store("category");
+                    $filename = Storage::disk('public')->putFile('category', $request->file('image'), 'public');
                 }
                 catch(FileException $e)
                 {
