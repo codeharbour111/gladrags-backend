@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -11,17 +13,17 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Categories::paginate(10);
-        
-        dd(asset('/storage/app/public/images/example.png'));
 
         return response()->json($categories,200);
     }
 
     public function load()
     {
-        $categories = Categories::paginate(10);
+        return new CategoryCollection(Categories::paginate(10));
+        //return CategoryResource::collection(Categories::all());
+        // $categories = Categories::paginate(10);
 
-        return response()->json($categories,200);
+        // return response()->json($categories,200);
     }
 
     public function show($id)
@@ -34,7 +36,11 @@ class CategoriesController extends Controller
         }
         else
         {
-            return response()->json('Categories not found');
+            return response()->json(
+            [
+                'status'=>'success',
+                'message' => 'Categories not found'
+            ]);
         }
     }
 
@@ -53,6 +59,8 @@ class CategoriesController extends Controller
             $category->image = $request->image;
             $category->sizes = $request->sizes;
 
+            //dd($category);
+
             if($request->image)
             {   
                 $file = $request->image;
@@ -61,7 +69,6 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    //$filename = $request->file('image')->store("category/{$filename}");
                     $filename = $request->file('image')->store("category");
                 }
                 catch(FileException $e)
@@ -75,7 +82,10 @@ class CategoriesController extends Controller
 
             $category->save();
 
-            return response()->json('Category added',201);
+            return response()->json( [
+                'status'=>'success',
+                'message' => 'Categories added'
+            ],201);
         }
         catch(Exception $e)
         {
@@ -83,7 +93,7 @@ class CategoriesController extends Controller
         }
     }
 
-    public function update_brand($id, Request $request)
+    public function update_category($id, Request $request)
     {
         try
         {
@@ -102,21 +112,20 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    //$filename = $request->file('image')->store("category/{$filename}");
                     $filename = $request->file('image')->store("category");
                 }
                 catch(FileException $e)
                 {
                     return response()->json($e,500);
-                    //dd($e);
                 }
 
                 $category->image = $filename;
             }
 
-            Categories::where('id',$id)->update(['name'=>$request->name]);
+            Categories::where('id',$id)
+                        ->update(['name'=>$request->name]);
 
-            return response()->json('brand updated',200);
+            return response()->json('Category updated',200);
         }
         catch(Exception $e)
         {
@@ -128,11 +137,13 @@ class CategoriesController extends Controller
     {
         $category = Categories::find($id);
         
-        if($category){
+        if($category)
+        {
             $category->delete();
             return response()->json("Category deleted");
         }
-        else{
+        else
+        {
             return response()->json("Category not found");
         }
     }

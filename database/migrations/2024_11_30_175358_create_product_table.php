@@ -14,16 +14,19 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id') // Define foreign key in one step
-            ->constrained('categories') // Table name for the foreign key
-            ->onDelete('cascade');
             $table->string('description');
             $table->double('price',8,2);
-            $table->boolean('has_discount');
-            $table->double('discount_price',8,2);
-            $table->timestamp('discount_date');
-            $table->string('color');
-            $table->string('sku');
+            $table->boolean('has_discount')->nullable();
+            $table->double('discount_price',8,2)->nullable();
+            $table->timestamp('discount_date')->nullable();
+            $table->string('color')->nullable();
+            $table->string('sku')->nullable();
+            $table->timestamps();
+
+            $table->foreign('category_id')
+                  ->references('id')
+                  ->on('categories')
+                  ->onDelete('cascade');
         });
     }
 

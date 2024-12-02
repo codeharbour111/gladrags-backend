@@ -2,30 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\Inventory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class OrderItemController extends Controller
 {
-    public function index()
-    {
-        // $products = Product::all();
-        return view('pages.products.all-products');
-    }
-
-    public function addProduct()
-    {
-        return view('pages.products.add-new-product');
-    }
-
     public function load()
     {
-        $now = Carbon::now();
-        $unique_code = $now->format('YmdHisu');
-        dd($unique_code);
         return response()->json(Product::with('category','images')->paginate(10),200);
     }
 
@@ -51,7 +33,7 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
-
+            
             $product->save();
 
             foreach($request->product_images as $product_image)
@@ -59,7 +41,7 @@ class ProductController extends Controller
                 $images = new ProductImage();
 
                 $images->product_id = $product->id;
-
+                
                 $file = $product_image;
                 $ext = $file->getClientOriginalExtension();
                 $filename = time().'.'.$ext;
@@ -70,12 +52,12 @@ class ProductController extends Controller
                 }
                 catch(FileException $e)
                 {
-
+                        
                 }
 
                 $images->image_path = $filename;
-
-                $images->save();
+            
+                $images->save();   
             }
 
             $size = $request->size;
@@ -84,14 +66,14 @@ class ProductController extends Controller
             {
                 $inventories = Inventory::where('product_id',$product->id)
                              ->where('size',$size);
-
+        
                 if($inventories)
                 {
                     $inventories->delete();
                 }
             }
 
-            for ($i = 0; $i < $request->quantity; $i++)
+            for ($i = 0; $i < $request->quantity; $i++) 
             {
                 $inventory = new Inventory();
 
