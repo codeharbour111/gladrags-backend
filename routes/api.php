@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/product', [ProductController::class,'load']);
     Route::get('/product/{id}', [ProductController::class,'index']);
     Route::post('/product/add', [ProductController::class, 'store']);
+
+    Route::get('/order', [OrderController::class,'load']);
+    Route::get('/order/{id}', [OrderController::class,'index']);
+    Route::post('/order/add', [OrderController::class, 'store']);
 });
 
 Route::post('login', [ApiController::class, 'authenticate']);

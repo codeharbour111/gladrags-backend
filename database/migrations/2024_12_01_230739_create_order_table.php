@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('order', function (Blueprint $table)
         {
             $table->id();
-            $table->enum('status','Pending','Delivered','Out for delivery','Cancelled','Accepted')->default('Pending');
+            $table->enum('status',['Pending','Delivered','Out for delivery','Cancelled','Accepted'])->default('Pending');
             $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->string('order_number');
+            $table->string('order_number')->nullable();
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
             $table->string('customer_phone_no')->nullable();

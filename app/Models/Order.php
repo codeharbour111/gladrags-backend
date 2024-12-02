@@ -33,11 +33,12 @@ class Order extends Model
 
     protected static function booted(): void
     {
-        dd('Inside boot');
+        //dd('Inside boot');
         static::created(function (Order $order)
         {
             $order->order_number = 'GR-' . str_pad($order->id, 7, "0", STR_PAD_LEFT);
             $order->save();
+            dd('Boot Complete');
         });
     }
 }
