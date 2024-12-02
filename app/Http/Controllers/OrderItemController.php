@@ -2,29 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\Inventory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class OrderItemController extends Controller
 {
-    public function index()
-    {
-        return view('pages.products.all-products');
-    }
-
-    public function addProduct()
-    {
-        return view('pages.products.add-new-product');
-    }
-
     public function load()
     {
-        $now = Carbon::now();
-        $unique_code = $now->format('YmdHisu');
-        dd($unique_code);
         return response()->json(Product::with('category','images')->paginate(10),200);
     }
 

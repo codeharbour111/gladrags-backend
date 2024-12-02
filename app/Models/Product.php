@@ -25,6 +25,15 @@ class Product extends Model
         'updated_at'
     ];
 
+    public static function boot()
+    {
+           parent::boot();
+           self::created(function ($model) { 
+               $model->transaction_id = 'NMB-BOO-' . str_pad($model->id, 7, "0", STR_PAD_LEFT);
+               $model->save();
+           });
+    }
+
     public function category()
     {
         return $this->belongsTo(Categories::class,'category_id');
