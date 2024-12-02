@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -30,7 +32,7 @@ class OrderController extends Controller
             'customer_address'=>'required',
             'total_price'=>'required|numeric',
             'delivery_date'=>'required',
-            'order_items'=>'required',
+            //'order_items'=>'required',
         ]);
 
         try
@@ -38,7 +40,7 @@ class OrderController extends Controller
             $order = new Order();
 
             $order->user_id = $request->user_id;
-            $order->order_number = Str::orderedUuid();
+            //$order->order_number = Str::orderedUuid();
             $order->customer_name = $request->customer_name;
             $order->customer_email = $request->customer_email;
             $order->customer_phone_no = $request->customer_phone_no;
