@@ -8,13 +8,13 @@
         {{ Breadcrumbs::render('categories.category-list') }}
     @endsection
 
-    <div class="card mb-5">
-        <div class="card mb-30">
+    <div class="card mb-10">
+        <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Upload Images</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
                     @csrf
                         <div class="mb-10">
                             <!--begin::Image input wrapper-->
@@ -22,24 +22,24 @@
                                 <!--begin::Image input-->
                                 <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
                                     <!--begin::Preview existing avatar-->
-                                    <div class="image-input-wrapper w-300px h-250px" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
+                                    <div class="image-input-wrapper w-300px h-250px" id="image-preview" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
                                     <!--end::Preview existing avatar-->
 
                                     <!--begin::Edit-->
-                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change image">
                                         <i class="ki-duotone ki-pencil fs-7">
                                             <span class="path1"></span>
                                             <span class="path2"></span>
                                         </i>
                                         <!--begin::Inputs-->
-                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" onchange="previewImage(event)" />
-                                        <input type="hidden" name="avatar_remove" />
+                                        <input type="file" name="image" accept=".png, .jpg, .jpeg" id="image-input" />
+                                        <input type="hidden" name="image_remove" />
                                         <!--end::Inputs-->
                                     </label>
                                     <!--end::Edit-->
 
                                     <!--begin::Cancel-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel image">
                                         <i class="ki-duotone ki-cross fs-2">
                                             <span class="path1"></span>
                                             <span class="path2"></span>
@@ -48,7 +48,7 @@
                                     <!--end::Cancel-->
 
                                     <!--begin::Remove-->
-                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove image">
                                         <i class="ki-duotone ki-cross fs-2">
                                             <span class="path1"></span>
                                             <span class="path2"></span>
@@ -59,22 +59,19 @@
                                 <!--end::Image input-->
                             </div>
                             <!--end::Image input wrapper-->
-                            <div class="form-text text-center fw-bolder">"Drop your images here or select "</div>
-                        </div>
 
-                        <div class="mt-4 d-flex gap-5 flex-wrap" id="uploaded-images">
-                            <!-- Dynamically added uploaded images -->
-                            <img src="{{ asset('assets/media/logos/gladrags.jpg') }}" alt="Demo Image 1" class="img-thumbnail" style="width: 250px; height: 250px; object-fit: cover;">
-                            <img src="{{ asset('assets/media/logos/gladrags.jpg') }}" alt="Demo Image 2" class="img-thumbnail" style="width: 250px; height: 250px; object-fit: cover;">
-                            <img src="{{ asset('assets/media/logos/gladrags.jpg') }}" alt="Demo Image 3" class="img-thumbnail" style="width: 250px; height: 250px; object-fit: cover;">
-                            <img src="{{ asset('assets/media/logos/gladrags.jpg') }}" alt="Demo Image 4" class="img-thumbnail" style="width: 250px; height: 250px; object-fit: cover;">
-                        </div>
-                        <div class="mt-3 text-muted">
-                            You need to add at least 4 images. Pay attention to the quality of the pictures you add, comply with the background color standards. Pictures must be in certain dimensions. Notice that the product shows all the details.
-                        </div>
+                            <div class="form-text text-center fw-bolder">Add images or drop your images here or select</div>
+                            <div class="mt-4">
+                                <button type="button" id="add-image-btn" class="btn btn-primary">Add Image</button>
+                            </div>
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">Upload Images</button>
+                            <div class="mt-4 d-flex gap-5 flex-wrap" id="uploaded-images">
+                                <!-- Dynamically added images preview here -->
+                            </div>
+                            <input type="hidden" name="product_images" id="product-images-input" />
+                            <div class="mt-3">
+                                You need to add at least 4 images. Pay attention to the quality of the pictures you add, comply with the background color standards. Pictures must be in certain dimensions. Notice that the product shows all the details.
+                            </div>
                         </div>
             </div>
         </div>
@@ -88,7 +85,7 @@
             <!-- Product Title -->
             <div class="mb-10">
                 <label class="form-label required">Product Title</label>
-                <input type="text" class="form-control" placeholder="Enter title" name="product_title" maxlength="20" required>
+                <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" required>
                 <span class="form-text text-muted">Do not exceed 20 characters when entering the product name.</span>
             </div>
 
@@ -96,7 +93,7 @@
             <div class="row g-9 mb-10">
                 <div class="col-md-6">
                     <label class="form-label required">Category</label>
-                    <select class="form-select" name="category" required>
+                    <select class="form-select" name="category_id" id="category_id" required>
                         <option value="" disabled selected>Choose category</option>
                         <option value="1">Category 1</option>
                         <option value="2">Category 2</option>
@@ -107,41 +104,48 @@
                 <!-- Price -->
                 <div class="col-md-6">
                     <label class="form-label required">Price</label>
-                    <input type="number" class="form-control" placeholder="Price" name="price" required>
+                    <input type="number" class="form-control" placeholder="Price" name="price" id="price" required>
                 </div>
             </div>
 
             <div class="row">
                 <!-- Left Column -->
-                <div class="col-md-6 mb-10 btn btn-outline btn-outline-dashed">
+                <div class="col-md-6 mb-10">
                     <!--begin::Input wrapper-->
                     <div class="d-flex flex-column mb-8 fv-row">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
                             <span class="required">Size</span>
-
                             <span class="ms-1" data-bs-toggle="tooltip" title="Select an option.">
-                                <i class="ki-duotone ki-information text-gray-500 fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                <i class="ki-duotone ki-information text-gray-500 fs-7">
+                                    <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                </i>
+                            </span>
+                            <span class="selected-size ms-2 text-primary fw-bold" id="selected-size">
+                                {{ old('size', 'None') }}
                             </span>
                         </label>
                         <!--end::Label-->
 
                         <!--begin::Buttons-->
                         <div class="d-flex flex-stack gap-5 mb-3">
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="S">S</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="M">M</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="L">L</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="XL">XL</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="XXL">XXL</button>
+                            @foreach(['S', 'M', 'L', 'XL', 'XXL'] as $size)
+                                <button type="button"
+                                        class="btn w-100 size-btn {{ old('size') === $size ? 'btn-primary' : 'btn-light-primary' }}"
+                                        data-size="{{ $size }}">
+                                    {{ $size }}
+                                </button>
+                            @endforeach
                         </div>
-                        <!--begin::Buttons-->
-
+                        <!--end::Buttons-->
                     </div>
                     <!-- Stock -->
                     <div class="mb-4">
                         <label class="form-label d-flex required">Stock</label>
-                        <input type="number" class="form-control" placeholder="Enter Stock" name="stock" required>
+                        <input type="number" class="form-control" placeholder="Enter Stock" name="stock"value="{{ old('stock') }}" required>
                     </div>
+                    <!-- Hidden input to store the selected size -->
+                    <input type="hidden" name="size" id="size-input" value="{{ old('size') }}">
                     <!--end::Input wrapper-->
                 </div>
 
@@ -155,7 +159,7 @@
                             <span class="form-check form-check-custom form-check-solid form-check-sm mt-1">
                                 <input
                                     id="sellingPriceToggle"
-                                    name="selling_price_checkbox"
+                                    name="has_discount"
                                     class="form-check-input"
                                     type="checkbox"
                                     data-bs-toggle="collapse"
@@ -173,12 +177,12 @@
                                     <!-- Sale Price Input -->
                                     <div class="mb-10">
                                         <label class="form-label">Sale Price</label>
-                                        <input type="number" class="form-control" placeholder="Sale Price" name="sale_price">
+                                        <input type="number" class="form-control" placeholder="Discount Price" name="discount_price">
                                     </div>
                                     <!-- Schedule Input -->
                                     <div>
                                         <label class="form-label">Schedule</label>
-                                        <input type="date" class="form-control" name="schedule">
+                                        <input type="date" class="form-control" name="discount_date">
                                     </div>
                                 </div>
                             </span>
@@ -199,11 +203,11 @@
                     <input type="text" class="form-control" placeholder="Enter SKU" name="sku">
                 </div>
 
-                <!-- Tags -->
+                {{-- <!-- Tags -->
                 <div class="col-md-4">
                     <label class="form-label">Tags</label>
                     <input type="text" class="form-control" placeholder="Enter a tag" name="tags">
-                </div>
+                </div> --}}
             </div>
 
             <!-- Description -->
@@ -215,12 +219,79 @@
         </div>
         <!--begin::Actions-->
         <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
-            <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+            {{-- <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button> --}}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
         <!--end::Actions-->
     </form>
- </div>
+</div>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Size selection functionality
+    const buttons = document.querySelectorAll('.size-btn');
+    const selectedSizeSpan = document.getElementById('selected-size');
+    const sizeInput = document.getElementById('size-input');
+
+    // Function to handle size button click
+    const updateSizeSelection = (button) => {
+        const selectedSize = button.getAttribute('data-size');
+        selectedSizeSpan.textContent = selectedSize;
+        sizeInput.value = selectedSize;
+        updateButtonStyles(button);
+    };
+
+    // Function to update button styles
+    const updateButtonStyles = (selectedButton) => {
+        buttons.forEach(button => {
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-light-primary');
+        });
+        selectedButton.classList.remove('btn-light-primary');
+        selectedButton.classList.add('btn-primary');
+    };
+
+    // Attach event listeners to size buttons
+    buttons.forEach(button => {
+        button.addEventListener('click', () => updateSizeSelection(button));
+    });
+
+    // Image upload and preview functionality
+    const addImageBtn = document.getElementById('add-image-btn');
+    const imageInput = document.getElementById('image-input');
+    const uploadedImages = document.getElementById('uploaded-images');
+
+    // Function to handle image upload
+    const previewImage = (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Uploaded Image';
+            img.classList.add('img-thumbnail');
+            img.style.width = '250px';
+            img.style.height = '250px';
+            img.style.objectFit = 'cover';
+            uploadedImages.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Function to handle image add button click
+    const handleAddImageClick = () => {
+        if (imageInput.files && imageInput.files[0]) {
+            previewImage(imageInput.files[0]);
+            imageInput.value = ''; // Reset input for new uploads
+        } else {
+            alert('Please select an image first.');
+        }
+    };
+
+    // Attach event listener to add image button
+    addImageBtn.addEventListener('click', handleAddImageClick);
+});
+
+</script>
 
 </x-default-layout>

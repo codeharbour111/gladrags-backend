@@ -47,7 +47,7 @@ Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']
 // Products
 Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
 Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
-Route::get('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('store.product');
+Route::get('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('product.store');
 
 // Categories
 Route::get('/category-list', [CategoriesController::class, 'viewCategory'])->name('category.list');
