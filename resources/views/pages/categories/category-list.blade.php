@@ -54,9 +54,7 @@
                     <thead>
                         <tr class="fw-bold text-muted bg-light">
                             <th class="ps-4 min-w-325px rounded-start">Category</th>
-                            <th class="min-w-200px">Quantity</th>
-                            <th class="min-w-150px">Sale</th>
-                            <th class="min-w-150px">Start Date</th>
+                            <th class="min-w-150px">Size</th>
                             <th class="min-w-200px rounded-end">Action</th>
                         </tr>
                     </thead>
@@ -64,30 +62,24 @@
 
                     <!--begin::Table body-->
                     <tbody>
+                        @foreach($categories as $category)
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-50px me-5">
-                                        <img src="/metronic8/demo1/assets/media/stock/600x400/img-26.jpg" class="" alt="">
+                                        <img src="{{ Storage::url($category->image) }}" alt="Image">
                                     </div>
 
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                        <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                        <span class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">{{ $category->name }}</span>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
-                                <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">50</a>
+                                <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{ implode(', ', json_decode($category->sizes, true)) }}</span>
                             </td>
 
-                            <td>
-                                <span class="fs-7">20</span>
-                            </td>
-                            <td>
-                                <span class="fs-7">13 Nov 2022</span>
-                            </td>
 
                             <td>
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
@@ -100,42 +92,8 @@
                                     <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-50px me-5">
-                                        <img src="/metronic8/demo1/assets/media/stock/600x400/img-26.jpg" class="" alt="">
-                                    </div>
 
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                        <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">50</a>
-                            </td>
-
-                            <td>
-                                <span class="fs-7">20</span>
-                            </td>
-                            <td>
-                                <span class="fs-7">13 Nov 2022</span>
-                            </td>
-
-                            <td>
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                     <!--end::Table body-->
                 </table>

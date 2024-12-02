@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +12,8 @@ class CategoryController extends Controller
     //
     public function index()
     {
-        return view('pages.categories.category-list');
+        $categories = Categories::paginate(10);
+        return view('pages.categories.category-list', compact('categories'));
     }
 
     public function addCategory()
@@ -19,45 +21,45 @@ class CategoryController extends Controller
         return view('pages.categories.add-new-category');
     }
 
-    public function storeCategory(Request $request)
+    public function store(Request $request)
     {
-        // Validate the form data
-        $validated = $request->validate([
-            'category_name' => 'required|string|max:255',
-            'avatar' => 'nullable|string', // Handle base64 image validation
-            'size' => 'nullable|array',    // Ensure size is an array if selected
-            'size.*' => 'in:S,M,L,XL,XXL', // Validate each size value
-        ]);
+        try
+        {
+            $validated = $request->validate([
+            'name' => 'required|unique:categories',
+            'image'=>'required',
+            'sizes'=>'required|array']);
 
-        // Get the base64 encoded image data
-        $base64Image = $request->input('avatar');
+            $category = new Categories();
 
-        if ($base64Image) {
-            // Extract the image data and file extension from the base64 string
-            list($type, $data) = explode(';', $base64Image);
-            list(, $data) = explode(',', $data);
+            $category->name  = $request->name;
+            $category->image = $request->image;
+            $category->sizes = $request->sizes;
 
-            // Decode the base64 data
-            $imageData = base64_decode($data);
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
 
-            // Generate a unique filename and save the image in storage
-            $imageName = uniqid('category_') . '.png';  // Change the extension based on the image type
-            Storage::disk('public')->put('categories/' . $imageName, $imageData);
+                try {
+                    $filePath = $file->storeAs('category', $filename, 'public'); // Store in 'public' disk
+                    $category->image = $filePath; // Save relative path
+                } catch (FileException $e) {
+                    return response()->json('error', 'Error uploading image.');
+                }
+            }
+
+            $category->sizes = json_encode($request->sizes);
+
+            $category->save();
+
+            // return response()->json('Category added',201);
+            // Redirect to the category list page with a success message
+            return redirect()->route('category.list')->with('success', 'Category added successfully!');
         }
-
-        // Store the selected sizes as a comma-separated string
-        $sizes = $request->input('size');
-        $sizes = $sizes ? implode(',', $sizes) : null;
-
-        // Create a new category record
-        $category = Category::create([
-            'name' => $validated['category_name'],
-            'avatar' => $imageName ?? null, // Store the image filename if available
-            'size' => $sizes,              // Store the sizes (if any)
-        ]);
-
-        // Redirect back with a success message
-        return redirect()->route('category.list')->with('success', 'Category added successfully!');
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
 
     }
 }

@@ -17,20 +17,49 @@
                 <form method="POST" action="" enctype="multipart/form-data">
                     @csrf
                         <div class="mb-10">
-                            <div class="upload-image">
-                                <div class="up-load d-flex align-items-center justify-content-center border rounded p-20">
-                                    <label class="uploadfile w-100 text-center" for="imageUpload">
-                                        <span class="icon">
-                                            <i class="fas fa-cloud-upload-alt fs-2x text-primary"></i>
-                                        </span>
-                                        <div class="text-muted mt-2">Drop your images here or select
-                                            <span class="text-primary">click to browse</span>
-                                        </div>
-                                        <input type="file" id="imageUpload" name="images[]" class="d-none" multiple accept="image/*" >
-                                        <img src="" id="image-preview" alt="Image Preview" class="img-thumbnail mt-2 d-none">
+                            <!--begin::Image input wrapper-->
+                            <div class="mt-1 d-flex justify-content-center align-items-center">
+                                <!--begin::Image input-->
+                                <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
+                                    <!--begin::Preview existing avatar-->
+                                    <div class="image-input-wrapper w-250px h-250px" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
+                                    <!--end::Preview existing avatar-->
+
+                                    <!--begin::Edit-->
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                        <i class="ki-duotone ki-pencil fs-7">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        <!--begin::Inputs-->
+                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" onchange="previewImage(event)" />
+                                        <input type="hidden" name="avatar_remove" />
+                                        <!--end::Inputs-->
                                     </label>
+                                    <!--end::Edit-->
+
+                                    <!--begin::Cancel-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::Cancel-->
+
+                                    <!--begin::Remove-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                        <i class="ki-duotone ki-cross fs-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                    <!--end::Remove-->
                                 </div>
+                                <!--end::Image input-->
                             </div>
+                            <!--end::Image input wrapper-->
+                            <div class="form-text text-center">"Drop your images here or select "</div>
                         </div>
 
                         <div class="mt-4 d-flex gap-5 flex-wrap" id="uploaded-images">

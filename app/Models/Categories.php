@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categories extends Model
 {
-    //
     protected $fillable = [
         'name',
         'image',
-        'sizes'  
-    ]; 
+        'sizes'
+    ];
+
 
     protected $hidden = [
         'created_at',

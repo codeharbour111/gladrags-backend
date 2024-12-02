@@ -51,7 +51,7 @@ Route::get('/all-products/add-new-product/store-product', [ProductController::cl
 // Categories
 Route::get('/category-list', [CategoryController::class, 'index'])->name('category.list');
 Route::get('/category-list/add-new-category', [CategoryController::class, 'addCategory'])->name('add.new.category');
-Route::get('/category-list/add-new-category/store-category', [CategoryController::class, 'storeCategory'])->name('store.category');
+Route::post('/category-list/add-new-category/store-category', [CategoryController::class, 'store'])->name('store.category');
 
 // Orders
 Route::get('/order-list', [OrderController::class, 'index'])->name('order.list');
