@@ -12,6 +12,16 @@ class Categories extends Model
         'sizes'
     ];
 
+    public function setSizesAttribute($value)
+    {
+        $this->attributes['sizes'] = json_encode($value);
+    }
+
+    public function getSizesAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
 
     protected $hidden = [
         'created_at',

@@ -128,11 +128,11 @@
 
                         <!--begin::Buttons-->
                         <div class="d-flex flex-stack gap-5 mb-3">
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">S</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">M</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">L</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XL</button>
-                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XXL</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="S">S</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="M">M</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="L">L</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="XL">XL</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive" value="XXL">XXL</button>
                         </div>
                         <!--begin::Buttons-->
 

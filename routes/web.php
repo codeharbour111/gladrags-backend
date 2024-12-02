@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
@@ -49,9 +50,9 @@ Route::get('/all-products/add-new-product', [ProductController::class, 'addProdu
 Route::get('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('store.product');
 
 // Categories
-Route::get('/category-list', [CategoryController::class, 'index'])->name('category.list');
-Route::get('/category-list/add-new-category', [CategoryController::class, 'addCategory'])->name('add.new.category');
-Route::post('/category-list/add-new-category/store-category', [CategoryController::class, 'store'])->name('store.category');
+Route::get('/category-list', [CategoriesController::class, 'viewCategory'])->name('category.list');
+Route::get('/category-list/add-new-category', [CategoriesController::class, 'addCategory'])->name('add.new.category');
+Route::post('/category-list/add-new-category/store-category', [CategoriesController::class, 'storeCategory'])->name('store.category');
 
 // Orders
 Route::get('/order-list', [OrderController::class, 'index'])->name('order.list');
