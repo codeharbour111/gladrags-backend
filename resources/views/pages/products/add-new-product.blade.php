@@ -22,7 +22,7 @@
                                 <!--begin::Image input-->
                                 <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
                                     <!--begin::Preview existing avatar-->
-                                    <div class="image-input-wrapper w-250px h-250px" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
+                                    <div class="image-input-wrapper w-300px h-250px" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
                                     <!--end::Preview existing avatar-->
 
                                     <!--begin::Edit-->
@@ -59,7 +59,7 @@
                                 <!--end::Image input-->
                             </div>
                             <!--end::Image input wrapper-->
-                            <div class="form-text text-center">"Drop your images here or select "</div>
+                            <div class="form-text text-center fw-bolder">"Drop your images here or select "</div>
                         </div>
 
                         <div class="mt-4 d-flex gap-5 flex-wrap" id="uploaded-images">
@@ -113,35 +113,36 @@
 
             <div class="row">
                 <!-- Left Column -->
-                <div class="col-md-6 mb-10">
-                    <!-- Wrapper Div to Handle Structure and Spacing -->
-                    <div class="d-flex flex-column">
-                        <!-- Checkbox to Toggle the Collapsible Section -->
-                        <label class="btn btn-outline btn-outline-dashed d-flex text-start p-6 align-items-start">
-                            <div class="col-md-6 mb-10">
-                                <!-- Size -->
-                                <div class="mb-10">
-                                    <label class="form-label">Size</label>
-                                        <div>
-                                            <!--begin::Buttons-->
-                                            <div class="d-flex flex-stack gap-5 mb-3">
-                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">S</button>
-                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">M</button>
-                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">L</button>
-                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XL</button>
-                                                <button type="submit" name="size" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XXL</button>
-                                            </div>
-                                            <!--begin::Buttons-->
-                                        </div>
-                                </div>
-                                <!-- Stock -->
-                                <div class="mb-4">
-                                    <label class="form-label required">Stock</label>
-                                    <input type="number" class="form-control" placeholder="Enter Stock" name="stock" required>
-                                </div>
-                            </div>
+                <div class="col-md-6 mb-10 btn btn-outline btn-outline-dashed">
+                    <!--begin::Input wrapper-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="required">Size</span>
+
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Select an option.">
+                                <i class="ki-duotone ki-information text-gray-500 fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                            </span>
                         </label>
+                        <!--end::Label-->
+
+                        <!--begin::Buttons-->
+                        <div class="d-flex flex-stack gap-5 mb-3">
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">S</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">M</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">L</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XL</button>
+                            <button type="button" class="btn btn-light-primary w-100" data-kt-docs-advanced-forms="interactive">XXL</button>
+                        </div>
+                        <!--begin::Buttons-->
+
                     </div>
+                    <!-- Stock -->
+                    <div class="mb-4">
+                        <label class="form-label d-flex required">Stock</label>
+                        <input type="number" class="form-control" placeholder="Enter Stock" name="stock" required>
+                    </div>
+                    <!--end::Input wrapper-->
                 </div>
 
                 <!-- Right Column -->
