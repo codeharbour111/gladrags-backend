@@ -7,6 +7,7 @@ use App\Models\ProductImage;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -24,14 +25,14 @@ class ProductController extends Controller
     {
         $now = Carbon::now();
         $unique_code = $now->format('YmdHisu');
-        dd($unique_code);
         return response()->json(Product::with('category','images')->paginate(10),200);
     }
 
 
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate
+        ([
             'name'=>'required',
             'category_id'=>'required',
             'description'=>'required',
