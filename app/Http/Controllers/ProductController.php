@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Inventory;
 use App\Models\Categories;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductCollection;
-use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -121,14 +123,14 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
-        $request->validate([
-            // 'name'=>'required',
-            // 'category_id'=>'required',
-            // 'description'=>'required',
-            // 'price'=>'required',
-            'product_images'=>'required',
-            // 'color'=>'required',
-        ]);
+        // $request->validate([
+        //     // 'name'=>'required',
+        //     // 'category_id'=>'required',
+        //     // 'description'=>'required',
+        //     // 'price'=>'required',
+        //     'product_images'=>'required',
+        //     // 'color'=>'required',
+        // ]);
 
         try
         {
@@ -141,6 +143,7 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
+            // dd($product);
 
             $product->save();
 
@@ -194,7 +197,8 @@ class ProductController extends Controller
                 $inventory->save();
             }
 
-            return response()->json('Product added',201);
+            // return response()->json('Product added',201);
+            return redirect()->back()->with('success', 'Product saved successfully.');
         }
         catch(Exception $e)
         {

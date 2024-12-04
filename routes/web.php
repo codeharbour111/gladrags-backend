@@ -48,7 +48,6 @@ Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']
 Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
 Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
 Route::post('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('product.store');
-Route::post('/store-images', [ProductController::class, 'storeImages'])->name('images.store');
 
 // Categories
 Route::get('/category-list', [CategoriesController::class, 'viewCategory'])->name('category.list');
@@ -68,6 +67,9 @@ Route::get('/attribute-list/add-attribute/store-attribute', [AttributeController
 Route::get('/user-list', [UserController::class, 'index'])->name('user.list');
 Route::get('/user-list/add-user', [UserController::class, 'addUser'])->name('add.user');
 
+
+// multiple image testing
+Route::post('/store-images', [ProductController::class, 'storeImages'])->name('images.store');
 Route::get('/upload-images', function () {
     return view('pages.products.upload');
 })->name('images.upload');
