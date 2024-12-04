@@ -15,11 +15,13 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+       // dd(Storage::url("{$this->image}"));
         return 
         [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => Storage::url("{$this->image}"), //asset('storage/'.$this->image),
+            //'image' => Storage::url("{$this->image}"), //asset('storage/'.$this->image),
+            'image' => asset('storage/'.$this->image),
             'sizes' => $this->sizes
         ];
     }

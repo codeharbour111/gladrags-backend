@@ -112,7 +112,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/categories', [CategoriesController::class, 'load']);
-    Route::get('/categories/{id}', [CategoriesController::class, 'load']);
+    Route::get('/categories/{id}', [CategoriesController::class, 'show']);
     Route::post('/categories/add', [CategoriesController::class, 'store']);
     Route::post('/categories/update/{id}', [CategoriesController::class, 'update_category']);
 
