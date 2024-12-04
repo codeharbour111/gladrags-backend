@@ -3,10 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class BannerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,14 +14,12 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-       // dd(Storage::url("{$this->image}"));
         return 
         [
             'id' => $this->id,
-            'name' => $this->name,
-            //'image' => Storage::url("{$this->image}"), //asset('storage/'.$this->image),
-            'image' => asset('storage/'.$this->image),
-            'sizes' => $this->sizes
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'image' => Storage::url("{$this->image}")
         ];
     }
 }

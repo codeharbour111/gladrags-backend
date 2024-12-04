@@ -50,16 +50,17 @@ class OrderController extends Controller
             
             $order->save();
 
-            dd($order);
+            $order_items_array = json_decode($request->order_items);
 
-            foreach($request->order_items as $order_items)
+            foreach($order_items_array as $order_items)
             {
                 $item = new OrderItem();
 
                 $item->order_id = $order->id;
-                $item->price = $item->price;
-                $item->quantity = $item->quantity;
-                $item->size = $item->size;
+                $item->product_id = $order_items->product_id;
+                $item->price = $order_items->price;
+                $item->quantity = $order_items->quantity;
+                $item->size = $order_items->size;
                 
                 $item->save();   
             }

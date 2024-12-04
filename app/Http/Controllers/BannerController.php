@@ -2,40 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class CategoriesController extends Controller
+class BannerController extends Controller
 {
     public function index()
     {
-        $categories = Categories::paginate(10);
+        $banner = Banner::paginate(10);
 
-        return response()->json($categories,200);
+        return response()->json($banner,200);
     }
 
     public function load()
     {
-        return new CategoryCollection(Categories::paginate(10));
+        return new BannerCollection(Banner::paginate(10));
     }
 
     public function show($id)
     {
-        $categories = Categories::find($id);
+        $banner = Banner::find($id);
 
-        if($categories)
+        if($banner)
         {
-            return response()->json($categories,200);
+            return response()->json($banner,200);
         }
         else
         {
             return response()->json(
             [
                 'status'  => 'success',
-                'message' => 'Categories not found'
+                'message' => 'Banner not found'
             ]);
         }
     }
@@ -46,16 +42,15 @@ class CategoriesController extends Controller
         {
             $validated = $request->validate
             ([
-                'name'  => 'required|unique:categories',
-                'image' => 'required',
-                'sizes' => 'required'
+                'title'  => 'required',
+                'subtitle'  => 'required',
+                'image' => 'required'
             ]);
 
-            $category = new Categories();
+            $banner = new Banner();
 
-            $category->name  = $request->name;
-            $category->image = $request->image;
-            $category->sizes = $request->sizes;
+            $banner->title  = $request->title;
+            $banner->subtitle = $request->subtitle;
 
             if($request->image)
             {   
@@ -65,23 +60,23 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    $filename = Storage::disk('public')->putFile('category', $request->file('image'), 'public');
+                    $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
                 }
                 catch(FileException $e)
                 {
                     return response()->json($e,500);
                 }
 
-                $category->image = $filename;
+                $banner->image = $filename;
             }
 
-            $category->save();
+            $banner->save();
 
             return response()->json
             (
             [
                 'status'  => 'success',
-                'message' => 'Categories added'
+                'message' => 'Banner added'
             ],201);
         }
         catch(Exception $e)
@@ -96,20 +91,19 @@ class CategoriesController extends Controller
         {
             $validated = $request->validate
             ([
-                'name'  => 'required|unique:categories',
+                'title'  => 'required|unique:banner',
+                'subtitle'  => 'required',
                 'image' => 'required',
-                'sizes' => 'required'
             ]);
 
-            $category = Categories::find($id);
+            $banner = Banner::find($id);
 
-            $category->name  = $request->name;
-            $category->image = $request->image;
-            $category->sizes = $request->sizes;
+            $banner->title = $request->title;
+            $banner->subtitle = $request->subtitle;
 
-            if(Storage::disk('public')->exists($category->image))
+            if(Storage::disk('public')->exists($banner->image))
             {
-                Storage::disk('public')->delete($category->image);
+                Storage::disk('public')->delete($banner->image);
             }
 
             if($request->image)
@@ -120,24 +114,26 @@ class CategoriesController extends Controller
 
                 try
                 {
-                    $filename = Storage::disk('public')->putFile('category', $request->file('image'), 'public');
+                    $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
                 }
                 catch(FileException $e)
                 {
                     return response()->json($e,500);
                 }
 
-                $category->image = $filename;
+                $banner->image = $filename;
             }
 
-            $category->update();
-            // Categories::where('id',$id)
-            //             ->update(['name'=>$request->name]);
+            $banner->update;
+
+            // Banner::where('id',$id)
+            //             ->update(['title'=>$request->title,
+            //                       'subtitle'=>$request->subtitle]);
 
             return response()->json
             ([
                 'status'  => 'success',
-                'message' => 'Categories updated'
+                'message' => 'Banner updated'
             ],201);
         }
         catch(Exception $e)
@@ -148,21 +144,21 @@ class CategoriesController extends Controller
 
     public function delete_brand($id)
     {
-        $category = Categories::find($id);
+        $banner = Banner::find($id);
 
-        if(Storage::disk('public')->exists($category->image))
+        if(Storage::disk('public')->exists($banner->image))
         {
-            Storage::disk('public')->delete($category->image);
+            Storage::disk('public')->delete($banner->image);
         }
         
-        if($category)
+        if($banner)
         {
-            $category->delete();
+            $banner->delete();
 
             return response()->json
             ([
                 'status'  => 'success',
-                'message' => 'Categories deleted'
+                'message' => 'Banner deleted'
             ],201);
         }
         else
@@ -170,7 +166,7 @@ class CategoriesController extends Controller
             return response()->json
             ([
                 'status'  => 'error',
-                'message' => 'Categories not found'
+                'message' => 'Banner not found'
             ],201);
         }
     }
