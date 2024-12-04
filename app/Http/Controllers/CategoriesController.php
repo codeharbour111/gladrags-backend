@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
-    //
     public function index()
     {
         $categories = Categories::paginate(10);
@@ -22,10 +21,6 @@ class CategoriesController extends Controller
     public function load()
     {
         return new CategoryCollection(Categories::paginate(10));
-        //return CategoryResource::collection(Categories::all());
-        // $categories = Categories::paginate(10);
-
-        // return response()->json($categories,200);
     }
 
     public function show($id)
@@ -40,7 +35,7 @@ class CategoriesController extends Controller
         {
             return response()->json(
             [
-                'status'=>'success',
+                'status'  => 'success',
                 'message' => 'Categories not found'
             ]);
         }
@@ -50,18 +45,18 @@ class CategoriesController extends Controller
     {
         try
         {
-            $validated = $request->validate([
-            'name' => 'required|unique:categories',
-            'image'=>'required',
-            'sizes'=>'required']);
+            $validated = $request->validate
+            ([
+                'name'  => 'required|unique:categories',
+                'image' => 'required',
+                'sizes' => 'required'
+            ]);
 
             $category = new Categories();
 
             $category->name  = $request->name;
             $category->image = $request->image;
             $category->sizes = $request->sizes;
-
-            //dd($category);
 
             if($request->image)
             {
@@ -83,8 +78,10 @@ class CategoriesController extends Controller
 
             $category->save();
 
-            return response()->json( [
-                'status'=>'success',
+            return response()->json
+            (
+            [
+                'status'  => 'success',
                 'message' => 'Categories added'
             ],201);
         }
@@ -161,10 +158,21 @@ class CategoriesController extends Controller
         {
             $validated = $request->validate
             ([
-                'name'=>'required|unique:categories,name',
-                'image'=>'required',
-                'size'=>'required'
+                'name'  => 'required|unique:categories',
+                'image' => 'required',
+                'sizes' => 'required'
             ]);
+
+            $category = Categories::find($id);
+
+            $category->name  = $request->name;
+            $category->image = $request->image;
+            $category->sizes = $request->sizes;
+
+            if(Storage::disk('public')->exists($category->image))
+            {
+                Storage::disk('public')->delete($category->image);
+            }
 
             if($request->image)
             {
@@ -184,10 +192,15 @@ class CategoriesController extends Controller
                 $category->image = $filename;
             }
 
-            Categories::where('id',$id)
-                        ->update(['name'=>$request->name]);
+            $category->update();
+            // Categories::where('id',$id)
+            //             ->update(['name'=>$request->name]);
 
-            return response()->json('Category updated',200);
+            return response()->json
+            ([
+                'status'  => 'success',
+                'message' => 'Categories updated'
+            ],201);
         }
         catch(Exception $e)
         {
@@ -199,14 +212,28 @@ class CategoriesController extends Controller
     {
         $category = Categories::find($id);
 
+        if(Storage::disk('public')->exists($category->image))
+        {
+            Storage::disk('public')->delete($category->image);
+        }
+
         if($category)
         {
             $category->delete();
-            return response()->json("Category deleted");
+
+            return response()->json
+            ([
+                'status'  => 'success',
+                'message' => 'Categories deleted'
+            ],201);
         }
         else
         {
-            return response()->json("Category not found");
+            return response()->json
+            ([
+                'status'  => 'error',
+                'message' => 'Categories not found'
+            ],201);
         }
     }
 }

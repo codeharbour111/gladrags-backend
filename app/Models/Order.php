@@ -38,7 +38,7 @@ class Order extends Model
         {
             $order->order_number = 'GR-' . str_pad($order->id, 7, "0", STR_PAD_LEFT);
             $order->save();
-            dd('Boot Complete');
+            //dd('Boot Complete');
         });
     }
 }
