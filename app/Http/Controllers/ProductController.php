@@ -8,6 +8,8 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 use Carbon\Carbon;
 
 class ProductController extends Controller
@@ -22,11 +24,14 @@ class ProductController extends Controller
         return view('pages.products.add-new-product');
     }
 
+    // public function load()
+    // {
+    //     return response()->json(Product::with('category','images')->paginate(10),200);
+    // }
+
     public function load()
     {
-        $now = Carbon::now();
-        $unique_code = $now->format('YmdHisu');
-        return response()->json(Product::with('category','images')->paginate(10),200);
+        return new ProductCollection(Product::with('category','images')->paginate(10));
     }
 
 
