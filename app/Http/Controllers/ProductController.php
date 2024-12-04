@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductImage;
 use App\Models\Inventory;
-use Illuminate\Http\Request;
+use App\Models\Categories;
 use Illuminate\Support\Str;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -18,7 +21,8 @@ class ProductController extends Controller
 
     public function addProduct()
     {
-        return view('pages.products.add-new-product');
+        $categories = Categories::all();
+        return view('pages.products.add-new-product',compact('categories'));
     }
 
     public function load()
@@ -52,6 +56,7 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
+            dd($product);
 
             $product->save();
 
@@ -114,12 +119,12 @@ class ProductController extends Controller
     public function storeProduct(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'category_id'=>'required',
-            'description'=>'required',
-            'price'=>'required',
+            // 'name'=>'required',
+            // 'category_id'=>'required',
+            // 'description'=>'required',
+            // 'price'=>'required',
             'product_images'=>'required',
-            'color'=>'required'
+            // 'color'=>'required',
         ]);
 
         try
@@ -143,7 +148,9 @@ class ProductController extends Controller
                 $images->product_id = $product->id;
 
                 $file = $product_image;
+
                 $ext = $file->getClientOriginalExtension();
+
                 $filename = time().'.'.$ext;
 
                 try
@@ -190,5 +197,44 @@ class ProductController extends Controller
         {
             return response()->json($e,500);
         }
+    }
+
+
+    public function storeImages(Request $request)
+    {
+        // Hard-code the product_id
+        $productId = 1;  // Set the product_id you want to hard-code
+
+        // Validate the uploaded images
+        $request->validate([
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Array to store file paths
+        $uploadedFiles = [];
+
+        // Check if images are uploaded
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Store the image in the public disk
+                $path = $image->store('uploads', 'public');
+
+                // Save the image with the hard-coded product_id
+                $productImage = new ProductImage();
+                $productImage->product_id = $productId;  // Use the hard-coded product_id
+                $productImage->image_path = $path;
+                $productImage->save();
+
+                // Store the path for response
+                $uploadedFiles[] = $path;
+            }
+        }
+
+        // Return a success response with uploaded file paths
+        return response()->json([
+            'success' => true,
+            'message' => 'Images uploaded and saved successfully',
+            'files' => $uploadedFiles,
+        ]);
     }
 }
