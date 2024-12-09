@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Multiple Images</title>
-    <style>
-        .preview-images { display: flex; flex-wrap: wrap; gap: 10px; }
-        .preview-images img { width: 100px; height: 100px; object-fit: cover; }
-    </style>
-</head>
-<body>
+<x-default-layout>
+
     <h1>Upload Multiple Images</h1>
 
     <!-- Form to upload images -->
     <form action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data" id="image-form">
         @csrf
+        <div class="mb-10">
+            <label class="form-label">Product Title</label>
+            <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" >
+            <span class="form-text text-muted">Do not exceed 20 characters when entering the product name.</span>
+        </div>
         <label for="images">Choose Images:</label>
         <input type="file" name="images[]" id="images" accept="image/*">
         <br><br>
@@ -86,5 +81,7 @@
             });
         });
     </script>
-</body>
-</html>
+
+
+</x-default-layout>
+
