@@ -25,14 +25,15 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'customer_name'=>'required',
-        //     'customer_email'=>'required',
-        //     'customer_phone_no'=>'required',
-        //     'customer_address'=>'required',
-        //     'total_price'=>'required|numeric',
-        //     'order_items'=>'required',
-        // ]);
+        $request->validate([
+            'customer_name'=>'required',
+            'customer_email'=>'required',
+            'customer_phone_no'=>'required',
+            'customer_address'=>'required',
+            'location'=>'required',
+            'total_price'=>'required|numeric',
+            'order_items'=>'required',
+        ]);
 
         $data = $request->json()->all();
         
@@ -46,8 +47,16 @@ class OrderController extends Controller
             $order->customer_email = $data['customer_email'];
             $order->customer_phone_no = $data['customer_phone_no'];
             $order->customer_address = $data['customer_address'];
+            $order->location = $data['location'];
+            $order->order_note = $data['order_note'];
+            $order->discount_code = $data['discount_code'];
             $order->total_price = $data['total_price'];
             $order->delivery_date = '2024-10-10';
+
+            // dd([
+            //     'status'  => 'success',
+            //     'message' => 'Order added'
+            // ]);
 
             $order->save();
 
@@ -66,11 +75,28 @@ class OrderController extends Controller
                 $item->save();   
             }
 
-            return response()->json('Order added',201);
+            // dd([
+            //     'status'  => 'success',
+            //     'message' => 'Order added'
+            // ]);
+            return response()->json
+            (
+            [
+                'status'  => 'success',
+                'message' => 'Order added'
+            ],201);
+            //return response()->json('Order added',201);
         }
         catch(Exception $e)
         {
-            return response()->json($e,500);
+
+            return response()->json
+            (
+            [
+                'status'  => 'error',
+                'message' => $e
+            ],500);
+            //return response()->json($e,500);
         }
     }
 }

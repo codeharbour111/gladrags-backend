@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('customer_email')->nullable();
             $table->string('customer_phone_no')->nullable();
             $table->string('customer_address')->nullable();
-            $table->string('delivery_date');
+            $table->string('delivery_date')->nullable();
+            $table->string('location');
+            $table->string('discount_code')->nullable();
+            $table->string('order_note')->nullable();
             $table->double('total_price',12,2);
 
             $table->timestamps();

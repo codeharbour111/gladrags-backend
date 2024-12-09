@@ -17,6 +17,9 @@ class Order extends Model
         'customer_phone_no',
         'customer_address',
         'delivery_date',
+        'location',
+        'discount_code',
+        'order_note',
         'total_price'
     ];
 
