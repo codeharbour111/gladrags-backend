@@ -114,8 +114,8 @@
                                 </td>
 
                                 <td>
-                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                        <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
+                                    {{-- <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                        <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a> --}}
 
                                     <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                         <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
