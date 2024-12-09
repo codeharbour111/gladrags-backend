@@ -18,8 +18,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response()->json($products);
-        // return view('pages.products.all-products');
+        // return response()->json($products);
+        return view('pages.products.all-products',compact('products'));
     }
 
     public function addProduct()
@@ -144,9 +144,13 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
-            // dd($product);
 
             $product->save();
+
+            $images = $request->file('product_images') ?? []; // Default to an empty
+            // dd($request->all(), $request->file('product_images'));
+            // dd($request->product_images); // Dumps the input and stops execution
+
 
             foreach($request->product_images as $product_image)
             {
@@ -155,9 +159,7 @@ class ProductController extends Controller
                 $images->product_id = $product->id;
 
                 $file = $product_image;
-
                 $ext = $file->getClientOriginalExtension();
-
                 $filename = time().'.'.$ext;
 
                 try
@@ -200,6 +202,7 @@ class ProductController extends Controller
 
             // return response()->json('Product added',201);
             return redirect()->back()->with('success', 'Product saved successfully.');
+
         }
         catch(Exception $e)
         {
@@ -210,9 +213,6 @@ class ProductController extends Controller
 
     public function storeImages(Request $request)
     {
-        // Hard-code the product_id
-        $productId = 1;  // Set the product_id you want to hard-code
-
         // Validate the uploaded images
         $request->validate([
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -221,28 +221,21 @@ class ProductController extends Controller
         // Array to store file paths
         $uploadedFiles = [];
 
-        // Check if images are uploaded
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                // Store the image in the public disk
-                $path = $image->store('uploads', 'public');
-
-                // Save the image with the hard-coded product_id
-                $productImage = new ProductImage();
-                $productImage->product_id = $productId;  // Use the hard-coded product_id
-                $productImage->image_path = $path;
-                $productImage->save();
-
-                // Store the path for response
-                $uploadedFiles[] = $path;
-            }
+        // Process each uploaded image
+        foreach ($request->file('images') as $file) {
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('uploads', $fileName, 'public');
+            $uploadedFiles[] = $path;
         }
 
-        // Return a success response with uploaded file paths
+        // Return a success response
         return response()->json([
             'success' => true,
             'message' => 'Images uploaded and saved successfully',
             'files' => $uploadedFiles,
         ]);
     }
+
+
+
 }

@@ -53,13 +53,15 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="fw-bold text-muted bg-light">
-                            <th class="ps-4 min-w-325px rounded-start">Product</th>
-                            <th class="min-w-125px">Product ID</th>
+                            <th class="ps-4 min-w-125px rounded-start">Product</th>
+                            <th class="min-w-125px">Category Name</th>
                             <th class="min-w-125px">Price</th>
                             <th class="min-w-200px">Quantity</th>
-                            <th class="min-w-150px">Sale</th>
+                            <th class="min-w-150px">Discount Price</th>
+                            <th class="min-w-150px">Color</th>
+                            <th class="min-w-150px">Sku</th>
+                            <th class="min-w-150px">Discount Date</th>
                             <th class="min-w-150px">Stock</th>
-                            <th class="min-w-150px">Start Date</th>
                             <th class="min-w-200px rounded-end">Action</th>
                         </tr>
                     </thead>
@@ -67,7 +69,7 @@
 
                     <!--begin::Table body-->
                     <tbody>
-                        {{-- @foreach($products as $product) --}}
+                        @foreach($products as $product)
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -76,18 +78,19 @@
                                         </div>
 
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                            <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
+                                            {{-- <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a> --}}
+                                            <span class="text-muted fw-semibold text-muted d-block fs-7">{{ $product->name }}</span>
+                                            <span class="text-muted fw-semibold text-muted d-block fs-7">{{ $product->description }}</span>
                                         </div>
                                     </div>
                                 </td>
 
                                 <td>
-                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">#7712309</a>
+                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{ $product->category->name }}</a>
                                 </td>
 
                                 <td>
-                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">$520</a>
+                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{ $product->price }}</a>
                                 </td>
 
                                 <td>
@@ -95,13 +98,19 @@
                                 </td>
 
                                 <td>
-                                    <span class="fs-7">20</span>
+                                    <span class="fs-7">{{ $product->discount_price }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge badge-light-primary fs-7 fw-bold">Approved</span>
+                                    <span class="fs-7">{{ $product->color }}</span>
                                 </td>
                                 <td>
-                                    <span class="fs-7">13/10/2022</span>
+                                    <span class="fs-7">{{ $product->sku }}</span>
+                                </td>
+                                <td>
+                                    <span class="fs-7">{{ $product->discount_date }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-light-primary fs-7 fw-bold">50</span>
                                 </td>
 
                                 <td>
@@ -115,7 +124,7 @@
                                         <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="symbol symbol-50px me-5">
@@ -302,8 +311,8 @@
                                     <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                         <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
                                 </td>
-                            </tr>
-                        {{-- @endforeach --}}
+                            </tr> --}}
+                        @endforeach
                     </tbody>
                     <!--end::Table body-->
                 </table>

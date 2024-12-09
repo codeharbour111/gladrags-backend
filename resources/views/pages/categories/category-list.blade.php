@@ -77,12 +77,13 @@
                             </td>
 
                             <td>
-                                <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">@if (!empty($category->sizes) && is_array($category->sizes))
-                                    {{ implode(', ', $category->sizes) }}
-                                @else
-                                    No sizes available
-                                @endif
-                            </span>
+                                <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+                                    @if (!empty($category->sizes) && is_array($category->sizes))
+                                        {{ implode(', ', $category->sizes) }}
+                                    @else
+                                        No sizes available
+                                    @endif
+                                </span>
                             </td>
 
 

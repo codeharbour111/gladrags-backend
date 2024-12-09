@@ -17,46 +17,54 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-10">
-                        <!-- Image input wrapper -->
-                        <div class="mt-1 d-flex justify-content-center align-items-center">
-                            <!-- Image input -->
-                            <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
-                                <!-- Preview existing avatar -->
-                                <div class="image-input-wrapper w-300px h-250px" id="image-preview" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}');"></div>
-                                <!-- Edit button -->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change image">
-                                    <i class="ki-duotone ki-pencil fs-7">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!-- Inputs -->
-                                    <input type="file" class="form-control" name="product_images[]" id="product_images" multiple />
-                                    <input type="hidden" name="image_remove" />
-                                </label>
+                        <!--begin::Image input-->
+                        <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
+                            <!--begin::Image preview wrapper-->
+                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/assets/media/avatars/300-1.jpg)"></div>
+                            <!--end::Image preview wrapper-->
 
-                                <!-- Cancel and Remove buttons -->
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel image">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove image">
-                                    <i class="ki-duotone ki-cross fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </span>
-                            </div>
+                            <!--begin::Edit button-->
+                            <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                            data-kt-image-input-action="change"
+                            data-bs-toggle="tooltip"
+                            data-bs-dismiss="click"
+                            title="Change avatar">
+                                <i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span class="path2"></span></i>
+
+                                <!--begin::Inputs-->
+                                <input type="file" id="product_images" name="product_images[]" accept=".png, .jpg, .jpeg" multiple/>
+                                <input type="hidden" name="avatar_remove" />
+                                <!--end::Inputs-->
+                            </label>
+                            <!--end::Edit button-->
+
+                            <!--begin::Cancel button-->
+                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                            data-kt-image-input-action="cancel"
+                            data-bs-toggle="tooltip"
+                            data-bs-dismiss="click"
+                            title="Cancel avatar">
+                                <i class="ki-outline ki-cross fs-3"></i>
+                            </span>
+                            <!--end::Cancel button-->
+
+                            <!--begin::Remove button-->
+                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                            data-kt-image-input-action="remove"
+                            data-bs-toggle="tooltip"
+                            data-bs-dismiss="click"
+                            title="Remove avatar">
+                                <i class="ki-outline ki-cross fs-3"></i>
+                            </span>
+                            <!--end::Remove button-->
                         </div>
+                        <!--end::Image input-->
 
                         <!-- Add images section -->
                         <div class="form-text text-center fw-bolder">Add images or drop your images here or select</div>
-                        <div class="mt-4">
-                            <button type="button" id="add-image-btn" class="btn btn-primary">Add Image</button>
-                        </div>
 
-                        <div class="mt-4 d-flex gap-5 flex-wrap" id="uploaded_images">
+
+                        <div class="mt-4 d-flex gap-5 flex-wrap" id="image_preview">
                             <!-- Dynamically added images preview here -->
                         </div>
 
@@ -257,78 +265,67 @@
         button.addEventListener('click', () => updateSizeSelection(button));
     });
 
+    const previewContainer = document.getElementById('image_preview');
+    const fileInput = document.getElementById('product_images');
+    const selectedFiles = [];
+    console.log(selectedFiles);
 
-    let selectedFiles = []; // Array to store selected files
+    // Handle file selection
+    fileInput.addEventListener('change', function (event) {
+        const files = Array.from(event.target.files);
 
-        // Function to handle image upload and preview
-        const addImageBtn = document.getElementById('add-image-btn');
-        const imageInput = document.getElementById('product_images');
-        const uploadedImages = document.getElementById('uploaded_images');
+        files.forEach(file => {
+            // Add to selectedFiles array
+            selectedFiles.push(file);
 
-        // Function to preview uploaded image
-        const previewImage = (file) => {
+            // Create a preview for the image
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = function (e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
-                img.alt = 'Uploaded Image';
-                img.classList.add('img-thumbnail');
-                img.style.width = '300px';
-                img.style.height = '250px';
+                img.style.width = '100px';
+                img.style.height = '100px';
                 img.style.objectFit = 'cover';
-                uploadedImages.appendChild(img);
-
-                // Push the file to the selectedFiles array
-                selectedFiles.push(file);
+                img.style.marginRight = '10px';
+                previewContainer.appendChild(img);
             };
             reader.readAsDataURL(file);
-        };
+        });
 
-        // Function to update the hidden input with selected files
-        const updateHiddenInput = () => {
-            const dataTransfer = new DataTransfer(); // Using DataTransfer to handle file list dynamically
-            selectedFiles.forEach(file => {
-                dataTransfer.items.add(file);
-            });
-            hiddenInput.files = dataTransfer.files;
-        };
+        // Reset the input to allow re-selection of the same files
+        // event.target.value = '';
+    });
 
-        // Function to handle image add button click
-        const handleAddImageClick = () => {
-            if (imageInput.files && imageInput.files.length > 0) {
-                // Iterate through all selected files and preview them
-                for (let i = 0; i < imageInput.files.length; i++) {
-                    // Check if the file is already added to avoid duplicates
-                    if (!selectedFiles.includes(imageInput.files[i])) {
-                        previewImage(imageInput.files[i]);
-                    }
-                }
+    // Form submission handling
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default submission
 
-                // Ensure all selected files are added to selectedFiles array
-                for (let i = 0; i < imageInput.files.length; i++) {
-                    // Only add the file if it's not already present
-                    if (!selectedFiles.some(f => f.name === imageInput.files[i].name)) {
-                        selectedFiles.push(imageInput.files[i]);
-                    }
-                }
+        const formData = new FormData(form);
 
-                // Reset the input for new uploads
-                imageInput.value = '';
-                updateHiddenInput(); // Update the hidden input with selected files
+        // Add all selected files to the formData
+        selectedFiles.forEach(file => {
+            formData.append('product_images[]', file);
+        });
+
+        // Submit the form data using Fetch API
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Product saved successfully!');
             } else {
-                alert('Please select an image first.');
+                alert('There was an error saving the product.');
             }
-        };
-
-        // Attach event listener to add image button to trigger file input
-        addImageBtn.addEventListener('click', () => {
-            imageInput.click(); // Simulate file input click
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error submitting the form.');
         });
-
-        // Handle file input change event to preview images
-        imageInput.addEventListener('change', () => {
-            handleAddImageClick();
-        });
+    });
 
 });
 

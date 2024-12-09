@@ -1,17 +1,21 @@
-<x-default-layout>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Multiple Images</title>
+    <style>
+        .preview-images { display: flex; flex-wrap: wrap; gap: 10px; }
+        .preview-images img { width: 100px; height: 100px; object-fit: cover; }
+    </style>
+</head>
+<body>
     <h1>Upload Multiple Images</h1>
 
     <!-- Form to upload images -->
-    <form action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data" id="image-form">
-        @csrf
-        <div class="mb-10">
-            <label class="form-label">Product Title</label>
-            <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" >
-            <span class="form-text text-muted">Do not exceed 20 characters when entering the product name.</span>
-        </div>
+    <form id="image-form">
         <label for="images">Choose Images:</label>
-        <input type="file" name="images[]" id="images" accept="image/*">
+        <input type="file" id="images" accept="image/*" multiple>
         <br><br>
 
         <!-- Display the selected images -->
@@ -22,48 +26,45 @@
     </form>
 
     <script>
-        // Store the selected files for submission
-        let selectedFiles = [];
+        const previewContainer = document.getElementById('image-preview');
+        const selectedFiles = [];
 
-        // Function to handle image selection, display previews, and store files for submission
+        // Handle file selection
         document.getElementById('images').addEventListener('change', function (event) {
-            const files = event.target.files;
-            const previewContainer = document.getElementById('image-preview');
+            const files = Array.from(event.target.files);
 
-            // Loop through the selected files and create image previews
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
+            files.forEach(file => {
                 const reader = new FileReader();
 
                 reader.onload = function (e) {
+                    // Create a preview for each selected file
                     const img = document.createElement('img');
                     img.src = e.target.result;
                     previewContainer.appendChild(img);
-
-                    // Push the file to the selectedFiles array to store all selected files
-                    selectedFiles.push(file);
                 };
 
                 reader.readAsDataURL(file);
-            }
 
-            // Clear the input value to allow the same file to be selected again
+                // Store the file for submission
+                selectedFiles.push(file);
+            });
+
+            // Reset the input to allow re-selecting the same file
             event.target.value = '';
         });
 
-        // Handle form submission and attach selected files to the form data
+        // Handle form submission
         document.getElementById('image-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
             const formData = new FormData();
 
-            // Append each selected file to the FormData object
-            selectedFiles.forEach(function (file) {
+            // Append all selected files to FormData
+            selectedFiles.forEach(file => {
                 formData.append('images[]', file);
             });
 
-            // Prevent default form submission
-            event.preventDefault();
-
-            // Send the form data using Fetch API or Axios
+            // Submit the form using Fetch API
             fetch('{{ route("images.store") }}', {
                 method: 'POST',
                 body: formData,
@@ -73,15 +74,15 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                alert('Images uploaded successfully!');
+                if (data.success) {
+                    alert('Images uploaded successfully!');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
+                alert('Error uploading images.');
             });
         });
     </script>
-
-
-</x-default-layout>
-
+</body>
+</html>
