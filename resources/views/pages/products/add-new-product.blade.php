@@ -131,14 +131,14 @@
                                 <!--end::Label-->
 
                                 <!--begin::Buttons-->
-                                <div class="d-flex flex-stack gap-5 mb-3">
-                                    @foreach(['S', 'M', 'L', 'XL', 'XXL'] as $size)
+                                <div id="size-buttons" class="d-flex flex-stack gap-5 mb-3">
+                                    {{-- @foreach(['S', 'M', 'L', 'XL', 'XXL'] as $size)
                                         <button type="button"
                                                 class="btn w-100 size-btn {{ old('size') === $size ? 'btn-primary' : 'btn-light-primary' }}"
                                                 data-size="{{ $size }}">
                                             {{ $size }}
                                         </button>
-                                    @endforeach
+                                    @endforeach --}}
                                 </div>
                                 <!--end::Buttons-->
                             </div>
@@ -237,6 +237,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
+        
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
     const selectedSizeSpan = document.getElementById('selected-size');
@@ -267,9 +268,52 @@
 
     const previewContainer = document.getElementById('image_preview');
     const fileInput = document.getElementById('product_images');
+    const category = document.getElementById('category_id');
     const selectedFiles = [];
     console.log(selectedFiles);
 
+    category.onchange = function() {
+        //alert('The option with value ' + category.value);
+        
+        if(category.value !== "")
+        {
+            var baseUrl = "{{URL::to('/')}}";
+
+            fetch(baseUrl + `/api/v1/categories/${category.value}`, {
+                method: 'GET'
+                //body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                   
+                    const sizeButtonsContainer = document.getElementById('size-buttons');
+                    sizeButtonsContainer.innerHTML = ''; // Clear any existing buttons
+
+                    const oldSize = @json(old('size'));
+                    
+                    data.data.sizes.forEach(size => {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = `btn w-100 size-btn ${oldSize === size ? 'btn-primary' : 'btn-light-primary'}`;
+                        button.dataset.size = size;
+                        button.textContent = size;
+                        sizeButtonsContainer.appendChild(button);
+                        button.addEventListener('click', () => updateSizeSelection(button));
+                        
+                    });
+
+                } else {
+                   
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+               // alert('There was an error submitting the form.');
+            });
+        }
+    };
+    
     // Handle file selection
     fileInput.addEventListener('change', function (event) {
         const files = Array.from(event.target.files);

@@ -31,7 +31,7 @@ class OrderController extends Controller
             'customer_phone_no'=>'required',
             'customer_address'=>'required',
             'total_price'=>'required|numeric',
-            'delivery_date'=>'required',
+            //'delivery_date'=>'required',
             //'order_items'=>'required',
         ]);
 
@@ -50,22 +50,27 @@ class OrderController extends Controller
             
             $order->save();
 
-            $order_items_array = json_decode($request->order_items);
+            $order_items_array = $request->order_items;
+           
 
             foreach($order_items_array as $order_items)
             {
                 $item = new OrderItem();
 
                 $item->order_id = $order->id;
-                $item->product_id = $order_items->product_id;
-                $item->price = $order_items->price;
-                $item->quantity = $order_items->quantity;
-                $item->size = $order_items->size;
+                $item->product_id = $order_items['product_id'];
+                $item->price = $order_items['price'];
+                $item->quantity =  $order_items['quantity'];
+                $item->size = $order_items['size'];
                 
                 $item->save();   
             }
 
-            return response()->json('Order added',201);
+              return response()->json(
+                [
+                    'status'  => 'success',
+                    'message' =>  'Order added successfully.'
+                ],201);;
         }
         catch(Exception $e)
         {

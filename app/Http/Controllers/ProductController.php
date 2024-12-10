@@ -190,6 +190,9 @@ class ProductController extends Controller
                 }
             }
 
+           
+            $index = array();
+
             for ($i = 0; $i < $request->quantity; $i++)
             {
                 $inventory = new Inventory();
@@ -198,14 +201,19 @@ class ProductController extends Controller
                 $inventory->size = $request->size;
 
                 $inventory->save();
+                $index[] = $i;
+                
             }
 
+           // dd($index);
+           // dd($e);
             // return response()->json('Product added',201);
             return redirect()->back()->with('success', 'Product saved successfully.');
 
         }
         catch(Exception $e)
         {
+            dd($e);
             return response()->json($e,500);
         }
     }

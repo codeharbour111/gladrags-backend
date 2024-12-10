@@ -25,17 +25,21 @@ class CategoriesController extends Controller
 
     public function show($id)
     {
-        $categories = Categories::find($id);
+        $category = Categories::find($id);
 
-        if($categories)
+        if($category)
         {
-            return response()->json($categories,200);
+            return response()->json(
+                [
+                    'status'  => 'success',
+                    'data'    =>  new CategoryResource($category)
+                ],201);;
         }
         else
         {
             return response()->json(
             [
-                'status'  => 'success',
+                'status'  => 'error',
                 'message' => 'Categories not found'
             ]);
         }
