@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('customer_phone_no')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('delivery_date')->nullable();
-            $table->bigInteger('location')->nullable();
+            $table->string('location')->nullable();
             $table->string('discount_code')->nullable();
             $table->double('discount')->nullable();
             $table->double('total_price',12,2);
