@@ -62,6 +62,7 @@ class OrderController extends Controller
             'customer_email'=>'required',
             'customer_phone_no'=>'required',
             'customer_address'=>'required',
+            'location' => 'required',
             'total_price'=>'required|numeric',
             //'delivery_date'=>'required',
             //'order_items'=>'required',
@@ -77,14 +78,19 @@ class OrderController extends Controller
             $order->customer_email = $request->customer_email;
             $order->customer_phone_no = $request->customer_phone_no;
             $order->customer_address = $request->customer_address;
+            $order->discount_code = $request->discount_code;
+            $order->discount = $request->discount;
+            $order->location = $request->location;
+            $order->shipping_fee = $request->shipping_fee;
+            $order->total_quantity = $request->total_quantity;
+            $order->subtotal = $request->subtotal;
             $order->total_price = $request->total_price;
-            $order->delivery_date = $request->delivery_date;
+            //$order->delivery_date = $request->delivery_date;
             
             $order->save();
 
             $order_items_array = $request->order_items;
            
-
             foreach($order_items_array as $order_items)
             {
                 $item = new OrderItem();

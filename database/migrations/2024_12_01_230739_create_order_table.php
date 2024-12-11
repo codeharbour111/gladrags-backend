@@ -24,8 +24,11 @@ return new class extends Migration
             $table->string('delivery_date')->nullable();
             $table->string('location')->nullable();
             $table->string('discount_code')->nullable();
-            $table->double('discount')->nullable();
-            $table->double('total_price',12,2);
+            $table->double('discount',12,2)->nullable(0);
+            $table->bigInteger('total_quantity')->nullable(0);
+            $table->double('subtotal',12,2)->nullable(0);
+            $table->double('shipping_fee',12,2)->nullable(0);
+            $table->double('total_price',12,2)->nullable(0);
 
             $table->timestamps();
         });

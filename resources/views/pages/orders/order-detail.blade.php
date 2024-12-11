@@ -71,7 +71,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Subtotal:</td>
-                                        <td class="text-end">BDT {{$order->total_price}}</td>
+                                        <td class="text-end">BDT {{$order->subtotal}}</td>
                                     </tr>
                                     <tr>
                                         <td>Shipping:</td>
@@ -81,7 +81,7 @@
                                         @else
                                             some data
                                         @endif --}}
-                                        10.00</td>
+                                        {{$order->shipping_fee}}</td>
                                     </tr>
                                     {{-- <tr>
                                         <td>Tax (GST):</td>
@@ -89,7 +89,7 @@
                                     </tr> --}}
                                     <tr class="fw-bold">
                                         <td>Total Price:</td>
-                                        <td class="text-end">BDT 90.58</td>
+                                        <td class="text-end">BDT {{$order->total_price}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -140,11 +140,12 @@
                         
                         <select class="mt-8 form-select form-select-solid" id="order_status" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Select an option" data-hide-search="true">
                             <option></option>
-                            <option value="1" {{$order->status == "Pending" ? "selected" : "none"}}>Pending</option>
-                            <option value="2">Confirm</option>
-                            <option value="3">Processing</option>
-                            <option value="4">Delivered To Pathao</option>
-                            <option value="5">Delivered</option>
+                            {{-- ['pending','confirmed','processing','delivered_to_pathao','delivered'] --}}
+                            <option value="1" {{$order->status == "pending" ? "selected" : "none"}}>Pending</option>
+                            <option value="2" {{$order->status == "confirmed" ? "selected" : "none"}}>Confirm</option>
+                            <option value="3" {{$order->status == "processing" ? "selected" : "none"}}>Processing</option>
+                            <option value="4" {{$order->status == "delivered_to_pathao" ? "selected" : "none"}}>Delivered To Pathao</option>
+                            <option value="5" {{$order->status == "delivered" ? "selected" : "none"}}>Delivered</option>
                         </select>
                         {{-- <p class="fw-bold text-success">20 Nov 2023</p> --}}
                         <a href="order-tracking.html" class="d-none btn btn-primary mt-8 w-100"><i class="fas fa-truck me-2"></i>Track Order</a>
@@ -423,18 +424,6 @@
         {
             var status = document.querySelector("#kt_stepper_example_vertical");
 
-            // // Initialize Stepper
-            // var stepper = new KTStepper(element);
-
-            // // Handle next step
-            // stepper.on("kt.stepper.next", function (stepper) {
-            //     stepper.goNext(); // go next step
-            // });
-
-            // // Handle previous step
-            // stepper.on("kt.stepper.previous", function (stepper) {
-            //     stepper.goPrevious(); // go previous step
-            // });
             var element = document.querySelector("#kt_stepper_example_clickable");
 
             // Initialize Stepper
@@ -454,6 +443,26 @@
             stepper.on("kt.stepper.previous", function (stepper) {
                 stepper.goPrevious(); // go previous step
             });
+
+            var currentStatus = @json($order->status);
+                            
+            if(currentStatus === "confirmed")
+            {
+                stepper.goTo(2);
+            }
+            else if(currentStatus === "processing")
+            {
+                stepper.goTo(3);
+            }
+            else if(currentStatus === "delivered_to_pathao")
+            {
+                stepper.goTo(4);
+            }
+            else if(currentStatus === "delivered")
+            {
+                stepper.goTo(5);
+                $('#stepper-delivered').addClass("completed");
+            }
 
             //const order_status = document.getElementById('order_status');
             var test = $('#order_status');
