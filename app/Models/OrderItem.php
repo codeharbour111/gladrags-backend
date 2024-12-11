@@ -21,9 +21,13 @@ class OrderItem extends Model
         'updated_at'
     ];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'product_id');
+    }
+
     public function order()
     {
-        $this->belongsTo(Order::class,'order_id');
+        return $this->belongsTo(Order::class,'order_id');
     }
-    //
 }

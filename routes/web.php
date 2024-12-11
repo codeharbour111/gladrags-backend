@@ -57,6 +57,7 @@ Route::post('/category-list/add-new-category/store-category', [CategoriesControl
 // Orders
 Route::get('/order-list', [OrderController::class, 'index'])->name('order.list');
 Route::get('/order-list/order-detail', [OrderController::class, 'orderDetail'])->name('order.detail');
+Route::get('/order/detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
 
 // Attributes
 Route::get('/attribute-list', [AttributeController::class, 'index'])->name('attribute.list');

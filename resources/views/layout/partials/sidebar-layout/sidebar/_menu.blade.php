@@ -187,7 +187,7 @@
 					</div>
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
-					<div class="menu-item">
+					{{-- <div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {{ request()->routeIs('order.detail') ? 'here show' : '' }}" href="{{ route('order.detail') }}">
 							<span class="menu-bullet">
@@ -196,7 +196,7 @@
 							<span class="menu-title">Order Detail</span>
 						</a>
 						<!--end:Menu link-->
-					</div>
+					</div> --}}
 					<!--end:Menu item-->
 				</div>
 				<!--end:Menu sub-->

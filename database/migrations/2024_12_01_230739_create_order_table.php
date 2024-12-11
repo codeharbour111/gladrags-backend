@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order', function (Blueprint $table)
         {
             $table->id();
-            $table->enum('status',['Pending','Delivered','Out for delivery','Cancelled','Accepted'])->default('Pending');
+            $table->enum('status',['pending','confirmed','processing','delivered_to_pathao','delivered'])->default('Pending');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('order_number')->nullable();
             $table->string('customer_name')->nullable();
@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('customer_phone_no')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('delivery_date')->nullable();
+            $table->bigInteger('location')->nullable();
+            $table->string('discount_code')->nullable();
+            $table->double('discount')->nullable();
             $table->double('total_price',12,2);
 
             $table->timestamps();

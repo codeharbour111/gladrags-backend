@@ -8,19 +8,51 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    // public function index()
+    // {
+    //     return view('pages.orders.order-list');
+    // }
+
     public function index()
     {
-        return view('pages.orders.order-list');
+        $orders = Order::all();
+        
+        return view('pages.orders.order-list',compact('orders'));
     }
 
-    public function orderDetail()
+
+    public function detail(Request $request)
     {
-        return view('pages.orders.order-detail');
+        $order = Order::find($request->id);
+        $order_items = OrderItem::with(['product','product.images'])->where('order_id',$request->id)->get();
+
+        return view('pages.orders.order-detail',compact('order', 'order_items'));
     }
 
     public function load()
     {
         return response()->json(Product::with('category','images')->paginate(10),200);
+    }
+
+    public function update_status(Request $request)
+    {
+       try
+       {
+            $order = Order::find($request->order_id);
+            $order->status = $request->status;
+
+            $order->save();
+
+            return response()->json(
+                [
+                    'status'  => 'success',
+                    'message' =>  'Status updated successfully.'
+                ],201);
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
     }
 
     public function store(Request $request)
@@ -70,7 +102,7 @@ class OrderController extends Controller
                 [
                     'status'  => 'success',
                     'message' =>  'Order added successfully.'
-                ],201);;
+                ],201);
         }
         catch(Exception $e)
         {

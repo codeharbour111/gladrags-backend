@@ -12,10 +12,14 @@ class Order extends Model
     [
         'status',
         'user_id',
+        'order_number',
         'customer_name',
         'customer_email',
         'customer_phone_no',
         'customer_address',
+        'location',
+        'discount_code',
+        'discount',
         'delivery_date',
         'total_price'
     ];
@@ -26,9 +30,14 @@ class Order extends Model
         'updated_at'
     ];
 
+    // public function items()
+    // {
+    //     $this->hasMany(OrderItem::class,'order_id');
+    // }
+
     public function items()
     {
-        $this->hasMany(OrderItem::class,'order_id');
+        return $this->hasMany(OrderItem::class,'order_id');
     }
 
     protected static function booted(): void

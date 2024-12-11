@@ -10,6 +10,10 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push('Home', route('dashboard'));
 });
 
+Breadcrumbs::for('order', function (BreadcrumbTrail $trail) {
+    $trail->push('Order', route('order.list'));
+});
+
 // Home > Dashboard
 Breadcrumbs::for('dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
@@ -71,4 +75,10 @@ Breadcrumbs::for('products.all-products', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('categories.category-list', function (BreadcrumbTrail $trail) {
     $trail->parent('categories');
     $trail->push('Category List', route('category.list'));
+});
+
+// Home > Dashboard > Categories > Category List
+Breadcrumbs::for('order.order-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('order');
+    $trail->push('Order List', route('order.list'));
 });

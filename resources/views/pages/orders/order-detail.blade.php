@@ -1,12 +1,12 @@
 <x-default-layout>
 
     @section('title')
-        Order #12345
+        Order {{ $order->order_number }}
     @endsection
 
-    @section('breadcrumbs')
+    {{-- @section('breadcrumbs')
         {{ Breadcrumbs::render('categories.category-list') }}
-    @endsection
+    @endsection --}}
 
     <div class="order-detail">
         <div class="row">
@@ -32,42 +32,29 @@
                             <table class="table table-row-bordered align-middle gy-4">
                                 <thead>
                                     <tr class="fw-semibold text-gray-600">
+                                        <th>Image</th>
                                         <th>Product</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{-- //{{dd($order_items)}} --}}
+                                    @foreach ($order_items as $item)
                                     <tr>
                                         <td class="d-flex align-items-center">
                                             <div class="symbol symbol-50px me-3">
-                                                <img src="images/products/product-1.jpg" alt="Product Image">
+                                                <img src="{{ Storage::url($item->product->images[0]->image_path) }}" alt="Image">
                                             </div>
-                                            <span class="fw-bold">Ribbed Tank Top</span>
+                                           
                                         </td>
-                                        <td>1</td>
-                                        <td>$50.47</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="d-flex align-items-center">
-                                            <div class="symbol symbol-50px me-3">
-                                                <img src="images/products/product-2.jpg" alt="Product Image">
-                                            </div>
-                                            <span class="fw-bold">V-neck linen T-shirt</span>
+                                        <td>
+                                            <span class="fw-bold">{{$item->product->name}}</span>
                                         </td>
-                                        <td>1</td>
-                                        <td>$50.47</td>
+                                        <td>{{$item->quantity}}</td>
+                                        <td>{{$item->quantity * $item->price}}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="d-flex align-items-center">
-                                            <div class="symbol symbol-50px me-3">
-                                                <img src="images/products/product-3.jpg" alt="Product Image">
-                                            </div>
-                                            <span class="fw-bold">Ribbed modal T-shirt</span>
-                                        </td>
-                                        <td>1</td>
-                                        <td>$50.47</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -84,19 +71,25 @@
                                 <tbody>
                                     <tr>
                                         <td>Subtotal:</td>
-                                        <td class="text-end">$70.13</td>
+                                        <td class="text-end">BDT {{$order->total_price}}</td>
                                     </tr>
                                     <tr>
                                         <td>Shipping:</td>
-                                        <td class="text-end">$10.00</td>
+                                        <td class="text-end">BDT 
+                                        {{-- @if(condition)
+                                            some data
+                                        @else
+                                            some data
+                                        @endif --}}
+                                        10.00</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Tax (GST):</td>
                                         <td class="text-end">$5.00</td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr class="fw-bold">
                                         <td>Total Price:</td>
-                                        <td class="text-end">$90.58</td>
+                                        <td class="text-end">BDT 90.58</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -114,15 +107,15 @@
                         <h3 class="card-title mb-5">Summary</h3>
                         <div class="mb-3">
                             <div class="text-gray-600">Order ID:</div>
-                            <div class="fw-bold">#192847</div>
+                            <div class="fw-bold">{{$order->order_number}}</div>
                         </div>
                         <div class="mb-3">
                             <div class="text-gray-600">Date:</div>
-                            <div class="fw-bold">20 Nov 2023</div>
+                            <div class="fw-bold">{{$order->created_at->format('d M Y')}}</div>
                         </div>
                         <div>
                             <div class="text-gray-600">Total:</div>
-                            <div class="fw-bold text-primary">$948.5</div>
+                            <div class="fw-bold text-primary">BDT {{$order->total_price}}</div>
                         </div>
                     </div>
                 </div>
@@ -130,22 +123,31 @@
                 <div class="card card-flush mb-5">
                     <div class="card-body">
                         <h3 class="card-title">Shipping Address</h3>
-                        <p class="text-gray-600">3517 W. Gray St. Utica, Pennsylvania 57867</p>
+                        <p class="text-gray-600">{{$order->customer_address}}</p>
                     </div>
                 </div>
                 <!-- Payment Method -->
-                <div class="card card-flush mb-5">
+                {{-- <div class="card card-flush mb-5">
                     <div class="card-body">
                         <h3 class="card-title">Payment Method</h3>
                         <p class="text-gray-600">Pay on Delivery (Cash/Card). Cash on delivery (COD) available. Card/Net banking acceptance subject to device availability.</p>
                     </div>
-                </div>
+                </div> --}}
                 <!-- Delivery Date -->
                 <div class="card card-flush">
                     <div class="card-body">
                         <h3 class="card-title">Expected Date Of Delivery</h3>
-                        <p class="fw-bold text-success">20 Nov 2023</p>
-                        <a href="order-tracking.html" class="btn btn-primary w-100"><i class="fas fa-truck me-2"></i>Track Order</a>
+                        
+                        <select class="mt-8 form-select form-select-solid" id="order_status" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Select an option" data-hide-search="true">
+                            <option></option>
+                            <option value="1" {{$order->status == "Pending" ? "selected" : "none"}}>Pending</option>
+                            <option value="2">Confirm</option>
+                            <option value="3">Processing</option>
+                            <option value="4">Delivered To Pathao</option>
+                            <option value="5">Delivered</option>
+                        </select>
+                        {{-- <p class="fw-bold text-success">20 Nov 2023</p> --}}
+                        <a href="order-tracking.html" class="d-none btn btn-primary mt-8 w-100"><i class="fas fa-truck me-2"></i>Track Order</a>
                     </div>
                 </div>
             </div>
@@ -158,57 +160,162 @@
                     Your items are on the way. Tracking information will be available within 24 hours.
                 </p>
 
-                <!-- Progress Tracker -->
-                <div class="d-flex flex-wrap justify-content-between align-items-center mt-4">
-                    <!-- Step 1 -->
-                    <div class="d-flex flex-column align-items-center w-20">
-                        <div class="rounded-circle bg-warning text-white d-flex justify-content-center align-items-center fw-bold h-50px w-50px">
-                            <i class="bi bi-check-lg fs-2x"></i>
+                <!--begin::Stepper-->
+                <div class="stepper stepper-pills" id="kt_stepper_example_clickable">
+                    <!--begin::Nav-->
+                    <div class="stepper-nav flex-center flex-wrap mb-10">
+                        <!--begin::Step 1-->
+                        <div class="stepper-item mx-8 my-4 {{$order->status == "pending" ? "current" : ""}}" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <!--begin::Icon-->
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">1</span>
+                                </div>
+                                <!--end::Icon-->
+                    
+                                <!--begin::Label-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">
+                                        Pending
+                                    </h3>
+                    
+                                    {{-- <div class="stepper-desc">
+                                        Accept Order
+                                    </div> --}}
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Wrapper-->
+                    
+                            <!--begin::Line-->
+                            <div class="stepper-line h-40px"></div>
+                            <!--end::Line-->
                         </div>
-                        <div class="text-dark mt-3 fw-bold text-center">Receiving orders</div>
-                        <div class="text-gray-600 text-center fs-7">05:43 AM</div>
-                    </div>
-
-                    <!-- Line 1 -->
-                    <div class="flex-grow-1 bg-warning h-5px mx-2 mt-n12"></div>
-
-                    <!-- Step 2 -->
-                    <div class="d-flex flex-column align-items-center w-20">
-                        <div class="rounded-circle bg-warning text-white d-flex justify-content-center align-items-center fw-bold h-50px w-50px">
-                            <i class="bi bi-check-lg fs-2x"></i>
+                        <!--end::Step 1-->
+                        <!--begin::Step 2-->
+                        <div class="stepper-item mx-8 my-4 {{$order->status == "confirmed" ? "current" : ""}}" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <!--begin::Icon-->
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">2</span>
+                                </div>
+                                <!--begin::Icon-->
+                    
+                                <!--begin::Label-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">
+                                        Confirm
+                                    </h3>
+                    
+                                    {{-- <div class="stepper-desc">
+                                        Description
+                                    </div> --}}
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Wrapper-->
+                    
+                            <!--begin::Line-->
+                            <div class="stepper-line h-40px"></div>
+                            <!--end::Line-->
                         </div>
-                        <div class="text-dark mt-3 fw-bold text-center">Order processing</div>
-                        <div class="text-gray-600 text-center fs-7">01:21 PM</div>
-                    </div>
-
-                    <!-- Line 2 -->
-                    <div class="flex-grow-1 bg-warning h-5px mx-2 mt-n12"></div>
-
-                    <!-- Step 3 -->
-                    <div class="d-flex flex-column align-items-center w-20">
-                        <div class="rounded-circle bg-warning text-white d-flex justify-content-center align-items-center fw-bold h-50px w-50px">
-                            <i class="bi bi-check-lg fs-2x"></i>
+                        <!--end::Step 2-->
+                    
+                        <!--begin::Step 3-->
+                        <div class="stepper-item mx-8 my-4 {{$order->status == "processing" ? "current" : ""}}" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+                        <!--begin::Wrapper-->
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <!--begin::Icon-->
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">3</span>
+                                </div>
+                                <!--begin::Icon-->
+                    
+                                <!--begin::Label-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">
+                                        Processing
+                                    </h3>
+                    
+                                    {{-- <div class="stepper-desc">
+                                        Description
+                                    </div> --}}
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Wrapper-->
+                    
+                            <!--begin::Line-->
+                            <div class="stepper-line h-40px"></div>
+                            <!--end::Line-->
                         </div>
-                        <div class="text-dark mt-3 fw-bold text-center">Being delivered</div>
-                        <div class="text-gray-600 text-center fs-7">Processing</div>
-                    </div>
-
-                    <!-- Line 3 -->
-                    <div class="flex-grow-1 bg-gray-300 h-5px mx-2 mt-n12"></div>
-
-                    <!-- Step 4 -->
-                    <div class="d-flex flex-column align-items-center w-20">
-                        <div class="rounded-circle bg-light text-gray-400 d-flex justify-content-center align-items-center fw-bold h-50px w-50px border border-gray-300">
-                            <i class="bi bi-check-lg fs-2x"></i>
+                        <!--end::Step 3-->
+                    
+                        <!--begin::Step 4-->
+                        <div class="stepper-item mx-8 my-4 {{$order->status == "delivered_to_pathao" ? "current" : ""}}" data-kt-stepper-element="nav" data-kt-stepper-action="step">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <!--begin::Icon-->
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">4</span>
+                                </div>
+                                <!--begin::Icon-->
+                    
+                                <!--begin::Label-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">
+                                        Delivered To Pathao
+                                    </h3>
+                    
+                                    {{-- <div class="stepper-desc">
+                                        Description
+                                    </div> --}}
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Wrapper-->
                         </div>
-                        <div class="text-gray-400 mt-3 fw-bold text-center">Delivered</div>
-                        <div class="text-gray-400 text-center fs-7">Pending</div>
+                        <!--end::Step 4-->
+                        <div class="stepper-item mx-8 my-4 {{$order->status == "delivered" ? "mark-completed" : ""}}" data-kt-stepper-element="nav" data-kt-stepper-action="step" id="stepper-delivered">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper d-flex align-items-center">
+                                <!--begin::Icon-->
+                                <div class="stepper-icon w-40px h-40px">
+                                    <i class="stepper-check fas fa-check"></i>
+                                    <span class="stepper-number">5</span>
+                                </div>
+                                <!--begin::Icon-->
+                    
+                                <!--begin::Label-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">
+                                        Delivered
+                                    </h3>
+                    
+                                    {{-- <div class="stepper-desc">
+                                        Description
+                                    </div> --}}
+                                </div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Wrapper-->
+                        </div>
                     </div>
+                    <!--end::Nav-->
                 </div>
+                <!--end::Stepper-->
+
+               
             </div>
         </div>
 
-        <div class="card mb-5 mb-xl-8">
+        {{-- <div class="card mb-5 mb-xl-8">
             <!--begin::Header-->
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
@@ -307,8 +414,85 @@
                 <!--end::Table container-->
             </div>
             <!--begin::Body-->
-        </div>
+        </div> --}}
 
     </div>
+    <script>
 
+        document.addEventListener('DOMContentLoaded', () => 
+        {
+            var status = document.querySelector("#kt_stepper_example_vertical");
+
+            // // Initialize Stepper
+            // var stepper = new KTStepper(element);
+
+            // // Handle next step
+            // stepper.on("kt.stepper.next", function (stepper) {
+            //     stepper.goNext(); // go next step
+            // });
+
+            // // Handle previous step
+            // stepper.on("kt.stepper.previous", function (stepper) {
+            //     stepper.goPrevious(); // go previous step
+            // });
+            var element = document.querySelector("#kt_stepper_example_clickable");
+
+            // Initialize Stepper
+            var stepper = new KTStepper(element);
+
+            // Handle navigation click
+            stepper.on("kt.stepper.click", function (stepper) {
+                stepper.goTo(stepper.getClickedStepIndex()); // go to clicked step
+            });
+
+            // Handle next step
+            stepper.on("kt.stepper.next", function (stepper) {
+                stepper.goNext(); // go next step
+            });
+
+            // Handle previous step
+            stepper.on("kt.stepper.previous", function (stepper) {
+                stepper.goPrevious(); // go previous step
+            });
+
+            //const order_status = document.getElementById('order_status');
+            var test = $('#order_status');
+            test.on("select2:select", function(event) {
+                var value = $(event.currentTarget).find("option:selected").val();
+              
+                const formData = new FormData();
+                formData.append('order_id', {{$order->id}});
+                formData.append('status', value);
+                // Add all selected files to the formData
+              
+                var baseUrl = "{{URL::to('/')}}";
+
+
+            fetch(baseUrl + `/api/v1/order/update-status`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert('Order saved successfully!');
+                    stepper.goTo(value);
+
+                    if(value == 5)
+                        $('#stepper-delivered').addClass("completed");
+                } else {
+                    alert('There was an error saving the product.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form.');
+            });
+            
+               
+            });
+           
+        });
+
+    </script>
 </x-default-layout>

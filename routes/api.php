@@ -123,6 +123,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/order', [OrderController::class,'load']);
     Route::get('/order/{id}', [OrderController::class,'index']);
     Route::post('/order/add', [OrderController::class, 'store']);
+    Route::post('/order/update-status', [OrderController::class, 'update_status']);
+    
 });
 
 Route::post('login', [ApiController::class, 'authenticate']);
