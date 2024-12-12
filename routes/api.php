@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\GladragsUserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -125,10 +127,21 @@ Route::prefix('v1')->group(function () {
     Route::post('/order/add', [OrderController::class, 'store']);
     Route::post('/order/update-status', [OrderController::class, 'update_status']);
     
+    // Route::get('users/register', [AdminAuthController::class, 'register'])
+    //     ->name('gladragsuser.register');
+    // Route::get('users/login', [GladragsUserController::class, 'login'])
+    //     ->name('gladragsuser.login');
+    // Route::post('admin/login', [GladragsUserController::class, 'handle_login'])
+    //     ->name('gladragsuser.handle_login');
+    // Route::get('admin/logout', [GladragsUserController::class, 'logout'])
+    //     ->name('gladragsuser.logout');
+
+    Route::post('/login',  [GladragsUserController::class, 'login'])->name('gladragsuser.login');
+    Route::post('/register', [GladragsUserController::class, 'register'])->name('gladragsuser.register');
 });
 
-Route::post('login', [ApiController::class, 'authenticate']);
-Route::post('register', [ApiController::class, 'register']);
+// Route::post('login', [ApiController::class, 'authenticate']);
+// Route::post('register', [ApiController::class, 'register']);
 
 // Route::group(['middleware' => ['jwt.verify']], function() {
 //     Route::get('logout', [ApiController::class, 'logout']);
