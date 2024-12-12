@@ -117,7 +117,7 @@
             
                         <!--begin::Customer-->
                         <td class="text-end">
-                            <a href="" class="text-gray-900 text-hover-primary">  {{$order->quantity}}</a>
+                            <a href="" class="text-gray-900 text-hover-primary">  {{$order->total_quantity}}</a>
                         </td>
                         <!--end::Customer-->
             
@@ -129,7 +129,7 @@
             
                         <!--begin::Profit-->
                         <td class="text-end">
-                            <span class="badge py-3 px-4 fs-7 badge-light-primary">Confirmed</span>
+                            <span class="badge py-3 px-4 fs-7 badge-light-primary">{{$order->status}}</span>
                         </td>
                         <!--end::Profit-->
             

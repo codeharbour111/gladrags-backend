@@ -21,6 +21,9 @@ class Order extends Model
         'discount_code',
         'discount',
         'delivery_date',
+        'total_quantity',
+        'subtotal',
+        'shipping_fee',
         'total_price'
     ];
 
@@ -29,11 +32,6 @@ class Order extends Model
         'created_at',
         'updated_at'
     ];
-
-    // public function items()
-    // {
-    //     $this->hasMany(OrderItem::class,'order_id');
-    // }
 
     public function items()
     {

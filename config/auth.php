@@ -45,6 +45,10 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'gladrags_users' => [
+            'driver' => 'session',
+            'provider' => 'gladrags_users',
+        ],
     ],
 
     /*
@@ -69,7 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'gladrags_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\GladragsUser::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
