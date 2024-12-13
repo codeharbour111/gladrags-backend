@@ -15,7 +15,6 @@ class GladragsUserController extends Controller
     {
         try{
             $request->validate([
-            
                 'email'   => 'required|email',
                 'password' => 'required|min:6'
             ]);
@@ -55,7 +54,91 @@ class GladragsUserController extends Controller
             return response()->json($e,500);
         }
     }
+
+    protected function update_password(Request $request)
+    {
+        try{
+            $request->validate(
+            [
+                'user_id' => 'required',
+                'current_password'   => 'required',
+                'new_password' => 'required',
+            ]);
+           
+            $user = GladragsUser::where('id', $request->user_id)->first();  
+
+            if($user)
+            {
+                if (Hash::check($request->current_password, $user->password))
+                {
+                    $user->password = Hash::make($request['new_password']);
+                    $user->save();
+
+                    return response()->json(
+                        [
+                            'status'  => 'success',
+                            'message' => 'Password saved successfully.'
+                        ],201);
+                }
+                else{
+                    return response()->json(
+                        [
+                            'status'  => 'error',
+                            'message' => 'Wrong password'
+                        ],201);
+                }
+            }
+            else{
+                return response()->json(
+                    [
+                        'status'  => 'error',
+                        'message' => 'User not found'
+                    ],201);
+            }
+
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
+    }
    
+    protected function update_address(Request $request)
+    {
+        try{
+            $request->validate([
+                'user_id' => 'required',
+                'fullname'   => 'required',
+                'phone_no' => 'required',
+                'address'   => 'required',
+                'city' => 'required',
+            ]);
+           
+
+            $user = GladragsUser::where('id', $request->user_id)->first();
+            
+            $user->name = $request->fullname;
+            $user->phone_no = $request->phone_no;
+            $user->address = $request->address;
+            $user->city = $request->city;
+            
+            $user->save();
+
+            return response()->json(
+                [
+                    'status'  => 'success',
+                    'data' =>  [
+                        'user' => $user
+                    ]
+                ],201);
+
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
+    }
+    
 
         protected function register(Request $request)
         {
@@ -68,6 +151,7 @@ class GladragsUserController extends Controller
 
                 $gladrag_user = GladragsUser::create([
                     'name' => $request['name'],
+                    'phone_no' => $request['phone_no'],
                     'email' => $request['email'],
                     'password' => Hash::make($request['password']),
                 ]);
