@@ -138,6 +138,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/login',  [GladragsUserController::class, 'login'])->name('gladragsuser.login');
     Route::post('/register', [GladragsUserController::class, 'register'])->name('gladragsuser.register');
+    Route::post('/update-address',  [GladragsUserController::class, 'update_address'])->name('gladragsuser.update_address');
+    Route::post('/update-password',  [GladragsUserController::class, 'update_password'])->name('gladragsuser.update_password');
 });
 
 // Route::post('login', [ApiController::class, 'authenticate']);
