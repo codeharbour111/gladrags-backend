@@ -78,12 +78,23 @@
 
                             <td>
                                 <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-                                    @if (!empty($category->sizes) && is_array($category->sizes))
-                                        {{ implode(', ', $category->sizes) }}
+                                    @php
+                                    // Check if the 'sizes' field is JSON and decode it if necessary
+                                    if (is_string($category->sizes)) {
+                                        $sizes = json_decode($category->sizes, true); // Decode JSON if it's a string
+                                    } elseif (is_array($category->sizes)) {
+                                        $sizes = $category->sizes; // Already an array
+                                    } else {
+                                        $sizes = [$category->sizes]; // Handle edge cases (single value, etc.)
+                                    }
+                                    @endphp
+
+                                    @if (is_array($sizes) && !empty($sizes))
+                                        {{ implode(', ', $sizes) }}
                                     @else
                                         No sizes available
                                     @endif
-                                </span>
+                                    </span>
                             </td>
 
 
