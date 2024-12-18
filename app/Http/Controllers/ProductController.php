@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductWithIdResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductCollection;
 
@@ -38,6 +39,20 @@ class ProductController extends Controller
         return new ProductCollection(Product::with('category','images')->paginate(10));
     }
 
+    public function loadProduct(Request $request)
+    {
+        $result = Product::with(['category','images'])->where('id',$request->id)->first();
+     
+        if($result != null)
+            return new ProductWithIdResource(Product::with(['category','images'])->where('id',$request->id)->first());
+        else
+            return response()->json(
+                [
+                    'status'  => 'error',
+                    'message' =>  'Product does not exists.'
+                ],201);
+    }
+
 
     public function store(Request $request)
     {
@@ -62,8 +77,7 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
-            dd($product);
-
+           
             $product->save();
 
             foreach($request->product_images as $product_image)
@@ -144,13 +158,16 @@ class ProductController extends Controller
             $product->has_discount = $request->has_discount;
             $product->discount_price = $request->discount_price;
             $product->discount_date = $request->discount_date;
+            $product->color = $request->color;
+            $product->sku = $request->sku;
 
             $product->save();
 
-            $images = $request->file('product_images') ?? []; // Default to an empty
+            $images = $request->file('product_images') ?? []; 
+            
+            // Default to an empty
             // dd($request->all(), $request->file('product_images'));
             // dd($request->product_images); // Dumps the input and stops execution
-
 
             foreach($request->product_images as $product_image)
             {
@@ -213,7 +230,6 @@ class ProductController extends Controller
         }
         catch(Exception $e)
         {
-            dd($e);
             return response()->json($e,500);
         }
     }
