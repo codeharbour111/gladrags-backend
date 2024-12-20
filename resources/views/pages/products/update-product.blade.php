@@ -1,5 +1,5 @@
 <x-default-layout>
-
+   
     @section('title')
         Product Information
     @endsection
@@ -9,8 +9,9 @@
     @endsection
 
     <div class="card mb-10">
-        <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('product.update', $product->id) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="mb-10">
                 <div class="card-header">
                     <h3 class="card-title">Upload Images</h3>
@@ -63,9 +64,11 @@
                         <!-- Add images section -->
                         <div class="form-text text-center fw-bolder">Add images or drop your images here or select</div>
 
-
                         <div class="mt-4 d-flex gap-5 flex-wrap" id="image_preview">
                             <!-- Dynamically added images preview here -->
+                            @foreach($product->images as $image)
+                                <img src="{{ Storage::url($image->image_path) }}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 10px;">
+                            @endforeach
                         </div>
 
                         <div class="mt-3">
@@ -74,8 +77,8 @@
                     </div>
                 </div>
             </div>
-    
-            <div>
+    </div>
+    <div>
 
             <div class="card card-flush mb-10">
                 <div class="card-header">
@@ -85,7 +88,7 @@
                     <!-- Product Title -->
                     <div class="mb-10">
                         <label class="form-label required">Product Title</label>
-                        <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" >
+                        <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" value="{{ $product->name }}">
                         <span class="form-text text-muted">Do not exceed 20 characters when entering the product name.</span>
                     </div>
 
@@ -96,7 +99,7 @@
                             <select class="form-select" name="category_id" id="category_id" >
                                 <option value="" disabled selected>Choose category</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{$product->category->id == $category->id ? "selected" : ""}} >{{ $category->name }}</option>
                                     @endforeach
                                 {{-- <option value="1">Category 1</option>
                                 <option value="2">Category 2</option>
@@ -107,7 +110,7 @@
                         <!-- Price -->
                         <div class="col-md-6">
                             <label class="form-label required">Price</label>
-                            <input type="number" class="form-control" placeholder="Price" name="price" id="price" >
+                            <input type="number" class="form-control" placeholder="Price" name="price" id="price" value="{{$product->price}}" >
                         </div>
                     </div>
 
@@ -119,18 +122,13 @@
                                 <!--begin::Label-->
                                 <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
                                     <span class="required">Size</span>
-                                    <span class="ms-1" data-bs-toggle="tooltip" title="Select an option.">
-                                        <i class="ki-duotone ki-information text-gray-500 fs-7">
-                                            <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                                        </i>
-                                    </span>
-                                    <span class="selected-size ms-2 text-primary fw-bold" id="selected-size">
-                                        {{ old('size', 'None') }}
-                                    </span>
                                 </label>
                                 <!--end::Label-->
+
+                                <!--begin::Buttons-->
+                                
                                 <div id="sizes-container">
-                                    {{-- @foreach ($category->sizes as $size)
+                                    @foreach ($product->category->sizes as $size)
                                     <div class="form-group row mb-2 align-items-center">
                                         <div class="col-md-1 d-flex align-items-center">
                                             <label class="form-label">{{ $size }}</label>
@@ -139,28 +137,11 @@
                                             <input type="number" class="form-control mb-2 mb-md-0" placeholder="Enter Stock" name="quantities[{{ $size }}]" value="{{ $quantities[$size] ?? 0 }}" />
                                         </div>
                                     </div>
-                                    @endforeach --}}
+                                    @endforeach
                                 </div>
-                                <!--begin::Buttons-->
-                                <div id="size-buttons" class="d-flex flex-stack gap-5 mb-3">
-                                    {{-- @foreach(['S', 'M', 'L', 'XL', 'XXL'] as $size)
-                                        <button type="button"
-                                                class="btn w-100 size-btn {{ old('size') === $size ? 'btn-primary' : 'btn-light-primary' }}"
-                                                data-size="{{ $size }}">
-                                            {{ $size }}
-                                        </button>
-                                    @endforeach --}}
-                                </div>
-                                <!--end::Buttons-->
+                                
                             </div>
-                            <!-- Stock -->
-                            {{-- <div class="mb-4">
-                                <label class="form-label d-flex required">Stock</label>
-                                <input type="number" class="form-control" placeholder="Enter Stock" name="quantity" value="{{ old('stock') }}">
-                            </div> --}}
-                            <!-- Hidden input to store the selected size -->
-                            {{-- <input type="hidden" name="size" id="size-input" value="{{ old('size') }}"> --}}
-                            <!--end::Input wrapper-->
+                           
                         </div>
 
                         <!-- Right Column -->
@@ -168,7 +149,7 @@
                             <!-- Wrapper Div to Handle Structure and Spacing -->
                             <div class="d-flex flex-column">
                                 <!-- Checkbox to Toggle the Collapsible Section -->
-                                <label class="btn btn-outline btn-outline-dashed d-flex text-start p-6 align-items-start">
+                                {{-- <label class="btn btn-outline btn-outline-dashed d-flex text-start p-6 align-items-start">
                                     <input type="hidden" name="has_discount" value="0">
                                     <!-- Checkbox for Selling Price -->
                                     <span class="form-check form-check-custom form-check-solid form-check-sm mt-1">
@@ -189,11 +170,43 @@
                                         <span class="fs-4 fw-bold text-gray-800 text-nowrap mb-2" for="sellingPriceToggle">Discount Price</span>
 
                                         <!-- Collapsible Section for Sale Price and Schedule -->
-                                        <div id="sellingPriceOptions" class="collapse mt-4">
+                                        <div id="sellingPriceOptions" class=" mt-4">
                                             <!-- Sale Price Input -->
                                             <div class="mb-10">
                                                 <label class="form-label">Sale Price</label>
                                                 <input type="number" class="form-control" placeholder="Discount Price" name="discount_price">
+                                            </div>
+                                            <!-- Schedule Input -->
+                                            <div>
+                                                <label class="form-label">Schedule</label>
+                                                <input type="date" class="form-control" name="discount_date">
+                                            </div>
+                                        </div>
+                                    </span>
+                                </label> --}}
+                                <label class="btn btn-outline btn-outline-dashed d-flex text-start p-6 align-items-start">
+                                    <input type="hidden" name="has_discount" value="0">
+                                    <!-- Checkbox for Selling Price -->
+                                    <span class="form-check form-check-custom form-check-solid form-check-sm mt-1">
+                                        <input
+                                            id="sellingPriceToggle"
+                                            name="has_discount"
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="1"
+                                            checked = {{$product->has_discount ? "checked" : ""}}
+                                        />
+                                    </span>
+                                    <!-- Info and Label Text -->
+                                    <span class="ms-5 d-flex flex-column">
+                                        <span class="fs-4 fw-bold text-gray-800 text-nowrap mb-2" for="sellingPriceToggle">Discount Price</span>
+                                
+                                        <!-- Section for Sale Price and Schedule -->
+                                        <div id="sellingPriceOptions" class="mt-4">
+                                            <!-- Sale Price Input -->
+                                            <div class="mb-10">
+                                                <label class="form-label">Sale Price</label>
+                                                <input type="number" class="form-control" placeholder="Discount Price" name="discount_price" id="discount_price" {{$product->has_discount ? "" : "disabled"}} value="{{$product->discount_price}}">
                                             </div>
                                             <!-- Schedule Input -->
                                             <div>
@@ -207,18 +220,18 @@
                         </div>
                     </div>
 
-                    <div class="row g-9 mb-10 align-items-center">
+                    <div class="row g-9 mb-10">
+                       
                         <!-- Variant: Color -->
                         <div class="col-md-4">
                             <label class="form-label">Color</label>
-                            <input type="text" class="form-control" placeholder="Choose color" name="color" >
+                            <input type="text" class="form-control" placeholder="Choose color" name="color" value={{$product->color}} >
                         </div>
                         <!-- SKU -->
                         <div class="col-md-4">
                             <label class="form-label">SKU</label>
-                            <input type="text" class="form-control" placeholder="Enter SKU" name="sku">
+                            <input type="text" class="form-control" placeholder="Enter SKU" name="sku" value={{$product->sku}}>
                         </div>
-
                         <div class="d-flex col-md-4 align-items-center">
                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
                                 <span>Best Seller &nbsp;</span>
@@ -229,6 +242,7 @@
                                     class="form-check-input"
                                     type="checkbox"
                                     value="1"
+                                    {{$product->best_seller ? "checked" : ""}}
                                     />
                             </label>
                           
@@ -243,7 +257,7 @@
                     <!-- Description -->
                     <div class="mb-10">
                         <label class="form-label required">Description</label>
-                        <textarea class="form-control" name="description" placeholder="Short description about product" maxlength="100" ></textarea>
+                        <textarea class="form-control" name="description" placeholder="Short description about product" maxlength="100" >{{$product->description}}</textarea>
                         <span class="form-text text-muted">Do not exceed 100 characters when entering the description.</span>
                     </div>
                 </div>
@@ -253,7 +267,7 @@
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
                 <!--end::Actions-->
-           
+            </div>
         </form>
     </div>
 
@@ -262,7 +276,16 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        
+
+        document.getElementById('sellingPriceToggle').addEventListener('change', function() {
+        const discountPriceInput = document.getElementById('discount_price');
+        const discountDateInput = document.getElementById('discount_date');
+        const isChecked = this.checked;
+
+        discountPriceInput.disabled = !isChecked;
+        discountDateInput.disabled = !isChecked;
+    });
+
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
     const selectedSizeSpan = document.getElementById('selected-size');
@@ -286,10 +309,12 @@
         selectedButton.classList.add('btn-primary');
     };
 
+
     // Attach event listeners to size buttons
     buttons.forEach(button => {
         button.addEventListener('click', () => updateSizeSelection(button));
     });
+
 
     const previewContainer = document.getElementById('image_preview');
     const fileInput = document.getElementById('product_images');
@@ -302,11 +327,13 @@
         
         if(category.value !== "")
         {
+            const categoryId = category.value;
+            const productId = "{{ $product->id }}"; // Assuming you have the product ID available
+
             var baseUrl = "{{URL::to('/')}}";
 
-            fetch(baseUrl + `/api/v1/categories/${category.value}`, {
+            fetch(baseUrl + `/api/v1/categories/${categoryId}/stock/${productId}`, {
                 method: 'GET'
-                //body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -332,37 +359,20 @@
                         input.className = 'form-control mb-2 mb-md-0';
                         input.placeholder = 'Enter Stock';
                         input.name = `quantities[${size}]`;
-                        input.value = 0;
+                        input.value = data.data.quantities[size] ?? 0;
                         inputDiv.appendChild(input);
 
                         formGroup.appendChild(labelDiv);
                         formGroup.appendChild(inputDiv);
 
                         sizesContainer.appendChild(formGroup);
-                });
-                    // const sizeButtonsContainer = document.getElementById('size-container');
-                    // sizeButtonsContainer.innerHTML = ''; // Clear any existing buttons
-
-                    // const oldSize = @json(old('size'));
-                    
-                    // data.data.sizes.forEach(size => {
-                    //     const button = document.createElement('button');
-                    //     button.type = 'button';
-                    //     button.className = `btn w-100 size-btn ${oldSize === size ? 'btn-primary' : 'btn-light-primary'}`;
-                    //     button.dataset.size = size;
-                    //     button.textContent = size;
-                    //     sizeButtonsContainer.appendChild(button);
-                    //     button.addEventListener('click', () => updateSizeSelection(button));
-                        
-                    // });
-
+                    });
                 } else {
-                   
+                    console.error('Error:', data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-               // alert('There was an error submitting the form.');
             });
         }
     };

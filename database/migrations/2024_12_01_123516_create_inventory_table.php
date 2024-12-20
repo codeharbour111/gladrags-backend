@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
             $table->string('size');
             $table->timestamps();
 

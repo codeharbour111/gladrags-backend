@@ -117,6 +117,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/categories/{id}', [CategoriesController::class, 'show']);
     Route::post('/categories/add', [CategoriesController::class, 'store']);
     Route::post('/categories/update/{id}', [CategoriesController::class, 'update_category']);
+    Route::get('/categories/{id}/stock/{productId}', [CategoriesController::class, 'getStockByCategoryAndProduct']);
 
     Route::get('/product', [ProductController::class,'load']);
     Route::get('/product/{id}', [ProductController::class,'loadProduct']);

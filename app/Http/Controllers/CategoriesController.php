@@ -6,6 +6,7 @@ use App\Models\Categories;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
@@ -21,6 +22,25 @@ class CategoriesController extends Controller
     public function load()
     {
         return new CategoryCollection(Categories::paginate(10));
+    }
+
+    public function getStockByCategoryAndProduct($categoryId, $productId)
+    {
+        $category = Categories::findOrFail($categoryId);
+
+        $quantities = DB::table('inventory')
+            ->select('size', DB::raw('count(*) as quantity'))
+            ->where('product_id', $productId)
+            ->groupBy('size')
+            ->pluck('quantity', 'size');
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'sizes' => $category->sizes,
+                'quantities' => $quantities
+            ]
+        ]);
     }
 
     public function show($id)
