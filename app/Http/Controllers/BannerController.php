@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\BannerCollection;
 
 class BannerController extends Controller
 {
@@ -13,9 +17,125 @@ class BannerController extends Controller
         return response()->json($banner,200);
     }
 
+    public function viewBanner()
+    {
+        $banners = Banner::paginate(10);
+        return view('pages.banner.banner-list', compact('banners'));
+    }
+
+    public function addBanner()
+    {
+        return view('pages.banner.add-new-banner');
+    }
+
     public function load()
     {
         return new BannerCollection(Banner::paginate(10));
+    }
+
+    public function storeBanner(Request $request)
+    {
+        try
+        {
+            $validated = $request->validate([
+            'title' => 'required',
+            'subtitle' => 'required',
+            'image'=>'required']);
+
+            $banner = new Banner();
+
+            $banner->title  = $request->title;
+            $banner->subtitle  = $request->subtitle;
+           
+            if($request->image)
+            {
+                $file = $request->image;
+                $ext = $file->getClientOriginalExtension();
+                $filename = time().'.'.$ext;
+
+                try
+                {
+                    $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
+                }
+                catch(FileException $e)
+                {
+                    return response()->json($e,500);
+                }
+
+                $banner->image = $filename;
+            }
+
+            $banner->save();
+
+            return redirect()->route('banner.list')->with('success', 'Banners added successfully!');
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
+    }
+
+    public function editBanner($id)
+    {
+        $banner = Banner::findOrFail($id);
+
+        return view('pages.banner.edit-banner', compact('banner'));
+    }
+
+    public function update(Request $request,$id)
+    {
+        $request->validate
+        ([
+            'title'=>'required',
+        ]);
+
+        $banner = Banner::findOrFail($id);
+
+        try
+        {
+            $banner->title  = $request->title;
+            $banner->subtitle = $request->subtitle;
+        
+            if($request->image)
+            {
+                if(Storage::disk('public')->exists($banner->image))
+                {
+                    Storage::disk('public')->delete($banner->image);
+                }
+
+                $file = $request->image;
+                $ext = $file->getClientOriginalExtension();
+                $filename = time().'.'.$ext;
+
+                try
+                {
+                    $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
+                }
+                catch(FileException $e)
+                {
+                    return response()->json($e,500);
+                }
+
+                $banner->image = $filename;
+            }
+
+            $banner->save();
+
+            return redirect()->route('banner.list')->with('success', 'Babber saved successfully!');
+          
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $banner = Banner::findOrFail($id);
+        $banner->delete();
+
+        return redirect()->route('banner.list')->with('success', 'Banner removed successfully!');
     }
 
     public function show($id)

@@ -27,6 +27,7 @@ class ProductController extends Controller
     public function addProduct()
     {
         $categories = Categories::all();
+
         return view('pages.products.add-new-product',compact('categories'));
     }
 
@@ -42,19 +43,33 @@ class ProductController extends Controller
             ->pluck('quantity', 'size');
 
         return view('pages.products.update-product', compact('product', 'categories', 'quantities'));
-
-
-        //return view('pages.products.update-product',compact('product','categories'));
     }
-    // {
-    //     $products =  Product::with('category', 'images', 'inventory')->paginate(10);
+    
+    public function loadLatestProduct()
+    {
+        // Load the latest product based on created time
+        $latestProduct = Product::with(['category', 'images'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    //     return view('pages.products.all-products',compact('products'));
-    // }
-    // public function load()
-    // {
-    //     return response()->json(Product::with('category','images')->paginate(10),200);
-    // }
+        // Load products marked as best_seller
+        $bestSellers = Product::with(['category', 'images'])
+            ->where('best_seller', 1)
+            ->get();
+
+        if ($latestProduct != null) {
+            return response()->json([
+                'status' => 'success',
+                'latest_product' => ProductResource::collection($latestProduct),
+                'best_sellers' =>  ProductResource::collection($bestSellers)
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No products found.'
+            ], 201);
+        }
+    }
 
     public function load()
     {
@@ -63,6 +78,7 @@ class ProductController extends Controller
 
     public function loadProduct(Request $request)
     {
+
         $result = Product::with(['category','images'])->where('id',$request->id)->first();
      
         if($result != null)
@@ -74,8 +90,7 @@ class ProductController extends Controller
                     'message' =>  'Product does not exists.'
                 ],201);
     }
-
-
+    
     public function store(Request $request)
     {
         $request->validate

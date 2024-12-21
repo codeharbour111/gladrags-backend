@@ -43,6 +43,69 @@ class CategoriesController extends Controller
         ]);
     }
 
+    public function editCategory($id)
+    {
+        $category = Categories::findOrFail($id);
+
+        return view('pages.categories.edit-category', compact('category'));
+    }
+
+    public function update(Request $request,$id)
+    {
+        $request->validate
+        ([
+            'name'=>'required',
+        ]);
+
+        $category = Categories::findOrFail($id);
+
+        try
+        {
+            $category->name  = $request->name;
+            $category->sizes = $request->sizes;
+
+            if($request->image)
+            {
+                if(Storage::disk('public')->exists($category->image))
+                {
+                    Storage::disk('public')->delete($category->image);
+                }
+
+                $file = $request->image;
+                $ext = $file->getClientOriginalExtension();
+                $filename = time().'.'.$ext;
+
+                try
+                {
+                    $filename = Storage::disk('public')->putFile('category', $request->file('image'), 'public');
+                }
+                catch(FileException $e)
+                {
+                    return response()->json($e,500);
+                }
+
+                $category->image = $filename;
+            }
+
+            $category->save();
+
+            return redirect()->route('category.list')->with('success', 'Category added successfully!');
+          
+        }
+        catch(Exception $e)
+        {
+            return response()->json($e,500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $category = Categories::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('category.list')->with('success', 'Category added successfully!');
+    }
+
     public function show($id)
     {
         $category = Categories::find($id);

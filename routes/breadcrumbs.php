@@ -29,6 +29,10 @@ Breadcrumbs::for('categories', function ($trail) {
     $trail->push('Categories', route('dashboard'));
 });
 
+Breadcrumbs::for('banner', function ($trail) {
+    $trail->push('Banner', route('dashboard'));
+});
+
 // Home > Dashboard > User Management
 Breadcrumbs::for('user-management.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
@@ -75,6 +79,11 @@ Breadcrumbs::for('products.all-products', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('categories.category-list', function (BreadcrumbTrail $trail) {
     $trail->parent('categories');
     $trail->push('Category List', route('category.list'));
+});
+
+Breadcrumbs::for('banner.banner-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('banner');
+    $trail->push('Banner List', route('banner.list'));
 });
 
 // Home > Dashboard > Categories > Category List
