@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -20,6 +21,8 @@ class CategoryController extends Controller
     {
         return view('pages.categories.add-new-category');
     }
+
+  
 
     public function storeCategory(Request $request)
     {

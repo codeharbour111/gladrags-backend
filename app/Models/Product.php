@@ -51,6 +51,16 @@ class Product extends Model
 
     public function inventory()
     {
-        $this->hasMany(Inventory::class, 'product_id');
+        return $this->hasMany(Inventory::class, 'product_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+            $product->images()->delete();
+            $product->inventory()->delete();
+        });
     }
 }

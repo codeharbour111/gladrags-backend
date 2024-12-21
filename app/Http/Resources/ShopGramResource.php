@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BannerResource extends JsonResource
+class ShopGramResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,6 @@ class BannerResource extends JsonResource
         return 
         [
             'id' => $this->id,
-            'title' => $this->title,
-            'subtitle' => $this->subtitle,
             'image' => Storage::url("{$this->image}")
         ];
     }

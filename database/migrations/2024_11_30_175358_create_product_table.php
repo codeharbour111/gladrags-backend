@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->double('price',8,2);
+            $table->boolean('best_seller')->nullable();
             $table->boolean('has_discount')->nullable();
             $table->double('discount_price',8,2)->nullable();
             $table->timestamp('discount_date')->nullable();

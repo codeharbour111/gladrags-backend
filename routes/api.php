@@ -6,6 +6,8 @@ use App\Actions\SampleUserApi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ShopGramController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
@@ -113,14 +115,19 @@ Route::prefix('v1')->group(function () {
         return app(SamplePermissionApi::class)->delete($id);
     });
 
+    Route::get('/banner', [BannerController::class, 'load']);
+    Route::get('/shopgram', [ShopGramController::class, 'load']);
+
     Route::get('/categories', [CategoriesController::class, 'load']);
     Route::get('/categories/{id}', [CategoriesController::class, 'show']);
     Route::post('/categories/add', [CategoriesController::class, 'store']);
     Route::post('/categories/update/{id}', [CategoriesController::class, 'update_category']);
+    Route::get('/categories/{id}/stock/{productId}', [CategoriesController::class, 'getStockByCategoryAndProduct']);
 
     Route::get('/product', [ProductController::class,'load']);
-    Route::get('/product/{id}', [ProductController::class,'index']);
+    Route::get('/product/{id}', [ProductController::class,'loadProduct']);
     Route::post('/product/add', [ProductController::class, 'store']);
+    Route::get('/product/latest/all', [ProductController::class, 'loadLatestProduct']);
 
     Route::get('/order', [OrderController::class,'load']);
     Route::get('/order/{id}', [OrderController::class,'index']);

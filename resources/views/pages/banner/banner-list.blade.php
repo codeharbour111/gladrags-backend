@@ -1,7 +1,7 @@
 <x-default-layout>
 
     @section('title')
-        All Products
+        All Banners
     @endsection
 
     @section('breadcrumbs')
@@ -16,7 +16,7 @@
                 <!--begin::Search-->
                 <div class="d-flex align-items-center position-relative my-1">
                     {!! getIcon('magnifier', 'fs-3 position-absolute ms-5') !!}
-                    <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Category" id="mySearchInput"/>
+                    <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Banner" id="mySearchInput"/>
                 </div>
                 <!--end::Search-->
             </div>
@@ -26,7 +26,7 @@
             <div class="card-toolbar">
                 <!--begin::Toolbar-->
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                    <a href="{{ route('add.new.category') }}">
+                    <a href="{{ route('add.new.banner') }}">
                         <!--begin::Add user-->
                         <button type="button" class="btn btn-primary" data-bs-target="#kt_modal_add_user">
                             {!! getIcon('plus', 'fs-2', '', 'i') !!}
@@ -53,8 +53,8 @@
                     <!--begin::Table row-->
                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                         <th class="min-w-50px">Image</th>
-                        <th class="min-w-150px">Name</th>
-                        <th class="min-w-100px">Size</th>
+                        <th class="min-w-150px">Title</th>
+                        <th class="min-w-100px">Subtitle</th>
                         <th class="text-end min-w-100px">Action</th>
                         {{-- <th class="text-end min-w-100px">Created</th> --}}
                         <th class="text-end"></th>
@@ -66,67 +66,20 @@
             
                 <!--begin::Table body-->
                 <tbody class="fw-bold text-gray-600">
-                    <!--begin::SubTable template-->
-                    {{-- <tr data-kt-docs-datatable-subtable="subtable_template" class="d-none">
-                        <td colspan="2">
-                            <div class="d-flex align-items-center gap-3">
-                                <a href="#" class="symbol symbol-50px bg-secondary bg-opacity-25 rounded">
-                                    <img src="/assets/media/stock/ecommerce/" alt="" data-kt-docs-datatable-subtable="template_image" />
-                                </a>
-                                <div class="d-flex flex-column text-muted">
-                                    <a href="#" class="text-gray-900 text-hover-primary fw-bold" data-kt-docs-datatable-subtable="template_name">Product name</a>
-                                    <div class="fs-7" data-kt-docs-datatable-subtable="template_description">Product description</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-end">
-                            <div class="text-gray-900 fs-7">Cost</div>
-                            <div class="text-muted fs-7 fw-bold" data-kt-docs-datatable-subtable="template_cost">1</div>
-                        </td>
-                        <td class="text-end">
-                            <div class="text-gray-900 fs-7">Qty</div>
-                            <div class="text-muted fs-7 fw-bold" data-kt-docs-datatable-subtable="template_qty">1</div>
-                        </td>
-                        <td class="text-end">
-                            <div class="text-gray-900 fs-7">Total</div>
-                            <div class="text-muted fs-7 fw-bold" data-kt-docs-datatable-subtable="template_total">name</div>
-                        </td>
-                        <td class="text-end">
-                            <div class="text-gray-900 fs-7 me-3">On hand</div>
-                            <div class="text-muted fs-7 fw-bold" data-kt-docs-datatable-subtable="template_stock">32</div>
-                        </td>
-                        <td></td>
-                    </tr> --}}
-                    <!--end::SubTable template-->
-                    
-                    @foreach($categories as $category)
+                  
+                    @foreach($banners as $banner)
                     <tr>
                         <td >
-                            <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}" style="width: 50px; height: 50px;">
+                            <img src="{{ Storage::url($banner->image) }}" alt="{{ $banner->title }}" style="width: 50px; height: 50px;">
                         </td>
                         <!--begin::Order ID-->
                         <td>
-                            <a href="{{ URL("/category/edit/{$category->id}") }}" class="text-gray-900 text-hover-primary">{{$category->name}}</a>
+                            <a href="{{ URL("/banner/edit/{$banner->id}") }}" class="text-gray-900 text-hover-primary">{{$banner->title}}</a>
                         </td>
 
                        <td>
                                 <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-                                    @php
-                                    // Check if the 'sizes' field is JSON and decode it if necessary
-                                    if (is_string($category->sizes)) {
-                                        $sizes = json_decode($category->sizes, true); // Decode JSON if it's a string
-                                    } elseif (is_array($category->sizes)) {
-                                        $sizes = $category->sizes; // Already an array
-                                    } else {
-                                        $sizes = [$category->sizes]; // Handle edge cases (single value, etc.)
-                                    }
-                                    @endphp
-
-                                    @if (is_array($sizes) && !empty($sizes))
-                                        {{ implode(', ', $sizes) }}
-                                    @else
-                                        No sizes available
-                                    @endif
+                                    {{$banner->subtitle}}
                                     </span>
                             </td>
                         <!--end::Order ID-->
@@ -137,10 +90,10 @@
                         <!--begin::Actions-->
                         <td class="text-end">
                          
-                                <a href="{{ URL("/category/edit/{$category->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                <a href="{{ URL("/banner/edit/{$banner->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
-                                <form action="{{ URL("/category/delete/{$category->id}") }}" method="POST" style="display:inline;">
+                                <form action="{{ URL("/banner/delete/{$banner->id}") }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
@@ -182,25 +135,25 @@
                         <nav aria-label="pagination">
                             <nav aria-label="pagination">
                                 <ul class="pagination">
-                                    @if ($categories->onFirstPage())
+                                    @if ($banners->onFirstPage())
                                         <li class="dt-paging-button page-item disabled">
                                             <button class="page-link previous" aria-disabled="true" aria-label="Previous"><i class="previous"></i></button>
                                         </li>
                                     @else
                                         <li class="dt-paging-button page-item">
-                                            <a class="page-link previous" href="{{ $categories->previousPageUrl() }}" aria-label="Previous"><i class="previous"></i></a>
+                                            <a class="page-link previous" href="{{ $banners->previousPageUrl() }}" aria-label="Previous"><i class="previous"></i></a>
                                         </li>
                                     @endif
                     
-                                    @foreach ($categories->getUrlRange(1, $categories->lastPage()) as $page => $url)
-                                        <li class="dt-paging-button page-item {{ $page == $categories->currentPage() ? 'active' : '' }}">
+                                    @foreach ($banners->getUrlRange(1, $banners->lastPage()) as $page => $url)
+                                        <li class="dt-paging-button page-item {{ $page == $banners->currentPage() ? 'active' : '' }}">
                                             <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                         </li>
                                     @endforeach
                     
-                                    @if ($categories->hasMorePages())
+                                    @if ($banners->hasMorePages())
                                         <li class="dt-paging-button page-item">
-                                            <a class="page-link next" href="{{ $categories->nextPageUrl() }}" aria-label="Next"><i class="next"></i></a>
+                                            <a class="page-link next" href="{{ $banners->nextPageUrl() }}" aria-label="Next"><i class="next"></i></a>
                                         </li>
                                     @else
                                         <li class="dt-paging-button page-item disabled">

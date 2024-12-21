@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('shop_gram', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
-            $table->string('size');
+            $table->string('image');
             $table->timestamps();
-
-            $table->foreign('product_id')
-                    ->references('id')
-                    ->on('product')
-                    ->onDelete('cascade');
         });
     }
 
@@ -30,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('shop_by_gram');
     }
 };
