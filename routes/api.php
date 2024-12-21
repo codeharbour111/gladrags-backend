@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ShopGramController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
@@ -115,6 +116,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('/banner', [BannerController::class, 'load']);
+    Route::get('/shopgram', [ShopGramController::class, 'load']);
 
     Route::get('/categories', [CategoriesController::class, 'load']);
     Route::get('/categories/{id}', [CategoriesController::class, 'show']);

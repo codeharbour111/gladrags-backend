@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ShopGramController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
@@ -51,6 +52,13 @@ Route::post('/banner/add', [BannerController::class, 'storeBanner'])->name('stor
 Route::get('/banner/edit/{id}', [BannerController::class, 'editBanner'])->name('banner.edit');
 Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 Route::delete('/banner/delete/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
+
+Route::get('/shopgram', [ShopGramController::class, 'viewShopGram'])->name('shopgram.list');
+Route::get('/shopgram/add', [ShopGramController::class, 'addShopGram'])->name('add.new.shopgram');
+Route::post('/shopgram/add', [ShopGramController::class, 'storeShopGram'])->name('store.shopgram');
+Route::get('/shopgram/edit/{id}', [ShopGramController::class, 'editShopGram'])->name('shopgram.edit');
+Route::put('/shopgram/update/{id}', [ShopGramController::class, 'update'])->name('shopgram.update');
+Route::delete('/shopgram/delete/{id}', [ShopGramController::class, 'destroy'])->name('shopgram.destroy');
 
 // Products
 Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');

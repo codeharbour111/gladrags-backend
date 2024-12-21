@@ -33,6 +33,10 @@ Breadcrumbs::for('banner', function ($trail) {
     $trail->push('Banner', route('dashboard'));
 });
 
+Breadcrumbs::for('shopgram', function ($trail) {
+    $trail->push('Shop By Gram', route('dashboard'));
+});
+
 // Home > Dashboard > User Management
 Breadcrumbs::for('user-management.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
@@ -84,6 +88,11 @@ Breadcrumbs::for('categories.category-list', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('banner.banner-list', function (BreadcrumbTrail $trail) {
     $trail->parent('banner');
     $trail->push('Banner List', route('banner.list'));
+});
+
+Breadcrumbs::for('shopgram.shopgram-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('shopgram');
+    $trail->push('Shop By Gram List', route('shopgram.list'));
 });
 
 // Home > Dashboard > Categories > Category List

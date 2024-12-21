@@ -94,19 +94,12 @@
 
                     <!-- Category -->
                     <div class="row g-9 mb-10">
+                   
                         <div class="col-md-6">
-                            <label class="form-label required">Category</label>
-                            <select class="form-select" name="category_id" id="category_id" >
-                                <option value="" disabled selected>Choose category</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{$product->category->id == $category->id ? "selected" : ""}} >{{ $category->name }}</option>
-                                    @endforeach
-                                {{-- <option value="1">Category 1</option>
-                                <option value="2">Category 2</option>
-                                <option value="3">Category 3</option> --}}
-                            </select>
+                            <label class="form-label">Category</label>
+                            <input type="text" class="form-control" placeholder="Category" name="category" id="category" value="{{$product->category->name}}" disabled>
+                            <input type="hidden" name="category_id" value="{{ $product->category->id }}">
                         </div>
-
                         <!-- Price -->
                         <div class="col-md-6">
                             <label class="form-label required">Price</label>
@@ -322,60 +315,60 @@
     const selectedFiles = [];
     console.log(selectedFiles);
 
-    category.onchange = function() {
-        //alert('The option with value ' + category.value);
+    // category.onchange = function() {
+    //     //alert('The option with value ' + category.value);
         
-        if(category.value !== "")
-        {
-            const categoryId = category.value;
-            const productId = "{{ $product->id }}"; // Assuming you have the product ID available
+    //     if(category.value !== "")
+    //     {
+    //         const categoryId = category.value;
+    //         const productId = "{{ $product->id }}"; // Assuming you have the product ID available
 
-            var baseUrl = "{{URL::to('/')}}";
+    //         var baseUrl = "{{URL::to('/')}}";
 
-            fetch(baseUrl + `/api/v1/categories/${categoryId}/stock/${productId}`, {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const sizesContainer = document.getElementById('sizes-container');
-                    sizesContainer.innerHTML = ''; // Clear any existing sizes
+    //         fetch(baseUrl + `/api/v1/categories/${categoryId}/stock/${productId}`, {
+    //             method: 'GET'
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.status === 'success') {
+    //                 const sizesContainer = document.getElementById('sizes-container');
+    //                 sizesContainer.innerHTML = ''; // Clear any existing sizes
 
-                    data.data.sizes.forEach(size => {
-                        const formGroup = document.createElement('div');
-                        formGroup.className = 'form-group row mb-2 align-items-center';
+    //                 data.data.sizes.forEach(size => {
+    //                     const formGroup = document.createElement('div');
+    //                     formGroup.className = 'form-group row mb-2 align-items-center';
 
-                        const labelDiv = document.createElement('div');
-                        labelDiv.className = 'col-md-1 d-flex align-items-center';
-                        const label = document.createElement('label');
-                        label.className = 'form-label';
-                        label.textContent = size;
-                        labelDiv.appendChild(label);
+    //                     const labelDiv = document.createElement('div');
+    //                     labelDiv.className = 'col-md-1 d-flex align-items-center';
+    //                     const label = document.createElement('label');
+    //                     label.className = 'form-label';
+    //                     label.textContent = size;
+    //                     labelDiv.appendChild(label);
 
-                        const inputDiv = document.createElement('div');
-                        inputDiv.className = 'col-md-3 d-flex align-items-center';
-                        const input = document.createElement('input');
-                        input.type = 'number';
-                        input.className = 'form-control mb-2 mb-md-0';
-                        input.placeholder = 'Enter Stock';
-                        input.name = `quantities[${size}]`;
-                        input.value = data.data.quantities[size] ?? 0;
-                        inputDiv.appendChild(input);
+    //                     const inputDiv = document.createElement('div');
+    //                     inputDiv.className = 'col-md-3 d-flex align-items-center';
+    //                     const input = document.createElement('input');
+    //                     input.type = 'number';
+    //                     input.className = 'form-control mb-2 mb-md-0';
+    //                     input.placeholder = 'Enter Stock';
+    //                     input.name = `quantities[${size}]`;
+    //                     input.value = data.data.quantities[size] ?? 0;
+    //                     inputDiv.appendChild(input);
 
-                        formGroup.appendChild(labelDiv);
-                        formGroup.appendChild(inputDiv);
+    //                     formGroup.appendChild(labelDiv);
+    //                     formGroup.appendChild(inputDiv);
 
-                        sizesContainer.appendChild(formGroup);
-                    });
-                } else {
-                    console.error('Error:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    };
+    //                     sizesContainer.appendChild(formGroup);
+    //                 });
+    //             } else {
+    //                 console.error('Error:', data.message);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    //     }
+    // };
     
     // Handle file selection
     fileInput.addEventListener('change', function (event) {
