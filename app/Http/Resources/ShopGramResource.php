@@ -18,7 +18,7 @@ class ShopGramResource extends JsonResource
         return 
         [
             'id' => $this->id,
-            'image' => Storage::url("{$this->image}")
+            'image' => asset('storage/'.$this->image) //Storage::url("{$this->image}")
         ];
     }
 }
