@@ -366,7 +366,7 @@
             <!--begin:Menu item-->
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="#">
+                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user.settings') }}">
                     <span class="menu-icon">{!! getIcon('setting-2', 'fs-2') !!}</span>
                     <span class="menu-title">Setting</span>
                 </a>
