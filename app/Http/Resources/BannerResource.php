@@ -15,12 +15,13 @@ class BannerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return 
+        return
         [
             'id' => $this->id,
             'title' => $this->title,
             'subtitle' => $this->subtitle,
-            'image' => Storage::url("{$this->image}")
+            // 'image' => Storage::url("{$this->image}")
+            'image' => asset('storage/'.$this->image),
         ];
     }
 }

@@ -46,7 +46,7 @@ class BannerController extends Controller
 
             $banner->title  = $request->title;
             $banner->subtitle  = $request->subtitle;
-           
+
             if($request->image)
             {
                 $file = $request->image;
@@ -95,7 +95,7 @@ class BannerController extends Controller
         {
             $banner->title  = $request->title;
             $banner->subtitle = $request->subtitle;
-        
+
             if($request->image)
             {
                 if(Storage::disk('public')->exists($banner->image))
@@ -122,7 +122,7 @@ class BannerController extends Controller
             $banner->save();
 
             return redirect()->route('banner.list')->with('success', 'Babber saved successfully!');
-          
+
         }
         catch(Exception $e)
         {
@@ -173,7 +173,7 @@ class BannerController extends Controller
             $banner->subtitle = $request->subtitle;
 
             if($request->image)
-            {   
+            {
                 $file     = $request->image;
                 $ext      = $file->getClientOriginalExtension();
                 $filename = time().'.'.$ext;
@@ -227,7 +227,7 @@ class BannerController extends Controller
             }
 
             if($request->image)
-            {   
+            {
                 $file     = $request->image;
                 $ext      = $file->getClientOriginalExtension();
                 $filename = time().'.'.$ext;
@@ -270,7 +270,7 @@ class BannerController extends Controller
         {
             Storage::disk('public')->delete($banner->image);
         }
-        
+
         if($banner)
         {
             $banner->delete();
