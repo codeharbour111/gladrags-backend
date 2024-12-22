@@ -20,7 +20,7 @@ class BannerResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'subtitle' => $this->subtitle,
-            'image' => Storage::url("{$this->image}")
+            'image' => asset('storage/'.$this->image) //Storage::url("{$this->image}")
         ];
     }
 }
