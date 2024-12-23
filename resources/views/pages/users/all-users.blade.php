@@ -5,7 +5,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('products.all-products') }}
+        {{ Breadcrumbs::render('user.list') }}
     @endsection
 
     <div class="card">
