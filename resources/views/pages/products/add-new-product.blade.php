@@ -5,7 +5,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('categories.category-list') }}
+        {{ Breadcrumbs::render('products.add.new.product') }}
     @endsection
 
     <div class="card mb-10">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div>
 
             <div class="card card-flush mb-10">
@@ -222,7 +222,7 @@
                         <div class="d-flex col-md-4 align-items-center">
                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
                                 <span>Best Seller &nbsp;</span>
-                               
+
                                 <input
                                     id="is_best_seller"
                                     name="best_seller"
@@ -231,7 +231,7 @@
                                     value="1"
                                     />
                             </label>
-                          
+
                         </div>
                         {{-- <!-- Tags -->
                         <div class="col-md-4">
@@ -253,7 +253,7 @@
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
                 <!--end::Actions-->
-           
+
         </form>
     </div>
 
@@ -262,7 +262,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        
+
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
     const selectedSizeSpan = document.getElementById('selected-size');
@@ -299,7 +299,7 @@
 
     category.onchange = function() {
         //alert('The option with value ' + category.value);
-        
+
         if(category.value !== "")
         {
             var baseUrl = "{{URL::to('/')}}";
@@ -344,7 +344,7 @@
                     // sizeButtonsContainer.innerHTML = ''; // Clear any existing buttons
 
                     // const oldSize = @json(old('size'));
-                    
+
                     // data.data.sizes.forEach(size => {
                     //     const button = document.createElement('button');
                     //     button.type = 'button';
@@ -353,11 +353,11 @@
                     //     button.textContent = size;
                     //     sizeButtonsContainer.appendChild(button);
                     //     button.addEventListener('click', () => updateSizeSelection(button));
-                        
+
                     // });
 
                 } else {
-                   
+
                 }
             })
             .catch(error => {
@@ -366,7 +366,7 @@
             });
         }
     };
-    
+
     // Handle file selection
     fileInput.addEventListener('change', function (event) {
         const files = Array.from(event.target.files);

@@ -90,6 +90,7 @@ Route::get('/attribute-list/add-attribute/store-attribute', [AttributeController
 // Users
 Route::get('/user-list', [UserController::class, 'index'])->name('user.list');
 Route::get('/user-list/add-user', [UserController::class, 'addUser'])->name('add.user');
+Route::get('/user-settings', [UserController::class, 'settings'])->name('user.settings');
 
 
 // multiple image testing

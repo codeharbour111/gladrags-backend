@@ -4,7 +4,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('shopgram.shopgram-list') }}
+        {{ Breadcrumbs::render('shopgram.add.new.shopgram') }}
     @endsection
 
     <div class="card">
@@ -20,7 +20,7 @@
                     @csrf
 
                     <div class="card-body border-top p-9">
-                        
+
 
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">Upload Images</label>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                       
+
                     </div>
 
                     <div class="card-footer d-flex justify-content-end py-6 px-9">

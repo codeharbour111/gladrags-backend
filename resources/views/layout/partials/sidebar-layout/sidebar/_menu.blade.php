@@ -7,14 +7,16 @@
 			<!--begin:Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
-				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('home', 'fs-2') !!}</span>
-					<span class="menu-title">Dashboards</span>
-					<span class="menu-arrow"></span>
-				</span>
+				{{-- <span class="menu-link"> --}}
+                    <a href="{{ route('dashboard') }}" class="menu-link">
+                        <span class="menu-icon">{!! getIcon('home', 'fs-2') !!}</span>
+					    <span class="menu-title">Dashboard</span>
+					    {{-- <span class="menu-arrow"></span> --}}
+                    </a>
+				{{-- </span> --}}
 				<!--end:Menu link-->
 				<!--begin:Menu sub-->
-				<div class="menu-sub menu-sub-accordion">
+				{{-- <div class="menu-sub menu-sub-accordion">
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
@@ -27,7 +29,7 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-				</div>
+				</div> --}}
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
@@ -44,44 +46,7 @@
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('abstract-26', 'fs-2') !!}</span>
-					<span class="menu-title">Category</span>
-					<span class="menu-arrow"></span>
-				</span>
-				<!--end:Menu link-->
-				<!--begin:Menu sub-->
-				<div class="menu-sub menu-sub-accordion">
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('category.list') ? 'here show' : '' }}" href="{{ route('category.list') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Category List</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('add.new.category') ? 'here show' : '' }}" href="{{ route('add.new.category') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">New Category</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-				</div>
-				<!--end:Menu sub-->
-			</div>
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
-				<!--begin:Menu link-->
-				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('abstract-26', 'fs-2') !!}</span>
+					<span class="menu-icon">{!! getIcon('social-media', 'fs-2') !!}</span>
 					<span class="menu-title">Banners</span>
 					<span class="menu-arrow"></span>
 				</span>
@@ -119,7 +84,7 @@
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('abstract-26', 'fs-2') !!}</span>
+					<span class="menu-icon">{!! getIcon('instagram', 'fs-2') !!}</span>
 					<span class="menu-title">Shop By Gram</span>
 					<span class="menu-arrow"></span>
 				</span>
@@ -154,10 +119,48 @@
 				<!--end:Menu sub-->
 			</div>
 
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{!! getIcon('category', 'fs-2') !!}</span>
+					<span class="menu-title">Category</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('category.list') ? 'here show' : '' }}" href="{{ route('category.list') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Category List</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('add.new.category') ? 'here show' : '' }}" href="{{ route('add.new.category') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Category</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('abstract-28', 'fs-2') !!}</span>
+					<span class="menu-icon">{!! getIcon('shop', 'fs-2') !!}</span>
 					<span class="menu-title">Product</span>
 					<span class="menu-arrow"></span>
 				</span>
@@ -204,11 +207,11 @@
 				<!--end:Menu sub-->
 			</div>
 
-			
+
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('package', 'fs-2') !!}</span>
+					<span class="menu-icon">{!! getIcon('credit-cart', 'fs-2') !!}</span>
 					<span class="menu-title">Order</span>
 					<span class="menu-arrow"></span>
 				</span>
@@ -277,7 +280,7 @@
 					</div>
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
-					<div class="menu-item">
+					{{-- <div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
 							<span class="menu-bullet">
@@ -286,10 +289,10 @@
 							<span class="menu-title">Login</span>
 						</a>
 						<!--end:Menu link-->
-					</div>
+					</div> --}}
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
-					<div class="menu-item">
+					{{-- <div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {{ request()->routeIs('user-management.permissions.*') ? 'here show' : '' }}" href="{{ route('user-management.permissions.index') }}">
 							<span class="menu-bullet">
@@ -298,12 +301,12 @@
 							<span class="menu-title">Sign Up</span>
 						</a>
 						<!--end:Menu link-->
-					</div>
+					</div> --}}
 					<!--end:Menu item-->
 				</div>
 				<!--end:Menu sub-->
 			</div>
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+			{{-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('abstract-39', 'fs-2') !!}</span>
@@ -339,7 +342,7 @@
 					<!--end:Menu item-->
 				</div>
 				<!--end:Menu sub-->
-			</div>
+			</div> --}}
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
 			<div class="menu-item pt-5">
@@ -351,19 +354,19 @@
 			</div>
 			<!--end:Menu item-->
             <!--begin:Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin:Menu link-->
                 <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
                     <span class="menu-icon">{!! getIcon('chart-pie-4', 'fs-2') !!}</span>
                     <span class="menu-title">Report</span>
                 </a>
                 <!--end:Menu link-->
-            </div>
+            </div> --}}
 			<!--end:Menu item-->
             <!--begin:Menu item-->
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user.settings') }}">
                     <span class="menu-icon">{!! getIcon('setting-2', 'fs-2') !!}</span>
                     <span class="menu-title">Setting</span>
                 </a>
@@ -371,19 +374,19 @@
             </div>
 			<!--end:Menu item-->
             <!--begin:Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin:Menu link-->
                 <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
                     <span class="menu-icon">{!! getIcon('gear', 'fs-2') !!}</span>
                     <span class="menu-title">FAQ</span>
                 </a>
                 <!--end:Menu link-->
-            </div>
+            </div> --}}
 			<!--end:Menu item-->
             <!--begin:Menu item-->
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="{{ route('user-management.roles.index') }}">
+                <a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'here show' : '' }}" href="#">
                     <span class="menu-icon">{!! getIcon('exit-right', 'fs-2') !!}</span>
                     <span class="menu-title">Logout</span>
                 </a>

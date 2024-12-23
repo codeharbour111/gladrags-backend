@@ -15,4 +15,9 @@ class UserController extends Controller
     {
         return view('pages.users.add-user');
     }
+
+    public function settings()
+    {
+        return view('pages.users.settings');
+    }
 }

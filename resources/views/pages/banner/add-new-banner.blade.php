@@ -4,7 +4,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('banner.banner-list') }}
+        {{ Breadcrumbs::render('banner.add.new.banner') }}
     @endsection
 
     <div class="card">
@@ -83,7 +83,7 @@
                             </div>
                         </div>
 
-                       
+
                     </div>
 
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
