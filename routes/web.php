@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AttributeController;
@@ -52,6 +53,13 @@ Route::post('/banner/add', [BannerController::class, 'storeBanner'])->name('stor
 Route::get('/banner/edit/{id}', [BannerController::class, 'editBanner'])->name('banner.edit');
 Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 Route::delete('/banner/delete/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
+
+Route::get('/coupon', [CouponController::class, 'viewCoupon'])->name('coupon.list');
+Route::get('/coupon/add', [CouponController::class, 'addCoupon'])->name('add.new.coupon');
+Route::post('/coupon/add', [CouponController::class, 'storeCoupon'])->name('store.coupon');
+Route::get('/coupon/edit/{id}', [CouponController::class, 'editCoupon'])->name('coupon.edit');
+Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('coupon.update');
+Route::delete('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('coupon.destroy');
 
 Route::get('/shopgram', [ShopGramController::class, 'viewShopGram'])->name('shopgram.list');
 Route::get('/shopgram/add', [ShopGramController::class, 'addShopGram'])->name('add.new.shopgram');

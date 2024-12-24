@@ -33,6 +33,10 @@ Breadcrumbs::for('banner', function (BreadcrumbTrail $trail) {
     $trail->push('Banner', route('dashboard'));
 });
 
+Breadcrumbs::for('coupon', function (BreadcrumbTrail $trail) {
+    $trail->push('Coupon', route('dashboard'));
+});
+
 Breadcrumbs::for('shopgram', function (BreadcrumbTrail $trail) {
     $trail->push('Shop By Gram', route('dashboard'));
 });
@@ -109,6 +113,16 @@ Breadcrumbs::for('banner.banner-list', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('banner.add.new.banner', function (BreadcrumbTrail $trail) {
     $trail->parent('banner.banner-list');
     $trail->push('Add New Banner', route('add.new.banner'));
+});
+
+Breadcrumbs::for('coupon.coupon-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('coupon');
+    $trail->push('Coupon List', route('coupon.list'));
+});
+
+Breadcrumbs::for('coupon.add.new.coupon', function (BreadcrumbTrail $trail) {
+    $trail->parent('coupon.coupon-list');
+    $trail->push('Add New Coupon', route('add.new.coupon'));
 });
 
 Breadcrumbs::for('shopgram.shopgram-list', function (BreadcrumbTrail $trail) {

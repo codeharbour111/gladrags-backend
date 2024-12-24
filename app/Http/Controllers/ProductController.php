@@ -45,6 +45,59 @@ class ProductController extends Controller
         return view('pages.products.update-product', compact('product', 'categories', 'quantities'));
     }
     
+
+    public function loadProducts(Request $request)
+    {
+        $productIds = $request->input('product_ids', []);
+
+        if (empty($productIds)) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'No product IDs provided.'
+            ], 400);
+        }
+
+        $products = Product::with(['category', 'images'])
+            ->whereIn('id', $productIds)
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => ProductWithIdResource::collection($products)
+        ], 200);
+    }
+
+    public function filterProducts(Request $request)
+    {
+        $query = Product::with(['category', 'images']);
+
+        // Filter by category
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        // Filter by size
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('inventory', function ($q) use ($size) {
+                $q->where('size', $size);
+            });
+        }
+
+        // Sort by date
+        if ($request->has('sort_by_date')) {
+            $sortOrder = $request->input('sort_by_date') == 'asc' ? 'asc' : 'desc';
+            $query->orderBy('created_at', $sortOrder);
+        }
+
+        $products = $query->paginate(10); // Adjust pagination as needed
+
+        return response()->json([
+            'status' => 'success',
+            'data' => ProductWithIdResource::collection($products)
+        ], 200);
+    }
+
     public function loadLatestProduct()
     {
         // Load the latest product based on created time

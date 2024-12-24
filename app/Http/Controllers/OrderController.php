@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\OrderStatusHistory;
 
 class OrderController extends Controller
 {
@@ -20,10 +21,10 @@ class OrderController extends Controller
         return view('pages.orders.order-list',compact('orders'));
     }
 
-
     public function detail(Request $request)
     {
         $order = Order::find($request->id);
+       
         $order_items = OrderItem::with(['product','product.images'])->where('order_id',$request->id)->get();
 
         return view('pages.orders.order-detail',compact('order', 'order_items'));
@@ -34,12 +35,45 @@ class OrderController extends Controller
         return response()->json(Product::with('category','images')->paginate(10),200);
     }
 
+    public function getOrderDetails($id)
+    {
+        $order = Order::with(['items.product.images', 'user', 'statusHistory'])->find($id);
+
+        if (!$order) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Order not found.'
+            ], 404);
+        }
+
+        return new OrderResource($order);
+    }
+
     public function update_status(Request $request)
     {
        try
        {
             $order = Order::find($request->order_id);
             $order->status = $request->status;
+
+            if($request->status == 'delivered')
+            {
+                $order->delivered_date = date('Y-m-d H:i:s');
+            }
+
+            if($request->status == 'cancelled')
+            {
+                $order->cancelled_date = date('Y-m-d H:i:s');
+            }
+
+            if($order->user_id != null)
+            {
+                OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'status' => $request->status,
+                    'user_id' => $order->user_id
+                ]);
+            }
 
             $order->save();
 
@@ -64,8 +98,6 @@ class OrderController extends Controller
             'customer_address'=>'required',
             'location' => 'required',
             'total_price'=>'required|numeric',
-            //'delivery_date'=>'required',
-            //'order_items'=>'required',
         ]);
 
         try
@@ -85,7 +117,7 @@ class OrderController extends Controller
             $order->total_quantity = $request->total_quantity;
             $order->subtotal = $request->subtotal;
             $order->total_price = $request->total_price;
-            //$order->delivery_date = $request->delivery_date;
+            $order->order_note = $request->order_note;
             
             $order->save();
 
@@ -105,10 +137,10 @@ class OrderController extends Controller
             }
 
               return response()->json(
-                [
+              [
                     'status'  => 'success',
                     'message' =>  'Order added successfully.'
-                ],201);
+              ],201);
         }
         catch(Exception $e)
         {

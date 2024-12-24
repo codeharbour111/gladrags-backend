@@ -20,6 +20,7 @@ class BannerController extends Controller
     public function viewBanner()
     {
         $banners = Banner::paginate(10);
+        
         return view('pages.banner.banner-list', compact('banners'));
     }
 

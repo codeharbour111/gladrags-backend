@@ -204,7 +204,7 @@
                                             <!-- Schedule Input -->
                                             <div>
                                                 <label class="form-label">Schedule</label>
-                                                <input type="date" class="form-control" name="discount_date">
+                                                <input type="date" class="form-control" name="discount_date" value={{date('Y-m-d', strtotime($product->discount_date))}} id="discount_date" {{$product->has_discount ? "" : "disabled"}}>
                                             </div>
                                         </div>
                                     </span>
