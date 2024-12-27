@@ -12,8 +12,9 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\UserCartController;
 use App\Http\Controllers\GladragsUserController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +140,13 @@ Route::prefix('v1')->group(function () {
     Route::get('/order/{id}', [OrderController::class,'index']);
     Route::post('/order/add', [OrderController::class, 'store']);
     Route::post('/order/update-status', [OrderController::class, 'update_status']);
+    Route::get('/orders/user/{userId}', [OrderController::class, 'getOrdersByUserId']);
+    
+    Route::post('/wishlist', [WishlistController::class, 'store']);
+    Route::get('/wishlist/{userId}', [WishlistController::class, 'getWishlistProductIds']);
+
+    Route::post('/cart', [UserCartController::class, 'store']);
+    Route::get('/cart/{userId}', [UserCartController::class, 'getCartProducts']);
     
     // Route::get('users/register', [AdminAuthController::class, 'register'])
     //     ->name('gladragsuser.register');

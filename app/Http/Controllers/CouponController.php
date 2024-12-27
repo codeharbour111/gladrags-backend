@@ -97,6 +97,7 @@ class CouponController extends Controller
     public function destroy($id)
     {
         $coupon = Coupon::findOrFail($id);
+        
         $coupon->delete();
 
         return redirect()->route('coupon.list')->with('success', 'Coupon removed successfully!');

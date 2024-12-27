@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wishlist extends Model
+class UserCart extends Model
 {
-    public $table = 'wishlist';
+    public $table = 'user_cart';
 
     protected $fillable = 
     [
         'user_id',
-        'product_id'
+        'carts',
     ];
 
     protected $hidden = 
@@ -19,9 +19,4 @@ class Wishlist extends Model
         'created_at',
         'updated_at'
     ];
-
-    // public function product()
-    // {
-    //     return $this->belongsTo(Product::class, 'product_id');
-    // }
 }

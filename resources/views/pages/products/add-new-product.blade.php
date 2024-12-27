@@ -410,7 +410,11 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            var res = response.text();
+            console.log(res);
+            return res;
+        })
         .then(data => {
             if (data.success) {
                 alert('Product saved successfully!');

@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\OrderStatusHistory;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderCollection;
 
 class OrderController extends Controller
 {
@@ -28,6 +30,22 @@ class OrderController extends Controller
         $order_items = OrderItem::with(['product','product.images'])->where('order_id',$request->id)->get();
 
         return view('pages.orders.order-detail',compact('order', 'order_items'));
+    }
+
+    public function getOrdersByUserId($userId)
+    {
+        $orders = Order::with(['items.product.images', 'user', 'statusHistory'])
+            ->where('user_id', $userId)
+            ->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No orders found for this user.'
+            ], 404);
+        }
+
+        return new OrderCollection($orders);
     }
 
     public function load()
@@ -134,6 +152,15 @@ class OrderController extends Controller
                 $item->size = $order_items['size'];
                 
                 $item->save();   
+            }
+
+            if($order->user_id != null)
+            {
+                OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'status' => 'pending',
+                    'user_id' => $order->user_id
+                ]);
             }
 
               return response()->json(

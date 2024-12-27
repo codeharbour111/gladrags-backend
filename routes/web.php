@@ -69,9 +69,9 @@ Route::put('/shopgram/update/{id}', [ShopGramController::class, 'update'])->name
 Route::delete('/shopgram/delete/{id}', [ShopGramController::class, 'destroy'])->name('shopgram.destroy');
 
 // Products
-Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
-Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
-Route::post('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('product.store');
+Route::get('/product', [ProductController::class, 'index'])->name('product.list');
+Route::get('/product/add', [ProductController::class, 'addProduct'])->name('add.new.product');
+Route::post('/product/add', [ProductController::class, 'storeProduct'])->name('product.store');
 Route::get('/product/edit/{id}', [ProductController::class, 'editProduct'])->name('product.edit');
 //Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
 Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');

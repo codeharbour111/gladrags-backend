@@ -82,14 +82,14 @@ Breadcrumbs::for('user-management.permissions.index', function (BreadcrumbTrail 
 });
 
 // Home > Dashboard > Products > All Products
-Breadcrumbs::for('products.all-products', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('products.product-list', function (BreadcrumbTrail $trail) {
     $trail->parent('products');
-    $trail->push('All Products', route('all.products'));
+    $trail->push('All Products', route('product.list'));
 });
 
 // Home > Dashboard > Products > All Products > Add New Product
 Breadcrumbs::for('products.add.new.product', function (BreadcrumbTrail $trail) {
-    $trail->parent('products.all-products'); // Parent breadcrumb
+    $trail->parent('products.product-list'); // Parent breadcrumb
     $trail->push('Add New Product', route('add.new.product')); // Add new breadcrumb
 });
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wishlist;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
@@ -9,11 +11,14 @@ class WishlistController extends Controller
     
     public function store(Request $request)
     {
+        //dd($request->all());
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'product_ids' => 'required|array',
-            'product_ids.*' => 'exists:products,id',
+            'user_id' => 'required',
         ]);
+
+        $wishlists = Wishlist::where('user_id', $request->input('user_id'));
+
+        $wishlists->delete();
 
         $userId = $request->input('user_id');
         $productIds = $request->input('product_ids');
@@ -42,6 +47,17 @@ class WishlistController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => ProductWithIdResource::collection($products)
+        ], 200);
+        
+    }
+
+    public function getWishlistProductIds(Request $request, $userId)
+    {
+        $wishlistProductIds = Wishlist::where('user_id', $userId)->pluck('product_id');
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $wishlistProductIds
         ], 200);
     }
 }

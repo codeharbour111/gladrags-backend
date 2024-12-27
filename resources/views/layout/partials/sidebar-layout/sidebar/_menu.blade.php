@@ -208,7 +208,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('all.products') ? 'here show' : '' }}" href="{{ route('all.products') }}">
+						<a class="menu-link {{ request()->routeIs('product.list') ? 'here show' : '' }}" href="{{ route('product.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>

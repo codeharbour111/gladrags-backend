@@ -156,11 +156,13 @@ class GladragsUserController extends Controller
                     'password' => Hash::make($request['password']),
                 ]);
 
+                $user = GladragsUser::where('email', $gladrag_user->email)->first();
+
                 return response()->json(
                     [
                         'status'  => 'success',
                         'data' =>  [
-                            'user' => $gladrag_user
+                            'user' => $user
                         ]
                     ],201);
 

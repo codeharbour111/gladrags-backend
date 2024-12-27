@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $products =  Product::with('category', 'images', 'inventory')->paginate(10);
 
-        return view('pages.products.all-products',compact('products'));
+        return view('pages.products.product-list',compact('products'));
     }
 
     public function addProduct()
@@ -63,7 +63,7 @@ class ProductController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => ProductWithIdResource::collection($products)
+            'data' => ProductResource::collection($products)
         ], 200);
     }
 
@@ -307,7 +307,7 @@ class ProductController extends Controller
                 }
             }
           
-           return redirect()->route('all.products')->with('success', 'Product updated successfully.');
+           return redirect()->route('product.list')->with('success', 'Product updated successfully.');
         }
         catch(Exception $e)
         {
@@ -320,7 +320,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
-        return redirect()->route('all.products')->with('success', 'Product deleted successfully.');
+        return redirect()->route('product.list')->with('success', 'Product deleted successfully.');
     }
 
     public function storeProduct(Request $request)
@@ -435,13 +435,18 @@ class ProductController extends Controller
 
            // dd($index);
            // dd($e);
-            // return response()->json('Product added',201);
-            return redirect()->back()->with('success', 'Product saved successfully.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Product stored successfully'
+            ],201);
+            //return redirect()->route('product.list')->with('success', 'Coupon added successfully!');
+           // return redirect()->back()->with('success', 'Product saved successfully.');
 
         }
         catch(Exception $e)
         {
-            return response()->json($e,500);
+            return response()->json(['success' => false,
+            'message' => 'Product stored failed'],500);
         }
     }
 

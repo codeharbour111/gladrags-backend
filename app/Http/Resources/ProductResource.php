@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
             'discount_price' => $this->discount_price,
             'color' => $this->color,
             'sku' => $this->sku,
+            'created_at' => $this->created_at,
             'category' => new CategoryResource($this->category),
             'images' => new ProductImageCollection($this->images)
         ];

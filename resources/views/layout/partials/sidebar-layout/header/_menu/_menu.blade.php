@@ -47,7 +47,7 @@
 				<span class="menu-title">Apps</span>
 				<span class="menu-arrow d-lg-none"></span>
 			</span> --}}
-            <a href="{{ route('all.products') }}" class="menu-link">
+            <a href="{{ route('product.list') }}" class="menu-link">
 				<span class="menu-title">Products</span>
 				<span class="menu-arrow d-lg-none"></span>
             </a>
