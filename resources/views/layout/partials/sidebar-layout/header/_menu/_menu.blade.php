@@ -3,45 +3,57 @@
 	<!--begin::Menu-->
 	<div class="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
 		<!--begin:Menu item-->
-		<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+		{{-- <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2"> --}}
+        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
+
 			<!--begin:Menu link-->
-			<span class="menu-link">
-				<span class="menu-title">Dashboards</span>
+			{{-- <span class="menu-link"> --}}
+            <a href="{{ route('dashboard') }}" class="menu-link">
+				<span class="menu-title">Dashboard</span>
 				<span class="menu-arrow d-lg-none"></span>
-			</span>
+            </a>
+			{{-- </span> --}}
 			<!--end:Menu link-->
 			<!--begin:Menu sub-->
-			<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
+			{{-- <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
 				@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/sidebar-layout/header/_menu/__dashboards')
-			</div>
+			</div> --}}
 			<!--end:Menu sub-->
 		</div>
 		<!--end:Menu item-->
 		<!--begin:Menu item-->
 		<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
 			<!--begin:Menu link-->
-			<span class="menu-link">
+			{{-- <span class="menu-link">
 				<span class="menu-title">Pages</span>
 				<span class="menu-arrow d-lg-none"></span>
-			</span>
-			<!--end:Menu link-->
+			</span> --}}
+            <a href="{{ route('category.list') }}" class="menu-link">
+				<span class="menu-title">Categories</span>
+				<span class="menu-arrow d-lg-none"></span>
+            </a>
+            <!--end:Menu link-->
 			<!--begin:Menu sub-->
-			<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0">
+			{{-- <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0">
 				@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/sidebar-layout/header/_menu/__pages')
-			</div>
+			</div> --}}
 			<!--end:Menu sub-->
 		</div>
 		<!--end:Menu item-->
 		<!--begin:Menu item-->
 		<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 			<!--begin:Menu link-->
-			<span class="menu-link">
+			{{-- <span class="menu-link">
 				<span class="menu-title">Apps</span>
 				<span class="menu-arrow d-lg-none"></span>
-			</span>
+			</span> --}}
+            <a href="{{ route('product.list') }}" class="menu-link">
+				<span class="menu-title">Products</span>
+				<span class="menu-arrow d-lg-none"></span>
+            </a>
 			<!--end:Menu link-->
 			<!--begin:Menu sub-->
-			<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
+			{{-- <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
 				<!--begin:Menu item-->
 				<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
 					<!--begin:Menu link-->
@@ -1141,27 +1153,31 @@
 					<!--end:Menu link-->
 				</div>
 				<!--end:Menu item-->
-			</div>
+			</div> --}}
 			<!--end:Menu sub-->
 		</div>
 		<!--end:Menu item-->
 		<!--begin:Menu item-->
 		<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
 			<!--begin:Menu link-->
-			<span class="menu-link">
+			{{-- <span class="menu-link">
 				<span class="menu-title">Layouts</span>
 				<span class="menu-arrow d-lg-none"></span>
-			</span>
+			</span> --}}
+            <a href="{{ route('order.list') }}" class="menu-link">
+				<span class="menu-title">Orders</span>
+				<span class="menu-arrow d-lg-none"></span>
+            </a>
 			<!--end:Menu link-->
 			<!--begin:Menu sub-->
-			<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
+			{{-- <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-850px">
 				@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/sidebar-layout/header/_menu/__layouts')
-			</div>
+			</div> --}}
 			<!--end:Menu sub-->
 		</div>
 		<!--end:Menu item-->
 		<!--begin:Menu item-->
-		<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+		{{-- <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 			<!--begin:Menu link-->
 			<span class="menu-link">
 				<span class="menu-title">Help</span>
@@ -1202,7 +1218,7 @@
 				<!--end:Menu item-->
 			</div>
 			<!--end:Menu sub-->
-		</div>
+		</div> --}}
 		<!--end:Menu item-->
 	</div>
 	<!--end::Menu-->

@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $products =  Product::with('category', 'images', 'inventory')->paginate(10);
 
-        return view('pages.products.all-products',compact('products'));
+        return view('pages.products.product-list',compact('products'));
     }
 
     public function addProduct()
@@ -45,6 +45,59 @@ class ProductController extends Controller
         return view('pages.products.update-product', compact('product', 'categories', 'quantities'));
     }
     
+
+    public function loadProducts(Request $request)
+    {
+        $productIds = $request->input('product_ids', []);
+
+        if (empty($productIds)) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'No product IDs provided.'
+            ], 400);
+        }
+
+        $products = Product::with(['category', 'images'])
+            ->whereIn('id', $productIds)
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => ProductResource::collection($products)
+        ], 200);
+    }
+
+    public function filterProducts(Request $request)
+    {
+        $query = Product::with(['category', 'images']);
+
+        // Filter by category
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        // Filter by size
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('inventory', function ($q) use ($size) {
+                $q->where('size', $size);
+            });
+        }
+
+        // Sort by date
+        if ($request->has('sort_by_date')) {
+            $sortOrder = $request->input('sort_by_date') == 'asc' ? 'asc' : 'desc';
+            $query->orderBy('created_at', $sortOrder);
+        }
+
+        $products = $query->paginate(10); // Adjust pagination as needed
+
+        return response()->json([
+            'status' => 'success',
+            'data' => ProductWithIdResource::collection($products)
+        ], 200);
+    }
+
     public function loadLatestProduct()
     {
         // Load the latest product based on created time
@@ -254,7 +307,7 @@ class ProductController extends Controller
                 }
             }
           
-           return redirect()->route('all.products')->with('success', 'Product updated successfully.');
+           return redirect()->route('product.list')->with('success', 'Product updated successfully.');
         }
         catch(Exception $e)
         {
@@ -267,7 +320,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
-        return redirect()->route('all.products')->with('success', 'Product deleted successfully.');
+        return redirect()->route('product.list')->with('success', 'Product deleted successfully.');
     }
 
     public function storeProduct(Request $request)
@@ -382,13 +435,18 @@ class ProductController extends Controller
 
            // dd($index);
            // dd($e);
-            // return response()->json('Product added',201);
-            return redirect()->back()->with('success', 'Product saved successfully.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Product stored successfully'
+            ],201);
+            //return redirect()->route('product.list')->with('success', 'Coupon added successfully!');
+           // return redirect()->back()->with('success', 'Product saved successfully.');
 
         }
         catch(Exception $e)
         {
-            return response()->json($e,500);
+            return response()->json(['success' => false,
+            'message' => 'Product stored failed'],500);
         }
     }
 

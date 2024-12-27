@@ -53,19 +53,19 @@
                     <!--begin::Table row-->
                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                         <th class="min-w-100px">Order ID</th>
-                        <th class="text-end min-w-150px">Customer</th>
-                        <th class="text-end min-w-100px">Quantity</th>
-                        <th class="text-end min-w-100px">Total</th>
-                        <th class="text-end min-w-100px">Status</th>
-                        <th class="text-end min-w-50px">Action</th>
+                        <th class="text-center min-w-150px">Customer</th>
+                        <th class="text-center min-w-100px">Quantity</th>
+                        <th class="text-center min-w-100px">Total</th>
+                        <th class="text-center min-w-100px">Status</th>
+                        <th class="text-center min-w-50px">Action</th>
                         {{-- <th class="text-end min-w-100px">Created</th> --}}
                         <th class="text-end"></th>
                     </tr>
                     <!--end::Table row-->
                 </thead>
                 <!--end::Table head-->
-            
-            
+
+
                 <!--begin::Table body-->
                 <tbody class="fw-bold text-gray-600">
                     <!--begin::SubTable template-->
@@ -100,7 +100,7 @@
                         <td></td>
                     </tr>
                     <!--end::SubTable template-->
-                    
+
                     @foreach($orders as $order)
                     <tr>
                         <!--begin::Order ID-->
@@ -108,39 +108,51 @@
                             <a href="{{ URL("/order/detail/{$order->id}") }}" class="text-gray-900 text-hover-primary">{{$order->order_number}}</a>
                         </td>
                         <!--end::Order ID-->
-            
+
                         <!--begin::Crated date-->
-                        <td class="text-end">
+                        <td class="text-center">
                             {{$order->customer_name}}
                         </td>
                         <!--end::Created date-->
-            
+
                         <!--begin::Customer-->
-                        <td class="text-end">
+                        <td class="text-center">
                             <a href="" class="text-gray-900 text-hover-primary">  {{$order->total_quantity}}</a>
                         </td>
                         <!--end::Customer-->
-            
+
                         <!--begin::Total-->
-                        <td class="text-end">
+                        <td class="text-center">
                             {{$order->total_price}}
                         </td>
                         <!--end::Total-->
-            
+
                         <!--begin::Profit-->
-                        <td class="text-end">
-                            <span class="badge py-3 px-4 fs-7 badge-light-primary">{{$order->status}}</span>
+                        <td class="text-center">
+                            @php
+                                $badgeClass = match($order->status) {
+                                    'pending' => 'badge-secondary',
+                                    'confirm' => 'badge-primary',
+                                    'processing' => 'badge-warning',
+                                    'delivered_to_pathao' => 'badge-danger',
+                                    'delivered' => 'badge-light-success',
+                                    default => 'badge-light-primary',
+                                };
+                            @endphp
+                            <span class="badge py-3 px-4 fs-7 {{ $badgeClass }}">
+                                {{$order->status}}
+                            </span>
                         </td>
                         <!--end::Profit-->
-            
+
                         <!--begin::Status-->
                         {{-- <td class="text-end">
                             <span class="badge py-3 px-4 fs-7 badge-light-primary">Confirmed</span>
                         </td> --}}
                         <!--end::Status-->
-            
+
                         <!--begin::Actions-->
-                        <td class="text-end">
+                        <td class="text-center">
                             {{-- <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                 <i class="ki-duotone ki-switch fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a> --}}
 
@@ -163,7 +175,7 @@
                 </tbody>
                 <!--end::Table body-->
             </table>
-         
+
             <div id="" class="row">
                 <div id="" class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
                     <div>
@@ -455,5 +467,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // On document ready
 
     </script>
-   
+
 </x-default-layout>

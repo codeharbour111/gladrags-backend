@@ -11,8 +11,10 @@ use App\Http\Controllers\ShopGramController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\UserCartController;
 use App\Http\Controllers\GladragsUserController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +120,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/banner', [BannerController::class, 'load']);
     Route::get('/shopgram', [ShopGramController::class, 'load']);
 
+    Route::get('/coupon', [CouponController::class, 'load']);
+    Route::get('/coupon/{id}', [CouponController::class, 'show']);
+    Route::get('/coupon-by-code', [CouponController::class, 'getCouponByCode']);    
+
     Route::get('/categories', [CategoriesController::class, 'load']);
     Route::get('/categories/{id}', [CategoriesController::class, 'show']);
     Route::post('/categories/add', [CategoriesController::class, 'store']);
@@ -128,11 +134,19 @@ Route::prefix('v1')->group(function () {
     Route::get('/product/{id}', [ProductController::class,'loadProduct']);
     Route::post('/product/add', [ProductController::class, 'store']);
     Route::get('/product/latest/all', [ProductController::class, 'loadLatestProduct']);
+    Route::post('/products', [ProductController::class, 'loadProducts']);
 
     Route::get('/order', [OrderController::class,'load']);
     Route::get('/order/{id}', [OrderController::class,'index']);
     Route::post('/order/add', [OrderController::class, 'store']);
     Route::post('/order/update-status', [OrderController::class, 'update_status']);
+    Route::get('/orders/user/{userId}', [OrderController::class, 'getOrdersByUserId']);
+    
+    Route::post('/wishlist', [WishlistController::class, 'store']);
+    Route::get('/wishlist/{userId}', [WishlistController::class, 'getWishlistProductIds']);
+
+    Route::post('/cart', [UserCartController::class, 'store']);
+    Route::get('/cart/{userId}', [UserCartController::class, 'getCartProducts']);
     
     // Route::get('users/register', [AdminAuthController::class, 'register'])
     //     ->name('gladragsuser.register');

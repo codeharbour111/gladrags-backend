@@ -21,20 +21,28 @@ Breadcrumbs::for('dashboard', function (BreadcrumbTrail $trail) {
 });
 
 // Home > Products
-Breadcrumbs::for('products', function ($trail) {
+Breadcrumbs::for('products', function (BreadcrumbTrail $trail) {
     $trail->push('Products', route('dashboard'));
 });
 // Home > Categories
-Breadcrumbs::for('categories', function ($trail) {
+Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) {
     $trail->push('Categories', route('dashboard'));
 });
 
-Breadcrumbs::for('banner', function ($trail) {
+Breadcrumbs::for('banner', function (BreadcrumbTrail $trail) {
     $trail->push('Banner', route('dashboard'));
 });
 
-Breadcrumbs::for('shopgram', function ($trail) {
+Breadcrumbs::for('coupon', function (BreadcrumbTrail $trail) {
+    $trail->push('Coupon', route('dashboard'));
+});
+
+Breadcrumbs::for('shopgram', function (BreadcrumbTrail $trail) {
     $trail->push('Shop By Gram', route('dashboard'));
+});
+
+Breadcrumbs::for('user', function (BreadcrumbTrail $trail) {
+    $trail->push('Users', route('dashboard'));
 });
 
 // Home > Dashboard > User Management
@@ -74,9 +82,15 @@ Breadcrumbs::for('user-management.permissions.index', function (BreadcrumbTrail 
 });
 
 // Home > Dashboard > Products > All Products
-Breadcrumbs::for('products.all-products', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('products.product-list', function (BreadcrumbTrail $trail) {
     $trail->parent('products');
-    $trail->push('All Products', route('all.products'));
+    $trail->push('All Products', route('product.list'));
+});
+
+// Home > Dashboard > Products > All Products > Add New Product
+Breadcrumbs::for('products.add.new.product', function (BreadcrumbTrail $trail) {
+    $trail->parent('products.product-list'); // Parent breadcrumb
+    $trail->push('Add New Product', route('add.new.product')); // Add new breadcrumb
 });
 
 // Home > Dashboard > Categories > Category List
@@ -85,9 +99,30 @@ Breadcrumbs::for('categories.category-list', function (BreadcrumbTrail $trail) {
     $trail->push('Category List', route('category.list'));
 });
 
+// Home > Dashboard > Categories > Category List > Add New Category
+Breadcrumbs::for('categories.add.new.category', function (BreadcrumbTrail $trail) {
+    $trail->parent('categories.category-list');
+    $trail->push('Add New Category', route('add.new.category'));
+});
+
 Breadcrumbs::for('banner.banner-list', function (BreadcrumbTrail $trail) {
     $trail->parent('banner');
     $trail->push('Banner List', route('banner.list'));
+});
+
+Breadcrumbs::for('banner.add.new.banner', function (BreadcrumbTrail $trail) {
+    $trail->parent('banner.banner-list');
+    $trail->push('Add New Banner', route('add.new.banner'));
+});
+
+Breadcrumbs::for('coupon.coupon-list', function (BreadcrumbTrail $trail) {
+    $trail->parent('coupon');
+    $trail->push('Coupon List', route('coupon.list'));
+});
+
+Breadcrumbs::for('coupon.add.new.coupon', function (BreadcrumbTrail $trail) {
+    $trail->parent('coupon.coupon-list');
+    $trail->push('Add New Coupon', route('add.new.coupon'));
 });
 
 Breadcrumbs::for('shopgram.shopgram-list', function (BreadcrumbTrail $trail) {
@@ -95,8 +130,31 @@ Breadcrumbs::for('shopgram.shopgram-list', function (BreadcrumbTrail $trail) {
     $trail->push('Shop By Gram List', route('shopgram.list'));
 });
 
-// Home > Dashboard > Categories > Category List
+Breadcrumbs::for('shopgram.add.new.shopgram', function (BreadcrumbTrail $trail) {
+    $trail->parent('shopgram.shopgram-list');
+    $trail->push('Add New Shop By Gram', route('add.new.shopgram'));
+});
+
+// Home > Dashboard > Orders > Order List
 Breadcrumbs::for('order.order-list', function (BreadcrumbTrail $trail) {
     $trail->parent('order');
     $trail->push('Order List', route('order.list'));
+});
+
+// User List
+Breadcrumbs::for('user.list', function (BreadcrumbTrail $trail) {
+    $trail->parent('user');
+    $trail->push('User List', route('user.list'));
+});
+
+// Add User
+Breadcrumbs::for('add.user', function (BreadcrumbTrail $trail) {
+    $trail->parent('user.list');
+    $trail->push('Add User', route('add.user'));
+});
+
+// User Settings
+Breadcrumbs::for('user.settings', function (BreadcrumbTrail $trail) {
+    $trail->parent('user');
+    $trail->push('User Settings', route('user.settings'));
 });

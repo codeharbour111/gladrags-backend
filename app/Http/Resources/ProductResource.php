@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return 
+        return
         [
             'id' => $this->id,
             'category_id' => $this->category_id,
@@ -23,8 +23,10 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'has_discount' => $this->has_discount,
             'discount_date' => $this->discount_date,
+            'discount_price' => $this->discount_price,
             'color' => $this->color,
             'sku' => $this->sku,
+            'created_at' => $this->created_at,
             'category' => new CategoryResource($this->category),
             'images' => new ProductImageCollection($this->images)
         ];

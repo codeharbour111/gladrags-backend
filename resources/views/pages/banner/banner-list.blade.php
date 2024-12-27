@@ -5,7 +5,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('categories.category-list') }}
+        {{ Breadcrumbs::render('banner.banner-list') }}
     @endsection
 
     <div class="card">
@@ -62,11 +62,11 @@
                     <!--end::Table row-->
                 </thead>
                 <!--end::Table head-->
-            
-            
+
+
                 <!--begin::Table body-->
                 <tbody class="fw-bold text-gray-600">
-                  
+
                     @foreach($banners as $banner)
                     <tr>
                         <td >
@@ -83,13 +83,13 @@
                                     </span>
                             </td>
                         <!--end::Order ID-->
-            
+
                         <!--begin::Crated date-->
-                       
-            
+
+
                         <!--begin::Actions-->
                         <td class="text-end">
-                         
+
                                 <a href="{{ URL("/banner/edit/{$banner->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
@@ -119,7 +119,7 @@
                 </tbody>
                 <!--end::Table body-->
             </table>
-           
+
             <div id="" class="row">
                 <div id="" class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
                     <div>
@@ -131,7 +131,7 @@
                 </div>
                 <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                     <div class="dt-paging paging_simple_numbers">
-                      
+
                         <nav aria-label="pagination">
                             <nav aria-label="pagination">
                                 <ul class="pagination">
@@ -144,13 +144,13 @@
                                             <a class="page-link previous" href="{{ $banners->previousPageUrl() }}" aria-label="Previous"><i class="previous"></i></a>
                                         </li>
                                     @endif
-                    
+
                                     @foreach ($banners->getUrlRange(1, $banners->lastPage()) as $page => $url)
                                         <li class="dt-paging-button page-item {{ $page == $banners->currentPage() ? 'active' : '' }}">
                                             <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                         </li>
                                     @endforeach
-                    
+
                                     @if ($banners->hasMorePages())
                                         <li class="dt-paging-button page-item">
                                             <a class="page-link next" href="{{ $banners->nextPageUrl() }}" aria-label="Next"><i class="next"></i></a>

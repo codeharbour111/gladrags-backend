@@ -38,14 +38,22 @@ class Order extends Model
         return $this->hasMany(OrderItem::class,'order_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(GladragsUser::class, 'user_id');
+    }
+
+    public function statusHistory()
+    {
+        return $this->hasMany(OrderStatusHistory::class, 'order_id');
+    }
+
     protected static function booted(): void
     {
-        //dd('Inside boot');
         static::created(function (Order $order)
         {
             $order->order_number = 'GR-' . str_pad($order->id, 7, "0", STR_PAD_LEFT);
             $order->save();
-            //dd('Boot Complete');
         });
     }
 }

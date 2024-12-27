@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AttributeController;
@@ -53,6 +54,13 @@ Route::get('/banner/edit/{id}', [BannerController::class, 'editBanner'])->name('
 Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 Route::delete('/banner/delete/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 
+Route::get('/coupon', [CouponController::class, 'viewCoupon'])->name('coupon.list');
+Route::get('/coupon/add', [CouponController::class, 'addCoupon'])->name('add.new.coupon');
+Route::post('/coupon/add', [CouponController::class, 'storeCoupon'])->name('store.coupon');
+Route::get('/coupon/edit/{id}', [CouponController::class, 'editCoupon'])->name('coupon.edit');
+Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('coupon.update');
+Route::delete('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('coupon.destroy');
+
 Route::get('/shopgram', [ShopGramController::class, 'viewShopGram'])->name('shopgram.list');
 Route::get('/shopgram/add', [ShopGramController::class, 'addShopGram'])->name('add.new.shopgram');
 Route::post('/shopgram/add', [ShopGramController::class, 'storeShopGram'])->name('store.shopgram');
@@ -61,9 +69,9 @@ Route::put('/shopgram/update/{id}', [ShopGramController::class, 'update'])->name
 Route::delete('/shopgram/delete/{id}', [ShopGramController::class, 'destroy'])->name('shopgram.destroy');
 
 // Products
-Route::get('/all-products', [ProductController::class, 'index'])->name('all.products');
-Route::get('/all-products/add-new-product', [ProductController::class, 'addProduct'])->name('add.new.product');
-Route::post('/all-products/add-new-product/store-product', [ProductController::class, 'storeProduct'])->name('product.store');
+Route::get('/product', [ProductController::class, 'index'])->name('product.list');
+Route::get('/product/add', [ProductController::class, 'addProduct'])->name('add.new.product');
+Route::post('/product/add', [ProductController::class, 'storeProduct'])->name('product.store');
 Route::get('/product/edit/{id}', [ProductController::class, 'editProduct'])->name('product.edit');
 //Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
 Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
@@ -90,6 +98,7 @@ Route::get('/attribute-list/add-attribute/store-attribute', [AttributeController
 // Users
 Route::get('/user-list', [UserController::class, 'index'])->name('user.list');
 Route::get('/user-list/add-user', [UserController::class, 'addUser'])->name('add.user');
+Route::get('/user-settings', [UserController::class, 'settings'])->name('user.settings');
 
 
 // multiple image testing

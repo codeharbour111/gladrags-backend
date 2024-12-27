@@ -5,7 +5,7 @@
     @endsection
 
     @section('breadcrumbs')
-        {{ Breadcrumbs::render('categories.category-list') }}
+        {{ Breadcrumbs::render('shopgram.shopgram-list') }}
     @endsection
 
     <div class="card">
@@ -60,11 +60,11 @@
                     <!--end::Table row-->
                 </thead>
                 <!--end::Table head-->
-            
-            
+
+
                 <!--begin::Table body-->
                 <tbody class="fw-bold text-gray-600">
-                  
+
                     @foreach($shopgram as $gram)
                     <tr>
                         <td >
@@ -73,9 +73,9 @@
                             </a>
                             {{-- <img src="{{ Storage::url($gram->image) }}" alt="{{ $gram->id }}" style="width: 50px; height: 50px;"> --}}
                         </td>
-                     
+
                         <td class="text-end">
-                         
+
                                 <a href="{{ URL("/shopgram/edit/{$gram->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 </a>
@@ -86,15 +86,15 @@
                                         <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                     </button>
                                 </form>
-              
+
                         </td>
-                        
+
                     </tr>
                     @endforeach
                 </tbody>
                 <!--end::Table body-->
             </table>
-           
+
             <div id="" class="row">
                 <div id="" class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
                     <div>
@@ -106,7 +106,7 @@
                 </div>
                 <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                     <div class="dt-paging paging_simple_numbers">
-                      
+
                         <nav aria-label="pagination">
                             <nav aria-label="pagination">
                                 <ul class="pagination">
@@ -119,13 +119,13 @@
                                             <a class="page-link previous" href="{{ $shopgram->previousPageUrl() }}" aria-label="Previous"><i class="previous"></i></a>
                                         </li>
                                     @endif
-                    
+
                                     @foreach ($shopgram->getUrlRange(1, $shopgram->lastPage()) as $page => $url)
                                         <li class="dt-paging-button page-item {{ $page == $shopgram->currentPage() ? 'active' : '' }}">
                                             <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                         </li>
                                     @endforeach
-                    
+
                                     @if ($shopgram->hasMorePages())
                                         <li class="dt-paging-button page-item">
                                             <a class="page-link next" href="{{ $shopgram->nextPageUrl() }}" aria-label="Next"><i class="next"></i></a>

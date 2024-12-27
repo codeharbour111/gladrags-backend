@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('address_line_1');
-            $table->string('address_line_2')->nullable();
-            $table->string('city');
-            $table->string('postal_code');
-            $table->string('state');
-            $table->string('country');
-            $table->unsignedTinyInteger('type');
-            $table->timestamps();
-        });
+        // Schema::create('addresses', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->unsignedBigInteger('user_id');
+        //     $table->string('address_line_1');
+        //     $table->string('address_line_2')->nullable();
+        //     $table->string('city');
+        //     $table->string('postal_code');
+        //     $table->string('state');
+        //     $table->string('country');
+        //     $table->unsignedTinyInteger('type');
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+       // Schema::dropIfExists('addresses');
     }
 };
