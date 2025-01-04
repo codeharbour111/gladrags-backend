@@ -41,12 +41,14 @@ class CouponController extends Controller
             $validated = $request->validate([
             'code' => 'required',
             'expire_date' => 'required',
-            'discount_amount'=>'required']);
+            'discount'=>'required',
+            'eligible_price'=>'required']);
 
             $coupon = new Coupon();
 
             $coupon->code  = $request->code;
-            $coupon->discount_amount = $request->discount_amount;
+            $coupon->discount = $request->discount;
+            $coupon->eligible_price = $request->eligible_price;
             $coupon->expire_date = $request->expire_date;
 
             $coupon->save();
@@ -72,7 +74,8 @@ class CouponController extends Controller
         ([
             'code' => 'required',
             'expire_date' => 'required',
-            'discount_amount'=>'required'
+            'discount'=>'required',
+            'eligible_price'=>'required'   
         ]);
 
         $coupon = Coupon::findOrFail($id);
@@ -80,7 +83,8 @@ class CouponController extends Controller
         try
         {
             $coupon->code  = $request->code;
-            $coupon->discount_amount = $request->discount_amount;
+            $coupon->discount = $request->discount;
+            $coupon->eligible_price = $request->eligible_price;
             $coupon->expire_date = $request->expire_date;
 
             $coupon->save();
@@ -147,13 +151,15 @@ class CouponController extends Controller
             ([
                 'code' => 'required',
                 'expire_date' => 'required',
-                'discount_amount'=>'required'
+                'discount'=>'required',
+                'eligible_price'=>'required'   
             ]);
 
             $coupon = new Coupon();
 
             $coupon->code  = $request->code;
-            $coupon->discount_amount = $request->discount_amount;
+            $coupon->discount = $request->discount;
+            $coupon->eligible_price = $request->eligible_price;
             $coupon->expire_date = $request->expire_date;
 
             $coupon->save();

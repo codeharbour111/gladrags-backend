@@ -28,9 +28,16 @@
                         </div>
 
                         <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Discount Amount</label>
+                            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Discount</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="number" name="discount_amount" class="form-control form-control-lg form-control-solid" placeholder="0.0" value="{{ old('discount_amount') }}">
+                                <input type="number" name="discount" class="form-control form-control-lg form-control-solid" placeholder="0.0" value="{{ old('discount') }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Eligible Price</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="number" name="eligible_price" class="form-control form-control-lg form-control-solid" placeholder="0.0" value="{{ old('eligible_price') }}">
                             </div>
                         </div>
 
