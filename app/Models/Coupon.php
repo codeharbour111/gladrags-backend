@@ -12,7 +12,7 @@ class Coupon extends Model
     [
         'code',
         'discount',
-        'discount_amount',
+        'eligible_price',
         'expire_date'
     ];
 

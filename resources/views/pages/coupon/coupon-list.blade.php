@@ -53,7 +53,8 @@
                     <!--begin::Table row-->
                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                         <th class="min-w-50px">Code</th>
-                        <th class="min-w-150px">Discount Amount</th>
+                        <th class="min-w-150px">Discount</th>
+                        <th class="min-w-150px">Eligible Price</th>
                         <th class="min-w-100px">Expire Date</th>
                         <th class="text-end min-w-100px">Action</th>
                         {{-- <th class="text-end min-w-100px">Created</th> --}}
@@ -75,7 +76,13 @@
                         <!--begin::Order ID-->
                         <td>
                             <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-                                {{$coupon->discount_amount}}
+                                {{$coupon->discount}}
+                             </span>
+                        </td>
+
+                        <td>
+                            <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+                                {{$coupon->eligible_price}}
                              </span>
                         </td>
 
