@@ -13,14 +13,14 @@
 
             <!--begin::Subtitle-->
             <div class="text-gray-500 fw-semibold fs-6">
-                Your Social Campaigns
+                Welcome to Gladrags Admin
             </div>
             <!--end::Subtitle--->
         </div>
         <!--begin::Heading-->
 
         <!--begin::Login options-->
-        <div class="row g-3 mb-9">
+        {{-- <div class="row g-3 mb-9">
             <!--begin::Col-->
             <div class="col-md-6">
                 <!--begin::Google link--->
@@ -49,7 +49,7 @@
         <!--begin::Separator-->
         <div class="separator separator-content my-14">
             <span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
-        </div>
+        </div> --}}
         <!--end::Separator-->
 
         <!--begin::Input group--->

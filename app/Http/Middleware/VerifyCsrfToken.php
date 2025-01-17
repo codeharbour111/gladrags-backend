@@ -15,8 +15,9 @@ class VerifyCsrfToken extends Middleware
         //
         'login',
         'api/*',
-        'sub.domain.zone' => [
-          'prefix/*'
-        ],
+        'sub.domain.zone/prefix/*',
+        // 'sub.domain.zone' => [
+        //   'prefix/*'
+        // ],
     ];
 }

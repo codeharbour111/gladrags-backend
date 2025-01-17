@@ -28,12 +28,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Update defaultStringLength
+        
         Builder::defaultStringLength(191);
 
         KTBootstrap::init();
 
-		Livewire::setUpdateRoute(function ($handle) {
-			return Route::post('/starterkit/metronic/laravel/livewire/update', $handle);
-		});
+		// Livewire::setUpdateRoute(function ($handle) {
+            
+		// 	return Route::post('/starterkit/metronic/laravel/livewire/update', $handle);
+		// });
     }
 }
