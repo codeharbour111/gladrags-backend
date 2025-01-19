@@ -146,6 +146,7 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
+        dd('HERE');
         $request->validate
         ([
             'name'=>'required',
@@ -325,6 +326,7 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
+        dd($request);
         $request->validate([
              'name'=>'required',
              'category_id'=>'required',

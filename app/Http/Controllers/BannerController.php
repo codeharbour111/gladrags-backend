@@ -36,6 +36,8 @@ class BannerController extends Controller
 
     public function storeBanner(Request $request)
     {
+        //dd($request);
+        //dd(Input::all());
         try
         {
             $validated = $request->validate([
