@@ -17,6 +17,21 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-10">
+                        <div class="dropzone" id="product_image">
+                            <!--begin::Message-->
+                            <div class="dz-message needsclick">
+                                <i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
+                
+                                <!--begin::Info-->
+                                <div class="ms-4">
+                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                    <span class="fs-7 fw-semibold text-gray-500">Upload up to 10 files</span>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-10">
                         <!--begin::Image input-->
                         <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
                             <!--begin::Image preview wrapper-->
@@ -32,7 +47,7 @@
                                 <i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span class="path2"></span></i>
 
                                 <!--begin::Inputs-->
-                                <input type="file" id="product_images" name="product_images[]" accept=".png, .jpg, .jpeg" multiple/>
+                                {{-- <input type="file" id="product_images" name="product_images[]" accept=".png, .jpg, .jpeg" multiple/> --}}
                                 <input type="hidden" name="avatar_remove" />
                                 <!--end::Inputs-->
                             </label>
@@ -250,18 +265,79 @@
                 <!--begin::Actions-->
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     {{-- <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button> --}}
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" id="" class="btn btn-primary">Save Changes</button>
                 </div>
                 <!--end::Actions-->
 
         </form>
     </div>
 
-
+    @push('scripts')
+    <script>
+       Dropzone.autoDiscover = false;
+       // set the dropzone container id
+       var myDropzone = new Dropzone("#product_image", {
+        url: '{{ route('store.banner') }}', // Set the url for your upload script location
+        paramName: "image", // The name that will be used to transfer the file
+        maxFiles: 20,
+        autoProcessQueue: false,
+        maxFilesize: 10, // MB
+        addRemoveLinks: true,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        accept: function(file, done) {
+            if (file.name == "wow.jpg") {
+                done("Naha, you don't.");
+            } else {
+                done();
+            }
+        },
+        init: function () {
+            $("#formSubmit").click(function (e) {
+                event.preventDefault();
+                myDropzone.processQueue();
+            });
+        },
+        sending: function(file, xhr, formData) {
+            // Append additional form data
+            formData.append('title', $('#title').val());
+            formData.append('subtitle', $('#subtitle').val());
+        },
+        error: function (file, response) {
+                console.log(response);
+                // Handle the error response
+                toastr.error(response.message);
+                // Enable the submit button again
+                $('#formSubmit').prop('disabled', false);
+                var dropzoneFilesCopy = myDropzone.files.slice(0);
+                myDropzone.removeAllFiles();
+                
+                $.each(dropzoneFilesCopy, function(_, file) {
+                    file.status = undefined;
+                    file.accepted = undefined;
+                    myDropzone.addFile(file);
+                });
+        },
+        success: function (file, response) {
+            console.log(response);
+            window.location.href = '{{ route('banner.list') }}';
+            // alert(response);
+            // if (response.status == 'success') {
+            //     toastr.success(response.message);
+            //     setTimeout(function () {
+            //         window.location.href = response.redirect;
+            //     }, 2000);
+            // } else {
+            //     toastr.error(response.message);
+            // }
+        },
+    });
+    </script>
+    @endpush
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
-
 
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
@@ -353,7 +429,6 @@
                     //     button.textContent = size;
                     //     sizeButtonsContainer.appendChild(button);
                     //     button.addEventListener('click', () => updateSizeSelection(button));
-
                     // });
 
                 } else {

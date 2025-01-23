@@ -109,7 +109,7 @@
     </div>
     @push('scripts')
     <script>
-          Dropzone.autoDiscover = false;
+       Dropzone.autoDiscover = false;
        // set the dropzone container id
        var myDropzone = new Dropzone("#banner_image", {
         url: '{{ route('store.banner') }}', // Set the url for your upload script location
@@ -170,9 +170,6 @@
             // }
         },
     });
-
-  
-
     </script>
     @endpush
 </x-default-layout>
