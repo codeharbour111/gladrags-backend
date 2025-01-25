@@ -36,7 +36,7 @@ class BannerController extends Controller
 
     public function storeBanner(Request $request)
     {
-        //dd($request);
+       
         //dd(Input::all());
         try
         {
@@ -70,7 +70,13 @@ class BannerController extends Controller
 
             $banner->save();
 
-            return redirect()->route('banner.list')->with('success', 'Banners added successfully!');
+            return response()->json
+            (
+            [
+                'status'  => 'success',
+                'message' => 'Banner added'
+            ],201);
+            //return redirect()->route('banner.list')->with('success', 'Banners added successfully!');
         }
         catch(Exception $e)
         {

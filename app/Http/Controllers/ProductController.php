@@ -326,7 +326,7 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
-        dd($request);
+        //dd($request);
         $request->validate([
              'name'=>'required',
              'category_id'=>'required',
@@ -353,11 +353,11 @@ class ProductController extends Controller
 
             $product->save();
 
-            $images = $request->file('product_images') ?? []; 
+            //$images = $request->file('product_images') ?? []; 
             
             // Default to an empty
             // dd($request->all(), $request->file('product_images'));
-            // dd($request->product_images); // Dumps the input and stops execution
+            //dd($request->product_images); // Dumps the input and stops execution
 
             foreach($request->product_images as $product_image)
             {
@@ -376,10 +376,12 @@ class ProductController extends Controller
                 }
                 catch(FileException $e)
                 {
-
+                    return response()->json(['success' => false,
+                    'message' => $e],500);
                 }
 
                 $images->image_path = $filename;
+
 
                 $images->save();
             }
@@ -438,7 +440,7 @@ class ProductController extends Controller
            // dd($index);
            // dd($e);
             return response()->json([
-                'success' => true,
+                'status' => 'success',
                 'message' => 'Product stored successfully'
             ],201);
             //return redirect()->route('product.list')->with('success', 'Coupon added successfully!');

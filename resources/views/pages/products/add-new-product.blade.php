@@ -31,62 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-10">
-                        <!--begin::Image input-->
-                        <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
-                            <!--begin::Image preview wrapper-->
-                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/assets/media/avatars/300-1.jpg)"></div>
-                            <!--end::Image preview wrapper-->
-
-                            <!--begin::Edit button-->
-                            <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="change"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Change avatar">
-                                <i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span class="path2"></span></i>
-
-                                <!--begin::Inputs-->
-                                {{-- <input type="file" id="product_images" name="product_images[]" accept=".png, .jpg, .jpeg" multiple/> --}}
-                                <input type="hidden" name="avatar_remove" />
-                                <!--end::Inputs-->
-                            </label>
-                            <!--end::Edit button-->
-
-                            <!--begin::Cancel button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="cancel"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Cancel avatar">
-                                <i class="ki-outline ki-cross fs-3"></i>
-                            </span>
-                            <!--end::Cancel button-->
-
-                            <!--begin::Remove button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="remove"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Remove avatar">
-                                <i class="ki-outline ki-cross fs-3"></i>
-                            </span>
-                            <!--end::Remove button-->
-                        </div>
-                        <!--end::Image input-->
-
-                        <!-- Add images section -->
-                        <div class="form-text text-center fw-bolder">Add images or drop your images here or select</div>
-
-
-                        <div class="mt-4 d-flex gap-5 flex-wrap" id="image_preview">
-                            <!-- Dynamically added images preview here -->
-                        </div>
-
-                        <div class="mt-3">
-                            You need to add at least 4 images. Pay attention to the quality of the pictures you add, comply with the background color standards. Pictures must be in certain dimensions. Notice that the product shows all the details.
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
 
@@ -272,7 +217,7 @@
         </form>
     </div>
 
-    @push('scripts')
+    {{-- @push('scripts')
     <script>
        Dropzone.autoDiscover = false;
        // set the dropzone container id
@@ -334,10 +279,19 @@
         },
     });
     </script>
-    @endpush
+    @endpush --}}
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {
+
+
+        var myDropzone = new Dropzone("#product_image", {
+        url: '/store', // Set the url for your upload script location
+        paramName: "image", // The name that will be used to transfer the file
+        maxFiles: 20,
+        maxFilesize: 10,
+        autoProcessQueue: false,
+        });
 
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
@@ -443,30 +397,30 @@
     };
 
     // Handle file selection
-    fileInput.addEventListener('change', function (event) {
-        const files = Array.from(event.target.files);
+    // fileInput.addEventListener('change', function (event) {
+    //     const files = Array.from(event.target.files);
 
-        files.forEach(file => {
-            // Add to selectedFiles array
-            selectedFiles.push(file);
+    //     files.forEach(file => {
+    //         // Add to selectedFiles array
+    //         selectedFiles.push(file);
 
-            // Create a preview for the image
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '100px';
-                img.style.height = '100px';
-                img.style.objectFit = 'cover';
-                img.style.marginRight = '10px';
-                previewContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        });
+    //         // Create a preview for the image
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             const img = document.createElement('img');
+    //             img.src = e.target.result;
+    //             img.style.width = '100px';
+    //             img.style.height = '100px';
+    //             img.style.objectFit = 'cover';
+    //             img.style.marginRight = '10px';
+    //             previewContainer.appendChild(img);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
 
-        // Reset the input to allow re-selection of the same files
-        // event.target.value = '';
-    });
+    //     // Reset the input to allow re-selection of the same files
+    //     // event.target.value = '';
+    // });
 
     // Form submission handling
     const form = document.querySelector('form');
@@ -475,10 +429,15 @@
 
         const formData = new FormData(form);
 
-        // Add all selected files to the formData
-        selectedFiles.forEach(file => {
-            formData.append('product_images[]', file);
-        });
+        let files = $('#product_image')[0].dropzone.getAcceptedFiles();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('product_images[]', files[i]);
+        }
+        //formData.append('product_images', $('#product_image')[0].dropzone.getAcceptedFiles()[0]); 
+        // // Add all selected files to the formData
+        // selectedFiles.forEach(file => {
+        //     formData.append('product_images[]', file);
+        // });
 
         // Submit the form data using Fetch API
         fetch(form.action, {
@@ -486,13 +445,14 @@
             body: formData
         })
         .then(response => {
-            var res = response.text();
+            var res = response.json();
             console.log(res);
             return res;
         })
         .then(data => {
-            if (data.success) {
+            if (data.status === 'success') {
                 alert('Product saved successfully!');
+                window.location.href = '/product';
             } else {
                 alert('There was an error saving the product.');
             }
