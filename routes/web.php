@@ -51,7 +51,7 @@ Route::get('/banner', [BannerController::class, 'viewBanner'])->name('banner.lis
 Route::get('/banner/add', [BannerController::class, 'addBanner'])->name('add.new.banner');
 Route::post('/banner/add', [BannerController::class, 'storeBanner'])->name('store.banner');
 Route::get('/banner/edit/{id}', [BannerController::class, 'editBanner'])->name('banner.edit');
-Route::put('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
+Route::post('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 Route::delete('/banner/delete/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 
 Route::get('/coupon', [CouponController::class, 'viewCoupon'])->name('coupon.list');
