@@ -76,6 +76,7 @@ Route::get('/product/edit/{id}', [ProductController::class, 'editProduct'])->nam
 //Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
 Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::delete('/product_image/delete', [ProductController::class, 'deleteImage'])->name('product_image.delete');
 
 // Categories
 Route::get('/category-list', [CategoriesController::class, 'viewCategory'])->name('category.list');

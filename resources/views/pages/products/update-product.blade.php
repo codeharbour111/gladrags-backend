@@ -18,65 +18,44 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-10">
-                        <!--begin::Image input-->
-                        <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
-                            <!--begin::Image preview wrapper-->
-                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/assets/media/avatars/300-1.jpg)"></div>
-                            <!--end::Image preview wrapper-->
-
-                            <!--begin::Edit button-->
-                            <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="change"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Change avatar">
-                                <i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span class="path2"></span></i>
-
-                                <!--begin::Inputs-->
-                                <input type="file" id="product_images" name="product_images[]" accept=".png, .jpg, .jpeg" multiple/>
-                                <input type="hidden" name="avatar_remove" />
-                                <!--end::Inputs-->
-                            </label>
-                            <!--end::Edit button-->
-
-                            <!--begin::Cancel button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="cancel"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Cancel avatar">
-                                <i class="ki-outline ki-cross fs-3"></i>
-                            </span>
-                            <!--end::Cancel button-->
-
-                            <!--begin::Remove button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="remove"
-                            data-bs-toggle="tooltip"
-                            data-bs-dismiss="click"
-                            title="Remove avatar">
-                                <i class="ki-outline ki-cross fs-3"></i>
-                            </span>
-                            <!--end::Remove button-->
+                        <div class="dropzone" id="product_image">
+                            <!--begin::Message-->
+                            <div class="dz-message needsclick">
+                                <i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
+                
+                                <!--begin::Info-->
+                                <div class="ms-4">
+                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                    <span class="fs-7 fw-semibold text-gray-500">Upload up to 10 files</span>
+                                </div>
+                                <!--end::Info-->
+                            </div>
                         </div>
-                        <!--end::Image input-->
-
-                        <!-- Add images section -->
-                        <div class="form-text text-center fw-bolder">Add images or drop your images here or select</div>
-
-                        <div class="mt-4 d-flex gap-5 flex-wrap" id="image_preview">
-                            <!-- Dynamically added images preview here -->
-                            @foreach($product->images as $image)
-                                <img src="{{ Storage::url($image->image_path) }}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 10px;">
-                            @endforeach
-                        </div>
-
-                        <div class="mt-3">
-                            You need to add at least 4 images. Pay attention to the quality of the pictures you add, comply with the background color standards. Pictures must be in certain dimensions. Notice that the product shows all the details.
+                     
+                    </div>
+                    <div class="mb-10">
+                       
+                        <div class="image-container">
+                        @foreach($product->images as $image)
+                                <div id="image-container-{{ $image->id }}" class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
+                                    <!--begin::Image preview wrapper-->
+                                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{ Storage::url($image->image_path) }})"></div>
+                                
+                                    <span class="btn remove-avatar-btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="change"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-dismiss="click"
+                                    data-image-id="{{ $image->id }}"
+                                    title="Remove">
+                                        <i class="ki-outline ki-cross fs-3"></i>
+                                    </span>
+                                </div>
+                         @endforeach
                         </div>
                     </div>
                 </div>
             </div>
+           
     </div>
     <div>
 
@@ -199,7 +178,7 @@
                                             <!-- Sale Price Input -->
                                             <div class="mb-10">
                                                 <label class="form-label">Sale Price</label>
-                                                <input type="number" class="form-control" placeholder="Discount Price" name="discount_price" id="discount_price" {{$product->has_discount ? "" : "disabled"}} value="{{$product->discount_price}}">
+                                                <input type="number" class="form-control" placeholder="Discount Price" name="discount_price" id="discount_price" {{$product->has_discount ? "" : "disabled"}} value="{{$product->discount_price == null ? "0.0" : $product->discount_price}}">
                                             </div>
                                             <!-- Schedule Input -->
                                             <div>
@@ -278,6 +257,15 @@
         discountPriceInput.disabled = !isChecked;
         discountDateInput.disabled = !isChecked;
     });
+
+
+    var myDropzone = new Dropzone("#product_image", {
+        url: '/store', // Set the url for your upload script location
+        paramName: "image", // The name that will be used to transfer the file
+        maxFiles: 20,
+        maxFilesize: 10,
+        autoProcessQueue: false,
+        });
 
     // Size selection functionality
     const buttons = document.querySelectorAll('.size-btn');
@@ -371,30 +359,30 @@
     // };
     
     // Handle file selection
-    fileInput.addEventListener('change', function (event) {
-        const files = Array.from(event.target.files);
+    // fileInput.addEventListener('change', function (event) {
+    //     const files = Array.from(event.target.files);
 
-        files.forEach(file => {
-            // Add to selectedFiles array
-            selectedFiles.push(file);
+    //     files.forEach(file => {
+    //         // Add to selectedFiles array
+    //         selectedFiles.push(file);
 
-            // Create a preview for the image
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '100px';
-                img.style.height = '100px';
-                img.style.objectFit = 'cover';
-                img.style.marginRight = '10px';
-                previewContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        });
+    //         // Create a preview for the image
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             const img = document.createElement('img');
+    //             img.src = e.target.result;
+    //             img.style.width = '100px';
+    //             img.style.height = '100px';
+    //             img.style.objectFit = 'cover';
+    //             img.style.marginRight = '10px';
+    //             previewContainer.appendChild(img);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
 
-        // Reset the input to allow re-selection of the same files
-        // event.target.value = '';
-    });
+    //     // Reset the input to allow re-selection of the same files
+    //     // event.target.value = '';
+    // });
 
     // Form submission handling
     const form = document.querySelector('form');
@@ -403,10 +391,10 @@
 
         const formData = new FormData(form);
 
-        // Add all selected files to the formData
-        selectedFiles.forEach(file => {
-            formData.append('product_images[]', file);
-        });
+        let files = $('#product_image')[0].dropzone.getAcceptedFiles();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('product_images[]', files[i]);
+        }
 
         // Submit the form data using Fetch API
         fetch(form.action, {
@@ -415,8 +403,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.status === 'success') {
                 alert('Product saved successfully!');
+                window.location.href = '/product';
             } else {
                 alert('There was an error saving the product.');
             }
@@ -427,6 +416,30 @@
         });
     });
 
+   // $('.remove-avatar-btn').on('click', function() {
+    $(document).on('click', '.remove-avatar-btn', function() {
+        //var imageId = $(this).data('image-id');
+        var imageId = $(this).data('image-id');
+        $.ajax({
+            url: '{{ route('product_image.delete') }}', // Use the named route
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}', // Include CSRF token
+                image_id: imageId
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Remove the entire image container
+                    $('#image-container-' + imageId).remove();
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error deleting image');
+            }
+        });
+    });
 });
 
 </script>

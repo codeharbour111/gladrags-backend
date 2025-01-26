@@ -146,7 +146,6 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
-        dd('HERE');
         $request->validate
         ([
             'name'=>'required',
@@ -229,6 +228,7 @@ class ProductController extends Controller
 
     public function update(Request $request,$id)
     {
+       
         $request->validate
         ([
             'name'=>'required',
@@ -236,25 +236,39 @@ class ProductController extends Controller
             'description'=>'required',
             'price'=>'required',
             //'product_images'=>'required',
-            'color'=>'required'
+            //'color'=>'required'
         ]);
 
         $product = Product::findOrFail($id);
-
+        
         try
         {
           
-            $product->name = $request->name;
-            $product->description = $request->description;
-            $product->category_id = $request->category_id;
-            $product->price = $request->price;
-            $product->has_discount = $request->has_discount;
-            $product->discount_price = $request->discount_price;
-            $product->discount_date = $request->discount_date;
-            $product->best_seller = $request->best_seller;
-            $product->color = $request->color;
-            $product->sku = $request->sku;
+            // $product->name = $request->name;
+            // $product->description = $request->description;
+            // $product->category_id = $request->category_id;
+            // $product->price = $request->price;
+            // $product->has_discount = $request->has_discount;
+            // $product->discount_price = $request->discount_price;
+            // $product->discount_date = $request->discount_date;
+            // $product->best_seller = $request->best_seller;
+            // $product->color = $request->color;
+            // $product->sku = $request->sku;
+            $product->fill($request->only([
+                'name',
+                'description',
+                'category_id',
+                'price',
+                'has_discount',
+                'discount_price',
+                'discount_date',
+                'best_seller',
+                'color',
+                'sku'
+            ]));
 
+            $product->discount_date = Carbon::parse($request->discount_date);
+            
             $inventories = Inventory::where('product_id',$product->id);
 
             if($inventories)
@@ -308,7 +322,12 @@ class ProductController extends Controller
                 }
             }
           
-           return redirect()->route('product.list')->with('success', 'Product updated successfully.');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product updated successfully'
+            ],201);
+
+           //return redirect()->route('product.list')->with('success', 'Product updated successfully.');
         }
         catch(Exception $e)
         {
@@ -481,5 +500,24 @@ class ProductController extends Controller
     }
 
 
+    public function deleteImage(Request $request)
+    {
+        $imageId = $request->image_id;
 
+        $image = ProductImage::find($imageId);
+
+        if ($image) {
+            // Delete the image file from storage
+            Storage::delete($image->image_path);
+
+            // Delete the image record from the database
+            $image->delete();
+
+            // Return a success response
+            return response()->json(['status' => 'success', 'message' => 'Image deleted successfully']);
+        } else {
+            // Return an error response
+            return response()->json(['status' => 'error', 'message' => 'Image not found'], 404);
+        }
+    }
 }
