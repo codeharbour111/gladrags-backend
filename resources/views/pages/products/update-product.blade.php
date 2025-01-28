@@ -52,6 +52,87 @@
                                 </div>
                          @endforeach
                         </div>
+                        <div class="row row-cols-lg-2 g-10 draggable-zone">
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        
+                            <div class="col draggable">
+                                <!--begin::Card-->
+                                <div class="card card-bordered">
+                                    ...
+                                </div>
+                                <!--end::Card-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,9 +323,29 @@
             </div>
         </form>
     </div>
+    <script src="{{ asset('assets/plugins/custom/draggable/draggable.bundle.js') }}" defer></script>
 
+    <script>
+        window.addEventListener("load", () => {
+            var containers = document.querySelectorAll(".draggable-zone");
 
-<script>
+            if (containers.length === 0) {
+                return false;
+            }
+
+            var swappable = new Draggable.Sortable.default(containers, {
+                draggable: ".draggable",
+                handle: ".draggable .draggable-handle",
+                mirror: {
+                    //appendTo: selector,
+                    appendTo: "body",
+                    constrainDimensions: true
+                }
+            });
+        });
+    </script>
+    <script>
+    
 
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -256,6 +357,10 @@
 
         discountPriceInput.disabled = !isChecked;
         discountDateInput.disabled = !isChecked;
+    });
+
+    const sortable = new Draggable.Sortable(document.querySelectorAll('ul'), {
+        draggable: 'li',
     });
 
 
