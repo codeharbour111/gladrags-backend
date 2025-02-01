@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BannerCollection;
+use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class BannerController extends Controller
 {
@@ -59,6 +62,15 @@ class BannerController extends Controller
                 try
                 {
                     $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
+                   
+                    //$image = Image::read(Storage::path('/public/'.$filename));
+                    //$image = ImageManager::imagick()->read(Storage::path('/public/'.$filename));
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(2000, 1034);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {
