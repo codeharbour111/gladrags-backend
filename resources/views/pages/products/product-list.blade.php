@@ -149,7 +149,9 @@
             
                         <!--begin::Actions-->
                         <td class="text-end">
-                         
+                                <a href="{{ URL("/product/{$product->id}/images/sort") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                </a>
                                 <a href="{{ URL("/product/edit/{$product->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 </a>

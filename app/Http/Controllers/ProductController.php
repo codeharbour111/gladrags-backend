@@ -44,7 +44,38 @@ class ProductController extends Controller
 
         return view('pages.products.update-product', compact('product', 'categories', 'quantities'));
     }
+
+    public function sortImages(Request $request)
+    {
+        $product = Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }, 'inventory'])->find($request->id);
+        $categories = Categories::all();
+
+        $quantities = DB::table('inventory')
+            ->select('size', DB::raw('count(*) as quantity'))
+            ->where('product_id', $request->id)
+            ->groupBy('size')
+            ->pluck('quantity', 'size');
+
+        return view('pages.products.sort-images', compact('product', 'categories', 'quantities'));
+    }
     
+    public function sort(Request $request)
+    {
+        $sortedItems = $request->input('sortedItems');
+
+        // Update the order of images in the database
+        foreach ($sortedItems as $index => $imageId) {
+            $image = ProductImage::find($imageId);
+            if ($image) {
+                $image->sort_index = $index;
+                $image->save();
+            }
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Images sorted successfully']);
+    }
 
     public function loadProducts(Request $request)
     {
@@ -170,11 +201,12 @@ class ProductController extends Controller
            
             $product->save();
 
-            foreach($request->product_images as $product_image)
+            foreach($request->product_images as $index => $product_image)
             {
                 $images = new ProductImage();
 
                 $images->product_id = $product->id;
+                $image->sort_index = $index + 1;
 
                 $file = $product_image;
                 $ext = $file->getClientOriginalExtension();
@@ -296,12 +328,16 @@ class ProductController extends Controller
 
             if($request->product_images)
             {
-                foreach($request->product_images as $product_image)
+                $current_images_count = ProductImage::where('product_id',$product->id)->count();
+
+                foreach($request->product_images as $index => $product_image)
                 {
+                    
                     $images = new ProductImage();
     
                     $images->product_id = $product->id;
-    
+                    $image->sort_index = $index + $current_images_count + 1;
+
                     $file = $product_image;
                     $ext = $file->getClientOriginalExtension();
                     $filename = time().'.'.$ext;
@@ -378,11 +414,13 @@ class ProductController extends Controller
             // dd($request->all(), $request->file('product_images'));
             //dd($request->product_images); // Dumps the input and stops execution
 
-            foreach($request->product_images as $product_image)
+            foreach($request->product_images as $index => $product_image)
             {
+                    
                 $images = new ProductImage();
-
+    
                 $images->product_id = $product->id;
+                $image->sort_index = $index + 1;
 
                 $file = $product_image;
                 $ext = $file->getClientOriginalExtension();
@@ -485,7 +523,7 @@ class ProductController extends Controller
         $uploadedFiles = [];
 
         // Process each uploaded image
-        foreach ($request->file('images') as $file) {
+        foreach ($request->file('images') as $index => $file) {
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('uploads', $fileName, 'public');
             $uploadedFiles[] = $path;

@@ -52,87 +52,7 @@
                                 </div>
                          @endforeach
                         </div>
-                        <div class="row row-cols-lg-2 g-10 draggable-zone">
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        
-                            <div class="col draggable">
-                                <!--begin::Card-->
-                                <div class="card card-bordered">
-                                    ...
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                        </div>
+                      
                     </div>
                 </div>
             </div>
@@ -327,21 +247,17 @@
 
     <script>
         window.addEventListener("load", () => {
-            var containers = document.querySelectorAll(".draggable-zone");
+            // var containers = document.querySelectorAll(".draggable-zone");
 
-            if (containers.length === 0) {
-                return false;
-            }
+            // if (containers.length === 0) {
+            //     return false;
+            // }
 
-            var swappable = new Draggable.Sortable.default(containers, {
-                draggable: ".draggable",
-                handle: ".draggable .draggable-handle",
-                mirror: {
-                    //appendTo: selector,
-                    appendTo: "body",
-                    constrainDimensions: true
-                }
+            const sortable = new Draggable.Sortable(document.querySelectorAll('.draggable-zone'), {
+                draggable: '.draggable',
             });
+
+            
         });
     </script>
     <script>
@@ -357,10 +273,6 @@
 
         discountPriceInput.disabled = !isChecked;
         discountDateInput.disabled = !isChecked;
-    });
-
-    const sortable = new Draggable.Sortable(document.querySelectorAll('ul'), {
-        draggable: 'li',
     });
 
 
@@ -408,88 +320,7 @@
     const selectedFiles = [];
     console.log(selectedFiles);
 
-    // category.onchange = function() {
-    //     //alert('The option with value ' + category.value);
-        
-    //     if(category.value !== "")
-    //     {
-    //         const categoryId = category.value;
-    //         const productId = "{{ $product->id }}"; // Assuming you have the product ID available
 
-    //         var baseUrl = "{{URL::to('/')}}";
-
-    //         fetch(baseUrl + `/api/v1/categories/${categoryId}/stock/${productId}`, {
-    //             method: 'GET'
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.status === 'success') {
-    //                 const sizesContainer = document.getElementById('sizes-container');
-    //                 sizesContainer.innerHTML = ''; // Clear any existing sizes
-
-    //                 data.data.sizes.forEach(size => {
-    //                     const formGroup = document.createElement('div');
-    //                     formGroup.className = 'form-group row mb-2 align-items-center';
-
-    //                     const labelDiv = document.createElement('div');
-    //                     labelDiv.className = 'col-md-1 d-flex align-items-center';
-    //                     const label = document.createElement('label');
-    //                     label.className = 'form-label';
-    //                     label.textContent = size;
-    //                     labelDiv.appendChild(label);
-
-    //                     const inputDiv = document.createElement('div');
-    //                     inputDiv.className = 'col-md-3 d-flex align-items-center';
-    //                     const input = document.createElement('input');
-    //                     input.type = 'number';
-    //                     input.className = 'form-control mb-2 mb-md-0';
-    //                     input.placeholder = 'Enter Stock';
-    //                     input.name = `quantities[${size}]`;
-    //                     input.value = data.data.quantities[size] ?? 0;
-    //                     inputDiv.appendChild(input);
-
-    //                     formGroup.appendChild(labelDiv);
-    //                     formGroup.appendChild(inputDiv);
-
-    //                     sizesContainer.appendChild(formGroup);
-    //                 });
-    //             } else {
-    //                 console.error('Error:', data.message);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    //     }
-    // };
-    
-    // Handle file selection
-    // fileInput.addEventListener('change', function (event) {
-    //     const files = Array.from(event.target.files);
-
-    //     files.forEach(file => {
-    //         // Add to selectedFiles array
-    //         selectedFiles.push(file);
-
-    //         // Create a preview for the image
-    //         const reader = new FileReader();
-    //         reader.onload = function (e) {
-    //             const img = document.createElement('img');
-    //             img.src = e.target.result;
-    //             img.style.width = '100px';
-    //             img.style.height = '100px';
-    //             img.style.objectFit = 'cover';
-    //             img.style.marginRight = '10px';
-    //             previewContainer.appendChild(img);
-    //         };
-    //         reader.readAsDataURL(file);
-    //     });
-
-    //     // Reset the input to allow re-selection of the same files
-    //     // event.target.value = '';
-    // });
-
-    // Form submission handling
     const form = document.querySelector('form');
     form.addEventListener('submit', function (event) {
         event.preventDefault(); // Prevent default submission

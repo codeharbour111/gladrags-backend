@@ -73,6 +73,8 @@ Route::get('/product', [ProductController::class, 'index'])->name('product.list'
 Route::get('/product/add', [ProductController::class, 'addProduct'])->name('add.new.product');
 Route::post('/product/add', [ProductController::class, 'storeProduct'])->name('product.store');
 Route::get('/product/edit/{id}', [ProductController::class, 'editProduct'])->name('product.edit');
+Route::get('/product/{id}/images/sort', [ProductController::class, 'sortImages'])->name('product.image.sort.view');
+Route::post('/product/{id}/images/sort', [ProductController::class, 'sort'])->name('product.image.sort');
 //Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
 Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
