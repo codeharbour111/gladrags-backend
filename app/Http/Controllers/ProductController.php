@@ -332,11 +332,10 @@ class ProductController extends Controller
 
                 foreach($request->product_images as $index => $product_image)
                 {
-                    
                     $images = new ProductImage();
     
                     $images->product_id = $product->id;
-                    $image->sort_index = $index + $current_images_count + 1;
+                    $images->sort_index = $index + $current_images_count + 1;
 
                     $file = $product_image;
                     $ext = $file->getClientOriginalExtension();
@@ -344,7 +343,6 @@ class ProductController extends Controller
     
                     try
                     {
-                        //$filename = $product_image->store("product");
                         $filename = Storage::disk('public')->putFile('product', $product_image, 'public');
                     }
                     catch(FileException $e)
