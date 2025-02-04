@@ -101,6 +101,11 @@ Route::get('/attribute-list/add-attribute/store-attribute', [AttributeController
 // Users
 Route::get('/user-list', [UserController::class, 'index'])->name('user.list');
 Route::get('/user-list/add-user', [UserController::class, 'addUser'])->name('add.user');
+Route::post('/user-list/add-user', [UserController::class, 'storeUser'])->name('user.store');
+Route::get('/user-list/edit/{id}', [UserController::class, 'editUser'])->name('user.edit');
+Route::post('/user-list/edit/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('/user-list/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
 Route::get('/user-settings', [UserController::class, 'settings'])->name('user.settings');
 
 

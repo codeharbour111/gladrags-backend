@@ -54,7 +54,6 @@
                     <thead>
                         <tr class="fw-semibold fs-6 text-gray-800 border-bottom border-gray-200">
                             <th class="ps-4 min-w-325px rounded-start">User</th>
-                            <th class="min-w-125px">Phone</th>
                             <th class="min-w-125px">Email</th>
                             <th class="min-w-200px rounded-end">Action</th>
                         </tr>
@@ -63,80 +62,41 @@
 
                     <!--begin::Table body-->
                     <tbody>
+                        @foreach($users as $user)
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
+                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">{{$user->name}}</a>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
-                                <span class="fs-7">+8801672548789</span>
-                            </td>
-                            <td>
-                                <span class="fs-7">user@gmail.com</span>
+                                <span class="fs-7">{{$user->email}}</span>
                             </td>
 
                             <td>
-
+                                <a href="{{ URL("/user-list/edit/{$user->id}") }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                </a>
+                                <form action="{{ URL("/user-list/delete/{$user->id}") }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                        <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                    </button>
+                                </form>
+{{--                                 
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                     <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
 
                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
+                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a> --}}
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <span class="fs-7">+8801672548789</span>
-                            </td>
-                            <td>
-                                <span class="fs-7">user@gmail.com</span>
-                            </td>
-
-                            <td>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
-                            </td>
-                        </tr>
-                        <tr class="fw-semibold fs-6 text-gray-800 border-bottom border-gray-200">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <span class="fs-7">+8801672548789</span>
-                            </td>
-                            <td>
-                                <span class="fs-7">user@gmail.com</span>
-                            </td>
-
-                            <td>
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>                                </a>
-
-                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                                    <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>                                </a>
-                            </td>
-                        </tr>
+                        @endforeach
+                    
                     </tbody>
                     <!--end::Table body-->
                 </table>
@@ -154,26 +114,34 @@
                 <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                     <div class="dt-paging paging_simple_numbers">
                         <nav aria-label="pagination">
-                            <ul class="pagination">
-                                <li class="dt-paging-button page-item disabled">
-                                    <button class="page-link previous" role="link" type="button" aria-controls="kt_customers_table" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabindex="-1"><i class="previous"></i></button>
-                                </li>
-                                <li class="dt-paging-button page-item active">
-                                    <button class="page-link" role="link" type="button" aria-controls="kt_customers_table" aria-current="page" data-dt-idx="0">1</button>
-                                </li>
-                                <li class="dt-paging-button page-item">
-                                    <button class="page-link" role="link" type="button" aria-controls="kt_customers_table" data-dt-idx="1">2</button>
-                                </li>
-                                <li class="dt-paging-button page-item">
-                                    <button class="page-link" role="link" type="button" aria-controls="kt_customers_table" data-dt-idx="2">3</button>
-                                </li>
-                                <li class="dt-paging-button page-item">
-                                    <button class="page-link" role="link" type="button" aria-controls="kt_customers_table" data-dt-idx="3">4</button>
-                                </li>
-                                <li class="dt-paging-button page-item">
-                                    <button class="page-link next" role="link" type="button" aria-controls="kt_customers_table" aria-label="Next" data-dt-idx="next"><i class="next"></i></button>
-                                </li>
-                            </ul>
+                            <nav aria-label="pagination">
+                                <ul class="pagination">
+                                    @if ($users->onFirstPage())
+                                        <li class="dt-paging-button page-item disabled">
+                                            <button class="page-link previous" aria-disabled="true" aria-label="Previous"><i class="previous"></i></button>
+                                        </li>
+                                    @else
+                                        <li class="dt-paging-button page-item">
+                                            <a class="page-link previous" href="{{ $users->previousPageUrl() }}" aria-label="Previous"><i class="previous"></i></a>
+                                        </li>
+                                    @endif
+
+                                    @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                                        <li class="dt-paging-button page-item {{ $page == $users->currentPage() ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                        </li>
+                                    @endforeach
+
+                                    @if ($users->hasMorePages())
+                                        <li class="dt-paging-button page-item">
+                                            <a class="page-link next" href="{{ $users->nextPageUrl() }}" aria-label="Next"><i class="next"></i></a>
+                                        </li>
+                                    @else
+                                        <li class="dt-paging-button page-item disabled">
+                                            <button class="page-link next" aria-disabled="true" aria-label="Next"><i class="next"></i></button>
+                                        </li>
+                                    @endif
+                                </ul>
                         </nav>
                     </div>
                 </div>

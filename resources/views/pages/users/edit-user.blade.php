@@ -14,7 +14,7 @@
             <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
                 <!--begin::Card title-->
                 <div class="card-title m-0">
-                    <h3 class="fw-bold m-0">Add New User </h3>
+                    <h3 class="fw-bold m-0">Edit User </h3>
                 </div>
                 <!--end::Card title-->
             </div>
@@ -24,7 +24,7 @@
             <div id="kt_account_settings_profile_details" class="collapse show">
                 <!--begin::Form-->
                 {{-- <form  method="POST" id="kt_account_profile_details_form" action="{{ route('user.store') }}" class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate"> --}}
-                <form class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST" enctype="multipart/form-data" action="{{ route('user.store') }}">
+                <form class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST" enctype="multipart/form-data" action="{{ route('user.edit',$user->id) }}">
                         @csrf
     
                     <!--begin::Card body-->
@@ -38,7 +38,7 @@
 
                             <!--begin::Col-->
                             <div class="col-lg-9 fv-row fv-plugins-icon-container">
-                                <input type="text" id="name" name="name" class="form-control form-control-lg form-control-solid" placeholder="Name" value="">
+                                <input type="text" id="name" name="name" class="form-control form-control-lg form-control-solid" placeholder="Name" value=" {{ $user->name }}">
                             <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
                             <!--end::Col-->
                         </div>
@@ -51,7 +51,7 @@
 
                             <!--begin::Col-->
                             <div class="col-lg-9 fv-row fv-plugins-icon-container">
-                                <input id="email" type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email" value="">
+                                <input id="email" type="text" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email" value=" {{ $user->email }} ">
                             <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
                             <!--end::Col-->
                         </div>
@@ -59,12 +59,12 @@
                         <!--begin::Input group-->
                         <div class="row mb-6">
                             <!--begin::Label-->
-                            <label class="col-lg-3 col-form-label required fw-semibold fs-6">Password</label>
+                            <label class="col-lg-3 col-form-label required fw-semibold fs-6">Current Password</label>
                             <!--end::Label-->
 
                             <!--begin::Col-->
                             <div class="col-lg-9 fv-row fv-plugins-icon-container">
-                                <input type="text" id="password" name="password" class="form-control form-control-lg form-control-solid" placeholder="Password" value="">
+                                <input type="text" id="current_password" name="current_password" class="form-control form-control-lg form-control-solid" placeholder="Current Password" value="">
                             <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
                             <!--end::Col-->
                         </div>
@@ -72,12 +72,12 @@
                         <!--begin::Input group-->
                         <div class="row mb-6">
                             <!--begin::Label-->
-                            <label class="col-lg-3 col-form-label required fw-semibold fs-6">Confirm Password</label>
+                            <label class="col-lg-3 col-form-label required fw-semibold fs-6">New Password</label>
                             <!--end::Label-->
 
                             <!--begin::Col-->
                             <div class="col-lg-9 fv-row fv-plugins-icon-container">
-                                <input type="text" id="confirm_password" name="confirm_password" class="form-control form-control-lg form-control-solid" placeholder="Confirm Password" value="">
+                                <input type="text" id="new_password" name="new_password" class="form-control form-control-lg form-control-solid" placeholder="New Password" value="">
                             <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
                             <!--end::Col-->
                         </div>
@@ -111,18 +111,14 @@
 
       var name = $('#name').val();
         var email = $('#email').val();
-        var password = $('#password').val();
-        var confirm_password = $('#confirm_password').val();
+        var current_password = $('#current_password').val();
+        var new_password = $('#new_password').val();
 
-        if(password != confirm_password){
-            alert('Password and Confirm Password does not match');
-            return;
-        }
 
       formData.append('name', name); 
       formData.append('email', email);
-      formData.append('password', password);
-      formData.append('confirmed', confirm_password);
+      formData.append('current_password', current_password);
+      formData.append('new_password', new_password);
       
       fetch(form.action, {
           method: 'POST',
@@ -137,9 +133,12 @@
           if (data.status === 'success') {
               alert('User saved successfully!');
               window.location.href = '/user-list';
-          } else {
-              alert('There was an error saving the banner.');
-          }
+          } else if(data.status === 'error')
+          {
+                alert(data.message);
+            }else{
+              alert('There was an error saving the user.');
+            }
       })
       .catch(error => {
           console.error('Error:', error);

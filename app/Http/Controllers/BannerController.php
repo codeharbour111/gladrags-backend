@@ -39,8 +39,6 @@ class BannerController extends Controller
 
     public function storeBanner(Request $request)
     {
-       
-        //dd(Input::all());
         try
         {
             $validated = $request->validate([
@@ -63,8 +61,6 @@ class BannerController extends Controller
                 {
                     $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
                    
-                    //$image = Image::read(Storage::path('/public/'.$filename));
-                    //$image = ImageManager::imagick()->read(Storage::path('/public/'.$filename));
                     $manager = new ImageManager(Driver::class);
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
@@ -88,7 +84,6 @@ class BannerController extends Controller
                 'status'  => 'success',
                 'message' => 'Banner added'
             ],201);
-            //return redirect()->route('banner.list')->with('success', 'Banners added successfully!');
         }
         catch(Exception $e)
         {
