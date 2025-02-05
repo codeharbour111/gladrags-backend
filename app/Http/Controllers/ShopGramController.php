@@ -10,6 +10,9 @@ use App\Http\Resources\ShopGramCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BannerCollection;
+use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ShopGramController extends Controller
 {
@@ -54,6 +57,12 @@ class ShopGramController extends Controller
                 try
                 {
                     $filename = Storage::disk('public')->putFile('shopgram', $request->file('image'), 'public');
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(400, 400);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {
@@ -105,6 +114,13 @@ class ShopGramController extends Controller
                 try
                 {
                     $filename = Storage::disk('public')->putFile('shopgram', $request->file('image'), 'public');
+
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(400, 400);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {

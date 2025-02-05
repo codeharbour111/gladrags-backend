@@ -126,6 +126,13 @@ class BannerController extends Controller
                 try
                 {
                     $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
+
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(2000, 1034);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {
@@ -197,6 +204,13 @@ class BannerController extends Controller
                 try
                 {
                     $filename = Storage::disk('public')->putFile('banner', $request->file('image'), 'public');
+
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(2000, 1034);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {

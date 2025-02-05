@@ -14,12 +14,17 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductWithIdResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductCollection;
+use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products =  Product::with('category', 'images', 'inventory')->paginate(10);
+        $products =  Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }, 'inventory'])->paginate(10);
 
         return view('pages.products.product-list',compact('products'));
     }
@@ -33,7 +38,9 @@ class ProductController extends Controller
 
     public function editProduct(Request $request)
     {
-        $product = Product::with('category', 'images', 'inventory')->find($request->id);
+        $product = Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }, 'inventory'])->find($request->id);
         $categories = Categories::all();
 
         $quantities = DB::table('inventory')
@@ -88,7 +95,9 @@ class ProductController extends Controller
             ], 400);
         }
 
-        $products = Product::with(['category', 'images'])
+        $products = Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }])
             ->whereIn('id', $productIds)
             ->get();
 
@@ -100,7 +109,9 @@ class ProductController extends Controller
 
     public function filterProducts(Request $request)
     {
-        $query = Product::with(['category', 'images']);
+        $query = Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }]);
 
         // Filter by category
         if ($request->has('category_id')) {
@@ -132,7 +143,9 @@ class ProductController extends Controller
     public function loadLatestProduct()
     {
         // Load the latest product based on created time
-        $latestProduct = Product::with(['category', 'images'])
+        $latestProduct = Product::with(['category', 'images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -157,13 +170,17 @@ class ProductController extends Controller
 
     public function load()
     {
-        return new ProductCollection(Product::with('category','images')->paginate(10));
+        return new ProductCollection(Product::with(['category','images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }])->paginate(10));
     }
 
     public function loadProduct(Request $request)
     {
 
-        $result = Product::with(['category','images'])->where('id',$request->id)->first();
+        $result = Product::with(['category','images' => function($query) {
+                            $query->orderBy('sort_index');
+                        }])->where('id',$request->id)->first();
      
         if($result != null)
             return new ProductWithIdResource(Product::with(['category','images'])->where('id',$request->id)->first());
@@ -216,6 +233,13 @@ class ProductController extends Controller
                 {
                     //$filename = $product_image->store("product");
                     $filename = Storage::disk('public')->putFile('product', $product_image, 'public');
+
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(720, 1005);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {
@@ -344,6 +368,12 @@ class ProductController extends Controller
                     try
                     {
                         $filename = Storage::disk('public')->putFile('product', $product_image, 'public');
+                        $manager = new ImageManager(Driver::class);
+                    
+                        $image = $manager->read(Storage::path('/public/'.$filename));
+        
+                        $image->resize(720, 1005);
+                        $image->save();
                     }
                     catch(FileException $e)
                     {
@@ -428,6 +458,13 @@ class ProductController extends Controller
                 {
                     //$filename = $product_image->store("product");
                     $filename = Storage::disk('public')->putFile('product', $product_image, 'public');
+
+                    $manager = new ImageManager(Driver::class);
+                    
+                    $image = $manager->read(Storage::path('/public/'.$filename));
+    
+                    $image->resize(720, 1005);
+                    $image->save();
                 }
                 catch(FileException $e)
                 {
