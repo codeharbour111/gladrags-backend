@@ -57,17 +57,7 @@
                         </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
-                        <div class="row mb-6">
-                            <!--begin::Label-->
-                            <label class="col-lg-3 col-form-label required fw-semibold fs-6">Current Password</label>
-                            <!--end::Label-->
-
-                            <!--begin::Col-->
-                            <div class="col-lg-9 fv-row fv-plugins-icon-container">
-                                <input type="text" id="current_password" name="current_password" class="form-control form-control-lg form-control-solid" placeholder="Current Password" value="">
-                            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div></div>
-                            <!--end::Col-->
-                        </div>
+                  
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="row mb-6">
@@ -110,14 +100,14 @@
       const formData = new FormData(form);
 
       var name = $('#name').val();
-        var email = $('#email').val();
-        var current_password = $('#current_password').val();
-        var new_password = $('#new_password').val();
+      var email = $('#email').val();
+        //var current_password = $('#current_password').val();
+      var new_password = $('#new_password').val();
 
 
       formData.append('name', name); 
       formData.append('email', email);
-      formData.append('current_password', current_password);
+      //formData.append('current_password', current_password);
       formData.append('new_password', new_password);
       
       fetch(form.action, {

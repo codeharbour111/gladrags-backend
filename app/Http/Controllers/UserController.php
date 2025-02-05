@@ -69,27 +69,30 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email'],
-            'current_password' => ['required'],
-            'new_password' => ['required'], //, 'confirmed', Rules\Password::defaults()],
+            //'current_password' => ['required'],
+            //'new_password' => ['required'], //, 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::findOrFail($id);
 
-        if(!Hash::check($request->current_password, $user->password))
-        {
-            return response()->json
-            (
-            [
-                'status'  => 'error',
-                'message' => 'Current password is incorrect'
-            ],401);
-        }
+        // if(!Hash::check($request->current_password, $user->password))
+        // {
+        //     return response()->json
+        //     (
+        //     [
+        //         'status'  => 'error',
+        //         'message' => 'Current password is incorrect'
+        //     ],401);
+        // }
 
         try
         {
             $user->name  = $request->name;
             $user->email = $request->email;
-            $user->password = Hash::make($request->new_password);
+
+            if($request->new_password)
+                $user->password = Hash::make($request->new_password);
+            //$user->password = Hash::make($request->new_password);
 
             $user->save();
 
