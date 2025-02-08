@@ -25,6 +25,7 @@ class ProductWithIdResource extends JsonResource
             'price' => $this->price,
             'best_seller' => $this->best_seller,
             'has_discount' => $this->has_discount,
+            'discount_price' => $this->discount_price,
             'discount_date' => $this->discount_date,
             'color' => $this->color,
             'sku' => $this->sku,

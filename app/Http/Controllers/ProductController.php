@@ -321,6 +321,7 @@ class ProductController extends Controller
             {
                 $product->discount_date = Carbon::parse($request->discount_date);
             }
+            
             $inventories = Inventory::where('product_id',$product->id);
 
             if($inventories)
