@@ -13,6 +13,7 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'best_seller',
         'has_discount',
         'discount_price',
         'discount_date',

@@ -158,16 +158,15 @@
                                     </span>
                                 </label> --}}
                                 <label class="btn btn-outline btn-outline-dashed d-flex text-start p-6 align-items-start">
-                                    <input type="hidden" name="has_discount" value="0">
-                                    <!-- Checkbox for Selling Price -->
+                                   
                                     <span class="form-check form-check-custom form-check-solid form-check-sm mt-1">
                                         <input
                                             id="sellingPriceToggle"
                                             name="has_discount"
                                             class="form-check-input"
                                             type="checkbox"
-                                            value="1"
-                                            checked = {{$product->has_discount ? "checked" : ""}}
+                                            value={{ $product->has_discount ? "1" : "0"}}
+                                            {{ $product->has_discount ? "checked" : ""}}
                                         />
                                     </span>
                                     <!-- Info and Label Text -->
@@ -214,7 +213,7 @@
                                     name="best_seller"
                                     class="form-check-input"
                                     type="checkbox"
-                                    value="1"
+                                    value="{{$product->best_seller ? "1" : "0"}}"
                                     {{$product->best_seller ? "checked" : ""}}
                                     />
                             </label>
@@ -264,8 +263,6 @@
     
 
     document.addEventListener('DOMContentLoaded', () => {
-
-
         document.getElementById('sellingPriceToggle').addEventListener('change', function() {
         const discountPriceInput = document.getElementById('discount_price');
         const discountDateInput = document.getElementById('discount_date');
@@ -326,6 +323,22 @@
         event.preventDefault(); // Prevent default submission
 
         const formData = new FormData(form);
+
+        const hasDiscountCheckbox = document.getElementById('sellingPriceToggle');
+        formData.set('has_discount', hasDiscountCheckbox.checked ? '1' : '0');
+
+        if(!hasDiscountCheckbox.checked) {
+            formData.delete('discount_price');
+            formData.delete('discount_date');
+        }
+
+        console.log('FormData after deletion:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        const isBestSeller = document.getElementById('is_best_seller');
+        formData.set('best_seller', isBestSeller.checked ? '1' : '0');
 
         let files = $('#product_image')[0].dropzone.getAcceptedFiles();
         for (let i = 0; i < files.length; i++) {

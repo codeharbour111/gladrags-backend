@@ -223,7 +223,7 @@ class ProductController extends Controller
                 $images = new ProductImage();
 
                 $images->product_id = $product->id;
-                $image->sort_index = $index + 1;
+                $images->sort_index = $index + 1;
 
                 $file = $product_image;
                 $ext = $file->getClientOriginalExtension();
@@ -299,17 +299,6 @@ class ProductController extends Controller
         
         try
         {
-          
-            // $product->name = $request->name;
-            // $product->description = $request->description;
-            // $product->category_id = $request->category_id;
-            // $product->price = $request->price;
-            // $product->has_discount = $request->has_discount;
-            // $product->discount_price = $request->discount_price;
-            // $product->discount_date = $request->discount_date;
-            // $product->best_seller = $request->best_seller;
-            // $product->color = $request->color;
-            // $product->sku = $request->sku;
             $product->fill($request->only([
                 'name',
                 'description',
@@ -323,8 +312,15 @@ class ProductController extends Controller
                 'sku'
             ]));
 
-            $product->discount_date = Carbon::parse($request->discount_date);
-            
+            if($request->has('has_discount') && !$request->has_discount)
+            {
+                $product->discount_price = null;
+                $product->discount_date = null;
+            }
+            else
+            {
+                $product->discount_date = Carbon::parse($request->discount_date);
+            }
             $inventories = Inventory::where('product_id',$product->id);
 
             if($inventories)
@@ -448,7 +444,7 @@ class ProductController extends Controller
                 $images = new ProductImage();
     
                 $images->product_id = $product->id;
-                $image->sort_index = $index + 1;
+                $images->sort_index = $index + 1;
 
                 $file = $product_image;
                 $ext = $file->getClientOriginalExtension();
