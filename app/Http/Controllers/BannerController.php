@@ -65,7 +65,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->scaleDown(2000, 1034);
+                    $image->resize(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)
@@ -131,7 +131,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->scale(2000, 1034);
+                    $image->resize(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)
@@ -214,7 +214,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->scale(2000, 1034);
+                    $image->resize(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)

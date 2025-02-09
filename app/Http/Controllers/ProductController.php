@@ -237,7 +237,7 @@ class ProductController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->scale(720, 1005);
+                    $image->resize(720, 1005);
                     $image->save();
                 }
                 catch(FileException $e)
@@ -368,7 +368,7 @@ class ProductController extends Controller
                     
                         $image = $manager->read(Storage::path('/public/'.$filename));
         
-                        $image->scale(720, 1005);
+                        $image->resize(720, 1005);
                         $image->save();
                     }
                     catch(FileException $e)
@@ -459,7 +459,7 @@ class ProductController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->scale(720, 1005);
+                    $image->resize(720, 1005);
                     $image->save();
                 }
                 catch(FileException $e)
