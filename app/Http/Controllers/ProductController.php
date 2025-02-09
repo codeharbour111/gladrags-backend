@@ -177,13 +177,12 @@ class ProductController extends Controller
 
     public function loadProduct(Request $request)
     {
-
         $result = Product::with(['category','images' => function($query) {
                             $query->orderBy('sort_index');
                         }])->where('id',$request->id)->first();
      
         if($result != null)
-            return new ProductWithIdResource(Product::with(['category','images'])->where('id',$request->id)->first());
+            return new ProductWithIdResource($result);//Product::with(['category','images'])->where('id',$request->id)->first());
         else
             return response()->json(
                 [

@@ -114,48 +114,48 @@
         const form = document.querySelector('form');
       
         form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent default submission
+            event.preventDefault(); // Prevent default submission
 
-        const formData = new FormData(form);
+            const formData = new FormData(form);
 
-        formData.append('image', $('#banner_image')[0].dropzone.getAcceptedFiles()[0]); 
-        formData.append('title', $('#title').val());
-        formData.append('subtitle', $('#subtitle').val());
+            formData.append('image', $('#banner_image')[0].dropzone.getAcceptedFiles()[0]); 
+            formData.append('title', $('#title').val());
+            formData.append('subtitle', $('#subtitle').val());
         // // Add all selected files to the formData
         // selectedFiles.forEach(file => {
         //     formData.append('product_images[]', file);
         // });
 
         // Submit the form data using Fetch API
-        fetch(form.action, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            var res = response.json();
-            console.log(res);
-            return res;
-        })
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Banner saved successfully!');
-                window.location.href = '/banner';
-            } else {
-                alert('There was an error saving the banner.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('There was an error submitting the form.');
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                var res = response.json();
+                console.log(res);
+                return res;
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Banner saved successfully!');
+                    window.location.href = '/banner';
+                } else {
+                    alert('There was an error saving the banner.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form.');
+            });
         });
-    });
 
-     var myDropzone = new Dropzone("#banner_image",{
-        url: 'aaa',
-        autoProcessQueue: false,
-        maxFiles: 1,
-        maxFilesize: 10,
-     });
+        var myDropzone = new Dropzone("#banner_image",{
+            url: 'aaa',
+            autoProcessQueue: false,
+            maxFiles: 1,
+            maxFilesize: 10,
+        });
 
      //  Dropzone.autoDiscover = false;
        // set the dropzone container id

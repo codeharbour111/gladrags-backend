@@ -16,9 +16,10 @@
             </div>
 
             <div>
-                <form class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST" enctype="multipart/form-data">  
+                <form class="form fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{ route('banner.update', $banner->id) }}" enctype="multipart/form-data">  
                     {{-- action="{{ route('banner.update', $banner->id) }}" }}"> --}}
                     @csrf
+                    @method('PUT')
                     {{-- @method('PUT') --}}
                     <div class="card-body border-top p-9">
                         <div class="row mb-6">
@@ -132,80 +133,130 @@
     @push('scripts')
     <script>
           Dropzone.autoDiscover = false;
-       // set the dropzone container id
-       var myDropzone = new Dropzone("#banner_image", {
-        url: '{{ route('banner.update', $banner->id) }}', // Set the url for your upload script location
-        paramName: "image", // The name that will be used to transfer the file
-        maxFiles: 1,
-        //method: "post",
-        autoProcessQueue: false,
-        maxFilesize: 10, // MB
-        addRemoveLinks: true,
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-        accept: function(file, done) {
-            if (file.name == "wow.jpg") {
-                done("Naha, you don't.");
-            } else {
-                done();
-            }
-        },
-        init: function () {
+
+          const form = document.querySelector('form');
+      
+      form.addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent default submission
+
+          const formData = new FormData(form);
+
+          let files =  $('#banner_image')[0].dropzone.getAcceptedFiles();
+          for (let i = 0; i < files.length; i++) {
+            formData.append('image', files[i]);
+          }
+          //formData.append('image', $('#banner_image')[0].dropzone.getAcceptedFiles()[0]); 
+          formData.append('title', $('#title').val());
+          formData.append('subtitle', $('#subtitle').val());
+      // // Add all selected files to the formData
+      // selectedFiles.forEach(file => {
+      //     formData.append('product_images[]', file);
+      // });
+
+      // Submit the form data using Fetch API
+          fetch(form.action, {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => {
+              var res = response.json();
+              console.log(res);
+              return res;
+          })
+          .then(data => {
+              if (data.status === 'success') {
+                  alert('Banner saved successfully!');
+                  window.location.href = '/banner';
+              } else {
+                  alert('There was an error saving the banner.');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('There was an error submitting the form.');
+          });
+      });
+
+      var myDropzone = new Dropzone("#banner_image",{
+            url: 'aaa',
+            autoProcessQueue: false,
+            maxFiles: 1,
+            maxFilesize: 10,
+        });
+    //    // set the dropzone container id
+    //    var myDropzone = new Dropzone("#banner_image", {
+    //     url: '{{ route('banner.update', $banner->id) }}', // Set the url for your upload script location
+    //     paramName: "image", // The name that will be used to transfer the file
+    //     maxFiles: 1,
+    //     //method: "post",
+    //     autoProcessQueue: false,
+    //     maxFilesize: 10, // MB
+    //     addRemoveLinks: true,
+    //     headers: {
+    //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    // },
+    //     accept: function(file, done) {
+    //         if (file.name == "wow.jpg") {
+    //             done("Naha, you don't.");
+    //         } else {
+    //             done();
+    //         }
+    //     },
+    //     init: function () {
 
                         
-                            $("#formSubmit").click(function (e) {
-                                event.preventDefault();
-                                myDropzone.processQueue();
-                            });
+    //                         $("#formSubmit").click(function (e) {
+    //                             event.preventDefault();
+    //                             myDropzone.processQueue();
+    //                         });
 
-            }
-            ,
-            sending: function(file, xhr, formData) {
-            // Append additional form data
+    //         }
+    //         ,
+    //         sending: function(file, xhr, formData) {
+    //         // Append additional form data
 
-            formData.append('title', $('#title').val());
-            formData.append('subtitle', $('#subtitle').val());
-        },
-        error: function (file, response) {
-                console.log(response);
-                // Handle the error response
-                toastr.error(response.message);
-                // Enable the submit button again
-                //$('#formSubmit').prop('disabled', false);
-                var dropzoneFilesCopy = myDropzone.files.slice(0);
-                myDropzone.removeAllFiles();
-                $.each(dropzoneFilesCopy, function(_, file) {
+    //         formData.append('title', $('#title').val());
+    //         formData.append('subtitle', $('#subtitle').val());
+    //     },
+    //     error: function (file, response) {
+    //             console.log(response);
+    //             // Handle the error response
+    //             toastr.error(response.message);
+    //             // Enable the submit button again
+    //             //$('#formSubmit').prop('disabled', false);
+    //             var dropzoneFilesCopy = myDropzone.files.slice(0);
+    //             myDropzone.removeAllFiles();
+    //             $.each(dropzoneFilesCopy, function(_, file) {
                 
-                        file.status = undefined;
-                        file.accepted = undefined;
+    //                     file.status = undefined;
+    //                     file.accepted = undefined;
                     
-                    myDropzone.addFile(file);
-                });
-            },
-        success: function (file, response) {
-           // console.log(response);
-           window.location.href = '{{ route('banner.list') }}';
-            // var dropzoneFilesCopy = myDropzone.files.slice(0);
-            // myDropzone.removeAllFiles();
-            // $.each(dropzoneFilesCopy, function(_, file) {
+    //                 myDropzone.addFile(file);
+    //             });
+    //         },
+    //     success: function (file, response) {
+    //        // console.log(response);
+    //        window.location.href = '{{ route('banner.list') }}';
+    //         // var dropzoneFilesCopy = myDropzone.files.slice(0);
+    //         // myDropzone.removeAllFiles();
+    //         // $.each(dropzoneFilesCopy, function(_, file) {
                
-            //         file.status = undefined;
-            //         file.accepted = undefined;
+    //         //         file.status = undefined;
+    //         //         file.accepted = undefined;
                 
-            //     myDropzone.addFile(file);
-            // });
-            // alert(response);
-            // if (response.status == 'success') {
-            //     toastr.success(response.message);
-            //     setTimeout(function () {
-            //         window.location.href = response.redirect;
-            //     }, 2000);
-            // } else {
-            //     toastr.error(response.message);
-            // }
-        },
-    });
+    //         //     myDropzone.addFile(file);
+    //         // });
+    //         // alert(response);
+    //         // if (response.status == 'success') {
+    //         //     toastr.success(response.message);
+    //         //     setTimeout(function () {
+    //         //         window.location.href = response.redirect;
+    //         //     }, 2000);
+    //         // } else {
+    //         //     toastr.error(response.message);
+    //         // }
+    //     },
+    // });
 
   
 

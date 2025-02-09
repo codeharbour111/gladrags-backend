@@ -65,7 +65,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->resize(2000, 1034);
+                    $image->scaleDown(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)
@@ -131,7 +131,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->resize(2000, 1034);
+                    $image->scale(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)
@@ -144,8 +144,13 @@ class BannerController extends Controller
 
             $banner->save();
 
-            return redirect()->route('banner.list')->with('success', 'Babber saved successfully!');
-
+            //return redirect()->route('banner.list')->with('success', 'Babber saved successfully!');
+            return response()->json
+            (
+            [
+                'status'  => 'success',
+                'message' => 'Banner updated'
+            ],201);
         }
         catch(Exception $e)
         {
@@ -209,7 +214,7 @@ class BannerController extends Controller
                     
                     $image = $manager->read(Storage::path('/public/'.$filename));
     
-                    $image->resize(2000, 1034);
+                    $image->scale(2000, 1034);
                     $image->save();
                 }
                 catch(FileException $e)
