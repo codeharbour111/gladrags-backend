@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
         $products =  Product::with(['category', 'images' => function($query) {
                             $query->orderBy('sort_index');
-                        }, 'inventory'])->paginate(10);
+                        }, 'inventory'])->paginate(12);
 
         return view('pages.products.product-list',compact('products'));
     }
@@ -132,7 +132,7 @@ class ProductController extends Controller
             $query->orderBy('created_at', $sortOrder);
         }
 
-        $products = $query->paginate(10); // Adjust pagination as needed
+        $products = $query->paginate(12); // Adjust pagination as needed
 
         return response()->json([
             'status' => 'success',
@@ -147,7 +147,7 @@ class ProductController extends Controller
                             $query->orderBy('sort_index');
                         }])
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(12);
 
         // Load products marked as best_seller
         $bestSellers = Product::with(['category', 'images'])
@@ -172,7 +172,7 @@ class ProductController extends Controller
     {
         return new ProductCollection(Product::with(['category','images' => function($query) {
                             $query->orderBy('sort_index');
-                        }])->paginate(10));
+                        }])->paginate(12));
     }
 
     public function loadProduct(Request $request)
