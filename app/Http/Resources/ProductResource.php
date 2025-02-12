@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $hasDiscount = $this->has_discount;
+        if ($this->discount_date && Carbon::parse($this->discount_date)->isPast()) {
+            $hasDiscount = false;
+        }
+
         return
         [
             'id' => $this->id,
@@ -22,7 +28,7 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'best_seller' => $this->best_seller,
-            'has_discount' => $this->has_discount,
+            'has_discount' => $hasDiscount,
             'discount_date' => $this->discount_date,
             'discount_price' => $this->discount_price,
             'color' => $this->color,

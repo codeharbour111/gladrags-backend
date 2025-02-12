@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,9 +115,19 @@ class CouponController extends Controller
         $coupon = Coupon::where('code', $code)->first();
 
         if ($coupon) {
-            return response()->json(
-                ['status'  => 'success',
-                'data' => $coupon], 200);
+            //$coupon->expire_date
+            if ( $coupon->expire_date && Carbon::parse( $coupon->expire_date)->isPast()) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Coupon expired'
+                ], 404);
+            }
+            else{
+                return response()->json(
+                    ['status'  => 'success',
+                    'data' => $coupon], 200);
+            }
+           
         } else {
             return response()->json([
                 'status'  => 'error',
