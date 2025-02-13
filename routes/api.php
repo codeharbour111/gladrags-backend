@@ -135,6 +135,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/product/add', [ProductController::class, 'store']);
     Route::get('/product/latest/all', [ProductController::class, 'loadLatestProduct']);
     Route::post('/products', [ProductController::class, 'loadProducts']);
+    Route::post('/products/filter', [ProductController::class, 'filterProducts'])->name('products.filter');
 
     Route::get('/order', [OrderController::class,'load']);
     Route::get('/order/{id}', [OrderController::class,'index']);
