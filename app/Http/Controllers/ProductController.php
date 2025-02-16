@@ -97,6 +97,9 @@ class ProductController extends Controller
 
         $products = Product::with(['category', 'images' => function($query) {
                             $query->orderBy('sort_index');
+                        },'inventory' => function($query) {
+                            $query->select('product_id', 'size', DB::raw('count(*) as quantity'))
+                                  ->groupBy('product_id', 'size');
                         }])
             ->whereIn('id', $productIds)
             ->get();
@@ -111,7 +114,13 @@ class ProductController extends Controller
     {
         $query = Product::with(['category', 'images' => function($query) {
                             $query->orderBy('sort_index');
+                        },
+                        'inventory' => function($query) {
+                            $query->select('product_id', 'size', DB::raw('count(*) as quantity'))
+                                  ->groupBy('product_id', 'size');
                         }]);
+
+                        
 
         // Filter by category
         if ($request->has('category_id')) {
@@ -133,10 +142,10 @@ class ProductController extends Controller
         }
 
         $products = $query->paginate(12); // Adjust pagination as needed
-
+        
         return response()->json([
             'status' => 'success',
-            'data' => ProductWithIdResource::collection($products)
+            'data' => ProductResource::collection($products)//ProductWithIdResource::collection($products)
         ], 200);
     }
 
@@ -172,6 +181,9 @@ class ProductController extends Controller
     {
         return new ProductCollection(Product::with(['category','images' => function($query) {
                             $query->orderBy('sort_index');
+                        },'inventory' => function($query) {
+                            $query->select('product_id', 'size', DB::raw('count(*) as quantity'))
+                                  ->groupBy('product_id', 'size');
                         }])->paginate(12));
     }
 

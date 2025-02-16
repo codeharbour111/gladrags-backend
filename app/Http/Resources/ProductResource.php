@@ -35,7 +35,13 @@ class ProductResource extends JsonResource
             'sku' => $this->sku,
             'created_at' => $this->created_at,
             'category' => new CategoryResource($this->category),
-            'images' => new ProductImageCollection($this->images)
+            'images' => new ProductImageCollection($this->images),
+            'inventory' => $this->inventory->map(function ($inventory) {
+                return [
+                    'size' => $inventory->size,
+                    'quantity' => $inventory->quantity,
+                ];
+            }),
         ];
     }
 }
