@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\Models\UserCart;
 use App\Models\GladragsUser;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;    
@@ -154,6 +155,11 @@ class GladragsUserController extends Controller
                     'phone_no' => $request['phone_no'],
                     'email' => $request['email'],
                     'password' => Hash::make($request['password']),
+                ]);
+
+                UserCart::create([
+                    'user_id' => $gladrag_user->id,
+                    'carts' => json_encode([]), // Initialize with an empty cart
                 ]);
 
                 $user = GladragsUser::where('email', $gladrag_user->email)->first();

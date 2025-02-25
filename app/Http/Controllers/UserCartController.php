@@ -37,6 +37,14 @@ class UserCartController extends Controller
         $cartProducts = UserCart::where('user_id', $userId)
             ->first();
 
+       
+        if ($cartProducts == null) {
+            return response()->json([
+                    'status' => 'error',
+                    'message' => 'No cart products found for this user.'
+            ], 404);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => new CartResource($cartProducts)
