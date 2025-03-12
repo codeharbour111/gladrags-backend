@@ -132,12 +132,13 @@ class ProductController extends Controller
             $query->orderBy('created_at', $sortOrder);
         }
 
-        $products = $query->paginate(12); // Adjust pagination as needed
+        //$products = $query->paginate(12); // Adjust pagination as needed
 
-        return response()->json([
-            'status' => 'success',
-            'data' => ProductWithIdResource::collection($products)
-        ], 200);
+        return new ProductCollection($query->paginate(12));
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => ProductWithIdResource::collection($products)
+        // ], 200);
     }
 
     public function loadLatestProduct()
