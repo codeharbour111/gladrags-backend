@@ -34,6 +34,7 @@
                                     <tr class="fw-semibold text-gray-600">
                                         <th>Image</th>
                                         <th>Product</th>
+                                        <th>Size</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
                                     </tr>
@@ -51,6 +52,7 @@
                                         <td>
                                             <span class="fw-bold">{{$item->product->name}}</span>
                                         </td>
+                                        <td>{{$item->size}}</td>
                                         <td>{{$item->quantity}}</td>
                                         <td>{{$item->quantity * $item->price}}</td>
                                     </tr>
@@ -122,6 +124,10 @@
                 <!-- Shipping Address -->
                 <div class="card card-flush mb-5">
                     <div class="card-body">
+                        <h3 class="card-title">Customer Phone No</h3>
+                        <p class="text-gray-600">{{$order->customer_phone_no}}</p>
+                        <h3 class="card-title">Customer Email Address</h3>
+                        <p class="text-gray-600">{{$order->customer_email}}</p>
                         <h3 class="card-title">Shipping Address</h3>
                         <p class="text-gray-600">{{$order->customer_address}}</p>
                     </div>
