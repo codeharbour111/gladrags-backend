@@ -37,18 +37,18 @@
 
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-                style="background-image: url({{ image('misc/backend-login-bg.png') }})">
+                style="background-image: url({{ image('misc/login-bg-image.png') }})">
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
                     <!--begin::Logo-->
                     <a href="{{ route('dashboard') }}" class="mb-12">
-                        <img alt="Logo" src="{{ image('logos/GladRags.png') }}" class="h-60px h-lg-75px" />
+                        <img alt="Logo" src="{{ image('logos/gladrags-image.png') }}" class="h-60px h-lg-75px" />
                     </a>
                     <!--end::Logo-->
 
                     <!--begin::Image-->
-                    <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20"
-                        src="{{ image('misc/Backend-login-bg-Logo.png') }}" alt="" />
+                    {{-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" --}}
+                    {{-- src="{{ image('misc/login-bg-image.png') }}" alt="background-image" /> --}}
                     <!--end::Image-->
 
                     <!--begin::Title-->

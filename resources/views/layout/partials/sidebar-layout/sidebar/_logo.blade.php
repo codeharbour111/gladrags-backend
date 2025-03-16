@@ -2,8 +2,8 @@
 <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
     <!--begin::Logo image-->
     <a href="{{ route('dashboard') }}">
-        <img alt="Logo" src="{{ image('logos/GladRags.png') }}" class="h-25px app-sidebar-logo-default" />
-        <img alt="Logo" src="{{ image('logos/GladRags.png') }}" class="h-20px app-sidebar-logo-minimize" />
+        <img alt="Logo" src="{{ image('logos/gladrags-image.png') }}" class="h-25px app-sidebar-logo-default" />
+        <img alt="Logo" src="{{ image('logos/gladrags-image.png') }}" class="h-20px app-sidebar-logo-minimize" />
     </a>
     <!--end::Logo image-->
     <!--begin::Sidebar toggle-->
@@ -23,9 +23,9 @@
         var sidebar_toggle = document.getElementById("kt_app_sidebar_toggle"); // Get the sidebar toggle button element
         @if (isset($_COOKIE['sidebar_minimize_state']) && $_COOKIE['sidebar_minimize_state'] === 'on')
             document.body.setAttribute("data-kt-app-sidebar-minimize",
-            "on"); // Set the 'data-kt-app-sidebar-minimize' attribute for the body tag
+                "on"); // Set the 'data-kt-app-sidebar-minimize' attribute for the body tag
             sidebar_toggle.setAttribute("data-kt-toggle-state",
-            "active"); // Set the 'data-kt-toggle-state' attribute for the sidebar toggle button
+                "active"); // Set the 'data-kt-toggle-state' attribute for the sidebar toggle button
             sidebar_toggle.classList.add("active"); // Add the 'active' class to the sidebar toggle button
         @endif
     </script>
