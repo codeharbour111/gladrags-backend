@@ -68,8 +68,7 @@
                     <!-- Product Title -->
                     <div class="mb-10">
                         <label class="form-label required">Product Title</label>
-                        <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="20" id="name" value="{{ $product->name }}">
-                        <span class="form-text text-muted">Do not exceed 20 characters when entering the product name.</span>
+                        <input type="text" class="form-control" placeholder="Enter title" name="name" maxlength="200" id="name" value="{{ $product->name }}">
                     </div>
 
                     <!-- Category -->
