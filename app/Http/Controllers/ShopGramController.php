@@ -25,7 +25,7 @@ class ShopGramController extends Controller
 
     public function viewShopGram()
     {
-        $shopgram = ShopGram::paginate(10);
+        $shopgram = ShopGram::orderBy('created_at', 'desc')->paginate(10);
         return view('pages.shopgram.shopgram-list', compact('shopgram'));
     }
 
@@ -34,9 +34,15 @@ class ShopGramController extends Controller
         return view('pages.shopgram.add-new-shopgram');
     }
 
+    // public function load()
+    // {
+    //     return new ShopGramCollection(ShopGram::paginate(10));
+    // }
+
     public function load()
     {
-        return new ShopGramCollection(ShopGram::paginate(10));
+        // Sort ShopGram items by created_at date in descending order
+        return new ShopGramCollection(ShopGram::orderBy('created_at', 'desc')->paginate(10));
     }
 
     public function storeShopGram(Request $request)

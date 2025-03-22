@@ -91,7 +91,7 @@
                                     </tr> --}}
                                     <tr class="fw-bold">
                                         <td>Total Price:</td>
-                                        <td class="text-end">BDT {{$order->total_price}}</td>
+                                        <td class="text-end">BDT {{ $order->shipping_fee + $order->subtotal }}</td>
                                     </tr>
                                 </tbody>
                             </table>
